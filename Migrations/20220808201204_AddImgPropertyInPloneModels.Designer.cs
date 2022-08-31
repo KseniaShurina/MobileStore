@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MobileStore.Models;
+using MobileStore.Contexts;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace MobileStore.Migrations
 {
-    [DbContext(typeof(MobileContext))]
+    [DbContext(typeof(DefaultContext))]
     [Migration("20220808201204_AddImgPropertyInPloneModels")]
     partial class AddImgPropertyInPloneModels
     {

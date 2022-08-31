@@ -2,15 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MobileStore.Models;
+using MobileStore.Contexts;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace MobileStore.Migrations
 {
-    [DbContext(typeof(MobileContext))]
-    partial class MobileContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(DefaultContext))]
+    partial class DefaultContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -35,7 +35,7 @@ namespace MobileStore.Migrations
                     b.Property<string>("ContactPhone")
                         .HasColumnType("text");
 
-                    b.Property<string>("Customer")
+                    b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.Property<int>("PhoneId")
@@ -59,6 +59,9 @@ namespace MobileStore.Migrations
                     b.Property<string>("Company")
                         .HasColumnType("text");
 
+                    b.Property<string>("Img")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -68,6 +71,25 @@ namespace MobileStore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Phones");
+                });
+
+            modelBuilder.Entity("MobileStore.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
+
+                    b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserContactPhone")
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("MobileStore.Models.Order", b =>

@@ -3,29 +3,35 @@
     ViewData["Title"] = "Магазин смартфонов";
 }
 <!DOCTYPE html>
- 
 <html>
+
 <head>
-    <title>@ViewData["Title"]</title>
+    <title>My Store</title>
+    <h1>IPhone</h1>
 </head>
+
 <body>
-<h3>Смартфоны</h3>
-<table>
-    <tr>
-        <td>Модель</td>
-        <td>Производитель</td>
-        <td>Цена</td>
-        <td></td>
-    </tr>
-    @foreach (var phone in Model)
-    {
-        <tr>
-            <td>@phone.Name</td>
-            <td>@phone.Company</td>
-            <td>@phone.Price</td>
-            <td><a href="~/Home/Buy/@phone.Id">Купить</a></td>
-        </tr>
-    }
-</table>
+    <style type="text/css">
+        .phone {
+            width: 150px; /* Ширина */
+            margin: 0 10px 10px 0; /* Отступы */
+            padding: 10px 0; /* Поля сверху и снизу */
+            text-align: center; /* Выравнивание по центру */
+            display: inline-block; /* Строчно-блочный элемент */
+        }
+    </style>
+
+    <section class="main-content sidebar-left-false ">
+        @foreach (var phone in Model)
+        {
+            <div class="phone">
+                
+                    <p><img src="@phone.Img" alt=""></p>
+                    <h3>@phone.Name</h3>
+                    <p><td>@phone.Price</td></p>
+                <td><a href="~/Home/Buy/@phone.Id">Купить</a></td>
+            </div>
+        }
+    </section>
 </body>
 </html>

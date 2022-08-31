@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MobileStore.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    [Migration("20220725201209_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220829175248_CreateUsersDb")]
+    partial class CreateUsersDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,7 +37,7 @@ namespace MobileStore.Migrations
                     b.Property<string>("ContactPhone")
                         .HasColumnType("text");
 
-                    b.Property<string>("Customer")
+                    b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.Property<int>("PhoneId")
@@ -61,6 +61,9 @@ namespace MobileStore.Migrations
                     b.Property<string>("Company")
                         .HasColumnType("text");
 
+                    b.Property<string>("Img")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
@@ -70,6 +73,25 @@ namespace MobileStore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Phones");
+                });
+
+            modelBuilder.Entity("MobileStore.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserId"));
+
+                    b.Property<string>("Password")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserContactPhone")
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("MobileStore.Models.Order", b =>
