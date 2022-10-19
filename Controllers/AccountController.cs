@@ -7,11 +7,13 @@ using MobileStore.ViewModels; // пространство имен моделе�
 using MobileStore.Models; // пространство имен UserContext и класса User
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using MobileStore.Contexts;
+using MobileStore.Controllers.Base;
 
 namespace MobileStore.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : MvcControllerBase
     {
         private DefaultContext _context;
 
@@ -19,23 +21,35 @@ namespace MobileStore.Controllers
         {
             _context = context;
         }
+        /// <summary>
+        /// возвращает представление с формой
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Login(string returnUrl)
         {
             var model = new LoginModel { ReturnUrl = returnUrl };
             return View(model);
         }
-
+        /// <summary>
+        /// Обращаемся в БД для аутентификации пользователя
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-            User user = await _context.Users.FirstOrDefaultAsync(u => u.UserContactPhone == model.Email && u.Password == model.Password);
+            User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
             if (user != null)
             {
-                await Authenticate(model.Email); // аутентификация
+                await Authenticate(user); // аутентификация
 
                 if (!string.IsNullOrEmpty(model.ReturnUrl))
                 {
@@ -59,29 +73,36 @@ namespace MobileStore.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.UserContactPhone == model.Email);
+                User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
                     // добавляем пользователя в бд
-                    _context.Users.Add(new User { UserContactPhone = model.Email, Password = model.Password });
+                    user = new User { Email = model.Email, Password = model.Password };
+                    _context.Users.Add(user);
                     await _context.SaveChangesAsync();
 
-                    await Authenticate(model.Email); // аутентификация
+                    await Authenticate(user); // аутентификация
 
                     return RedirectToAction("Index", "Home");
                 }
                 else
+                {
                     ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                }
             }
             return View(model);
         }
-
-        private async Task Authenticate(string userName)
+        /// <summary>
+        /// Клаим помогает хранить некую информацию в куки
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        private async Task Authenticate(User user)
         {
-            // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
@@ -89,6 +110,7 @@ namespace MobileStore.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

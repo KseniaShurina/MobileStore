@@ -2,8 +2,8 @@
 {
     public class User
     {
-        public int UserId { get; set; }
-        public string UserContactPhone { get; set; }
+        public int Id { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
     }
 }

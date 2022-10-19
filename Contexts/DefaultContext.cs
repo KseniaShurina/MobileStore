@@ -8,9 +8,11 @@ namespace MobileStore.Contexts
     /// </summary>
     public class DefaultContext : DbContext
     {
-        public DbSet<Phone> Phones { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<Order> Orders { get; set; }
         public  DbSet<User> Users { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
         public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
         {

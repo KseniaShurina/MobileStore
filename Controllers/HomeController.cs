@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using MobileStore.Contexts;
+using MobileStore.Controllers.Base;
+using MobileStore.ViewModels;
+using MobileStore.Models;
 
 namespace MobileStore.Controllers
 {
-    [Authorize]
-    public class HomeController : Controller
+    public class HomeController : MvcControllerBaseSecure
     {
         private readonly DefaultContext _context;
 
@@ -18,38 +21,30 @@ namespace MobileStore.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([FromQuery] int? productTypeId)
         {
-            var phones = await _context.Phones.ToListAsync();
-            return View(phones);
+            var productView = new ProductViewModel();
+
+            productView.ProductTypes = await _context.ProductTypes.ToListAsync();
+
+            if (!productTypeId.HasValue)
+            {
+                // Если никакое значение типа не передаётся, то по дефолту выводит последний эл списка типов
+                productTypeId = productView.ProductTypes.FirstOrDefault()?.Id;
+            }
+
+            // достаём из БД продукты по типу
+            productView.Products = await _context.Products
+                .AsNoTracking()
+                .Where(i => i.ProductTypeId == productTypeId)
+                .ToListAsync();
+            return View(productView);
         }
 
         public async Task<IActionResult> Buy(int id)
         {
-            var phone = await _context.Phones.Where(i => i.Id == id).FirstOrDefaultAsync();
-            return View(phone);
+            var product = await _context.Products.Where(i => i.Id == id).FirstOrDefaultAsync();
+            return View(product);
         }
-
-        //[HttpPost]
-        //public string Buy(Order order)
-        //{
-        //    _context.Orders.Add(order);
-        //    // сохраняем в бд все изменения
-        //    _context.SaveChanges();
-        //    return $"Спасибо, {order.Name}, за покупку!";
-        //}
-
-        //public async Task<IActionResult> Registration(int? id)
-        //{
-        //    //var item = id;
-        //    var phone = await _context.Phones.Where(i => i.Id == id).FirstOrDefaultAsync();
-        //    return View(phone);
-        //}
     }
-
-    //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    //public IActionResult Error()
-    //{
-    //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-    //}
 }

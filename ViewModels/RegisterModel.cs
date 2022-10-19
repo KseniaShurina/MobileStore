@@ -2,6 +2,9 @@
 
 namespace MobileStore.ViewModels
 {
+    /// <summary>
+    /// Через эту модель RegisterModel связывается View Register с контролером AccountController
+    /// </summary>
     public class RegisterModel
     {
         [Required(ErrorMessage = "Не указан Email")]
