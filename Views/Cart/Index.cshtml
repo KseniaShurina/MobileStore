@@ -5,20 +5,14 @@
 }
 <!DOCTYPE html>
 <html>
-<head>
-    <style>
-        .view-cart-cart tbody td, th {
-            text-align: left;
-            padding-right: 16px;
-        }
 
-        .view-cart-cart tr:nth-child(even) {
-            background-color: #dddddd;
-        }
-    </style>
+<head>
+    <title>Cart</title>
+    <link rel="stylesheet" href="~/css/cartStyles.css" />
 </head>
+
 <body>
-    <table class="view-cart-cart">
+    <table class="view-cart-cart-table-of-items">
         <thead class="view-cart-index-header-table">
             <tr>
                 <th>Наименование</th>
@@ -31,29 +25,34 @@
             @foreach (var cartItem in Model.CartItems)
             {
                 <tr>
-                    @*<td>@product.Product.Img</td>*@
                     <td>@cartItem.Product.Name</td>
-                    @*<td style="text-align: center">@cartItem.Quantity</td>*@
 
-
-                    <td>
-                        <form asp-controller="Cart"
-                          asp-action="Minus"
-                          asp-route-cartItemId="@cartItem.Id"
-                          asp-route-quantity="1">
-                            <button class="minus-button" type="button"></button>
-                        </form>
-                        @cartItem.Quantity
-                        <form asp-controller="Cart"
-                              asp-action="Plus"
-                              asp-route-cartItemId="@cartItem.Id"
-                              asp-route-quantity="1">
-                            <button class="plus-button" type="button">+</button>
-                        </form>
+                    <td class="cell-quantity">
+                        <div class="form-of-quantity-in-cart">
+                            <div>
+                                <form asp-controller="Cart"
+                                  asp-action="UpedateQuantity"
+                                  asp-route-cartItemId="@cartItem.Id"
+                                  asp-route-quantity="@(cartItem.Quantity - 1)">
+                                    <button disabled="@(cartItem.Quantity <= 1)">-</button>
+                                </form>
+                            </div>
+                            <div type="number">
+                                @cartItem.Quantity
+                            </div>
+                            <div>
+                                <form asp-controller="Cart"
+                                  asp-action="UpedateQuantity"
+                                  asp-route-cartItemId="@cartItem.Id"
+                                  asp-route-quantity="@(cartItem.Quantity + 1)">
+                                    <button>+</button>
+                                </form>
+                            </div>
+                        </div>
                     </td>
 
-
                     <td>@(cartItem.Quantity * cartItem.Product.Price)</td>
+
                     <td>
                         <form asp-controller="Cart"
                           asp-action="Remove"

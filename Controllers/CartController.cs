@@ -60,33 +60,21 @@ namespace MobileStore.Controllers
 
             return RedirectToAction("Index", "Cart");
         }
+
         [HttpPost]
-        public async Task<IActionResult> Plus(int cartItemId)
+        public async Task<IActionResult> UpedateQuantity(int cartItemId, [Range(1, int.MaxValue)] int quantity)
         {
             var item = await _context.CartItems.FirstOrDefaultAsync(x => x.Id == cartItemId);
             if (item != null)
             {
-                item.Quantity++;
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index", "Cart");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Minus(int cartItemId)
-        {
-            var item = await _context.CartItems.FirstOrDefaultAsync(x => x.Id == cartItemId);
-            if (item != null && item.Quantity>2)
-            {
-                item.Quantity--;
+                item.Quantity = quantity;
+                await _context.SaveChangesAsync();
             }
             else
             {
-                var removeItem = _context.CartItems.Remove(item);
+                return RedirectToAction("Index", "Cart");
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction("Index", "Cart");
         }
 

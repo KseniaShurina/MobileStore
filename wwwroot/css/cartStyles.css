@@ -1,0 +1,29 @@
+.view-cart-cart-table-of-items tbody td, th {
+    text-align: left;
+    padding-right: 16px;
+}
+
+.view-cart-cart-table-of-items tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.form-of-quantity-in-cart {
+    font-size: 1.2rem;
+    padding: 2px;
+    display: flex;
+    width: 80px;
+    justify-content: space-between;
+    border: 1px solid;
+}
+
+.cell-quantity {
+    text-align: center;
+}
+
+button {
+    padding: 0;
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+}
