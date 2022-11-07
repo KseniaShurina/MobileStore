@@ -1,0 +1,42 @@
+﻿@model MobileStore.Presentation.ViewModels.LoginModel
+<!DOCTYPE html>
+<h1 align="center">Вход на сайт</h1>
+
+<head>
+    <title>Enter</title>
+    <link rel="stylesheet" href="~/css/accountStyles.css"/>
+</head>
+
+<body class="account-login-body">
+    <form asp-action="Login" asp-controller="Account" asp-anti-forgery="true">
+
+        <!--переходит в Логин Post -->
+        <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+        <div class="form">
+            <div class="signin">
+                <p>У Вас нет аккаунта? <a href="~/Account/Register">Перейти на форму регистрации</a></p>
+            </div>
+
+            <div>
+                <label asp-for="Email">Введите Email</label><br/>
+                <input type="text" asp-for="Email"/>
+                <span asp-validation-for="Email"/>
+            </div>
+
+            <div>
+                <label asp-for="Password">Введите пароль</label><br/>
+                <input asp-for="Password"/>
+                <span asp-validation-for="Password"/>
+            </div>
+
+            <div>
+                <input asp-for="ReturnUrl" hidden="true"/>
+            </div>
+
+            <div>
+                <input type="submit" value="Войти" class="btn btn-outline-dark"/>
+            </div>
+        </div>
+    </form>
+</body>

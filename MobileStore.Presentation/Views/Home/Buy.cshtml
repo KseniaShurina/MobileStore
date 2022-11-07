@@ -1,0 +1,11 @@
+﻿@model MobileStore.Infrastructure.Models.Product
+
+<h1>@ViewData["Title"]</h1>
+
+<p>Вы покупаете:</p>
+<div>
+    <td>@Model.Name</td>
+    <td>@Model.Company</td>
+    <td>@Model.Price</td>
+    <td><a href="~/Home/Order">Подтвердить покупку</a></td>
+</div>

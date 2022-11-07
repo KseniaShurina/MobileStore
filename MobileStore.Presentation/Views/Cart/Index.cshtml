@@ -1,0 +1,76 @@
+﻿@model MobileStore.Presentation.ViewModels.CartViewModel
+
+@{
+    ViewData["Title"] = "Корзина";
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Cart</title>
+    <link rel="stylesheet" href="~/css/cartStyles.css" />
+</head>
+
+<body>
+    <table class="view-cart-cart-table-of-items">
+        <thead class="view-cart-index-header-table">
+            <tr>
+                <th>Наименование</th>
+                <th>Количество</th>
+                <th>Цена</th>
+                <th method-delite></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cartItem in Model.CartItems)
+            {
+                <tr>
+                    <td>@cartItem.Product.Name</td>
+
+                    <td class="cell-quantity">
+                        <div class="form-of-quantity-in-cart">
+                            <div>
+                                <form asp-controller="Cart"
+                                  asp-action="UpdateQuantity"
+                                  asp-route-cartItemId="@cartItem.Id"
+                                  asp-route-quantity="@(cartItem.Quantity - 1)">
+                                    <button disabled="@(cartItem.Quantity <= 1)">-</button>
+                                </form>
+                            </div>
+                            <div type="number">
+                                @cartItem.Quantity
+                            </div>
+                            <div>
+                                <form asp-controller="Cart"
+                                  asp-action="UpdateQuantity"
+                                  asp-route-cartItemId="@cartItem.Id"
+                                  asp-route-quantity="@(cartItem.Quantity + 1)">
+                                    <button>+</button>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>@(cartItem.Quantity * cartItem.Product.Price)</td>
+
+                    <td>
+                        <form asp-controller="Cart"
+                          asp-action="Remove"
+                          asp-route-cartItemId="@(cartItem.Id + 108)">
+                            <button>Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>Итого:</td>
+                <td></td>
+                <td> @Model.CartItems.Sum(x => x.Product.Price)</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+</body>
+</html>
