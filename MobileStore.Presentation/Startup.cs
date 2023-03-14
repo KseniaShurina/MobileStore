@@ -20,14 +20,15 @@ namespace MobileStore.Presentation
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();//services.AddRazorPages(); - AddMvc() inclued Razor yet
+            //services.AddRazorPages(); - AddMvc() inclued Razor yet
+            services.AddMvc();
 
             services.RegisterInfrastructureDependencies(Configuration);
             services.AddControllersWithViews();
 
-            // установка конфигурации подключения
+            //connection configuration setting
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => //CookieAuthenticationOptions
+                .AddCookie(options =>
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                 });
@@ -50,13 +51,14 @@ namespace MobileStore.Presentation
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+            //redirects all HTTP requests to HTTPS
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthentication(); // аутентификация
-            app.UseAuthorization(); // авторизация
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
