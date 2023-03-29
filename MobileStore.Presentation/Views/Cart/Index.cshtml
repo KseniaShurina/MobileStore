@@ -9,6 +9,15 @@
 <head>
     <title>Cart</title>
     <link rel="stylesheet" href="~/css/cartStyles.css" />
+    <style>
+        img {
+            width: 30%;
+            border-style: ridge;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
 </head>
 
 <body>
@@ -16,6 +25,7 @@
         <thead class="view-cart-index-header-table">
             <tr>
                 <th>Наименование</th>
+                <th></th>
                 <th>Количество</th>
                 <th>Цена</th>
                 <th method-delite></th>
@@ -26,6 +36,8 @@
             {
                 <tr>
                     <td>@cartItem.Product.Name</td>
+
+                    <td><img src="@cartItem.Product.Img" alt=""></td>
 
                     <td class="cell-quantity">
                         <div class="form-of-quantity-in-cart">
@@ -56,7 +68,7 @@
                     <td>
                         <form asp-controller="Cart"
                           asp-action="Remove"
-                          asp-route-cartItemId="@(cartItem.Id + 108)">
+                          asp-route-cartItemId="@(cartItem.Id)">
                             <button>Удалить</button>
                         </form>
                     </td>
@@ -64,12 +76,22 @@
             }
         </tbody>
         <tfoot>
-            <tr>
-                <td>Итого:</td>
-                <td></td>
-                <td> @Model.CartItems.Sum(x => x.Product.Price)</td>
-                <td></td>
-            </tr>
+        <tr>
+            <td>Итого:</td>
+            <td></td>
+            <td></td>
+            <td> @Model.CartItems.Sum(x => x.Product.Price)</td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <form asp-controller="Cart"
+                  asp-action="CreateOrder">
+                    <button>Оформить заказ</button>
+            </form>
+            <td></td>
+        </tr>
+
         </tfoot>
     </table>
 </body>

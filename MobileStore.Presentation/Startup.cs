@@ -45,12 +45,16 @@ namespace MobileStore.Presentation
             {
                 app.UseDeveloperExceptionPage();
             }
+            //TODO Непонятно чо как работает. настроить обработку ошибок
             else
             {
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
+
             //redirects all HTTP requests to HTTPS
             app.UseHttpsRedirection();
             app.UseStaticFiles();

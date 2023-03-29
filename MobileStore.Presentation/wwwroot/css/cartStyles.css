@@ -1,9 +1,9 @@
 .view-cart-cart-table-of-items tbody td, th {
-    text-align: left;
+    text-align: center;
     padding-right: 16px;
 }
 
-.view-cart-cart-table-of-items tr:nth-child(even) {
+.view-cart-cart-table-of-items tr:hover {
     background-color: #dddddd;
 }
 
