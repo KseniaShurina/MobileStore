@@ -1,20 +1,54 @@
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MobileStore.Infrastructure.Configurations;
 
-namespace MobileStore.Presentation
-{
-    public class Program
+var builder = WebApplication.CreateBuilder(args);
+
+
+//services.AddRazorPages(); - AddMvc() inclued Razor yet
+builder.Services.AddMvc();
+
+builder.Services.RegisterInfrastructureDependencies(builder.Configuration);
+builder.Services.AddControllersWithViews();
+
+//connection configuration setting
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
     {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+        options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+    });
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+// Build
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
 }
+//TODO Непонятно чо как работает. настроить обработку ошибок
+else
+{
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
+
+app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
+
+//redirects all HTTP requests to HTTPS
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapDefaultControllerRoute();
+});
+
+app.Run();
