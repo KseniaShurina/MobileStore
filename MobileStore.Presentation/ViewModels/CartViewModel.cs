@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using MobileStore.Infrastructure.Models;
+using MobileStore.Infrastructure.Entities;
 
 namespace MobileStore.Presentation.ViewModels
 {/// <summary>

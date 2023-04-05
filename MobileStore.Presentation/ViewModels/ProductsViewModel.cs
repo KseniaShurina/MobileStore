@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MobileStore.Infrastructure.Models;
+﻿using MobileStore.Core.Models;
 
 namespace MobileStore.Presentation.ViewModels
 {
@@ -8,7 +7,7 @@ namespace MobileStore.Presentation.ViewModels
     /// </summary>
     public class ProductsViewModel
     {
-        public List<Product> Products { get; set; } = new();
-        public List<ProductType> ProductTypes { get; set; } = new();
+        public List<ProductModel> Products { get; set; } = new();
+        public List<ProductTypeModel> ProductTypes { get; set; } = new();
     }
 }

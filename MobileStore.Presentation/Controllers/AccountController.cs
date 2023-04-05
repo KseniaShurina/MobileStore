@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MobileStore.Infrastructure.Contexts;
-using MobileStore.Infrastructure.Models;
+using MobileStore.Infrastructure.Entities;
 using MobileStore.Presentation.Controllers.Base;
 using MobileStore.Presentation.ViewModels;
 // пространство имен моделей RegisterModel и LoginModel

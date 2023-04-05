@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MobileStore.Infrastructure.Contexts;
-using MobileStore.Infrastructure.Models;
+using MobileStore.Infrastructure.Entities;
 using MobileStore.Presentation.Controllers.Base;
 using MobileStore.Presentation.ViewModels;
 

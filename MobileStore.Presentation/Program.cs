@@ -1,16 +1,12 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using MobileStore.Infrastructure.Configurations;
+using MobileStore.Core.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.RegisterCoreDependencies(builder.Configuration);
 
 //services.AddRazorPages(); - AddMvc() inclued Razor yet
 builder.Services.AddMvc();
-
-builder.Services.RegisterInfrastructureDependencies(builder.Configuration);
 builder.Services.AddControllersWithViews();
 
 //connection configuration setting

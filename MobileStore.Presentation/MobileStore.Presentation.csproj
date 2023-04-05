@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,6 +16,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\MobileStore.Infrastructure\MobileStore.Infrastructure.csproj" />
+    <ProjectReference Include="..\MobileStore.Core\MobileStore.Core.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Configurations\" />
   </ItemGroup>
 
 </Project>

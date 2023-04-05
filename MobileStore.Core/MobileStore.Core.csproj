@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\MobileStore.Infrastructure\MobileStore.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

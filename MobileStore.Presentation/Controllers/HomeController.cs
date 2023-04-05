@@ -1,9 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MobileStore.Infrastructure.Contexts;
+using MobileStore.Core.Abstractions.Services;
 using MobileStore.Presentation.Controllers.Base;
 using MobileStore.Presentation.ViewModels;
 
@@ -11,38 +8,28 @@ namespace MobileStore.Presentation.Controllers
 {
     public class HomeController : MvcControllerBaseSecure
     {
-        private readonly DefaultContext _context;
+        private readonly IProductService _productService;
 
-        public HomeController(DefaultContext context)
+        public HomeController(IProductService productService)
         {
-            _context = context;
+            _productService = productService;
         }
 
         [AllowAnonymous]
         public async Task<IActionResult> Index([FromQuery] int? productTypeId)
         {
             var productView = new ProductsViewModel();
+            productView.ProductTypes = await _productService.GetProductTypesAsync();
+            productView.Products = await _productService.GetProductsAsync(productTypeId);
 
-            productView.ProductTypes = await _context.ProductTypes.ToListAsync();
-
-            if (!productTypeId.HasValue)
-            {
-                // Если никакое значение типа не передаётся, то по дефолту выводит последний эл списка типов
-                productTypeId = productView.ProductTypes.FirstOrDefault()?.Id;
-            }
-
-            // достаём из БД продукты по типу
-            productView.Products = await _context.Products
-                .AsNoTracking()
-                .Where(i => i.ProductTypeId == productTypeId)
-                .ToListAsync();
             return View(productView);
         }
 
         public async Task<IActionResult> Buy(int id)
         {
-            var product = await _context.Products.Where(i => i.Id == id).FirstOrDefaultAsync();
-            return View(product);
+            var product = await _productService.GetProduct(id);
+
+            return product != null ? View(product) : NotFound();
         }
     }
 }
