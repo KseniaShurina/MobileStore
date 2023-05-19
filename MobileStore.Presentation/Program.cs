@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using MobileStore.Core.Configurations;
+using MobileStore.Presentation.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<IdentityMiddleware>();
 
 app.UseEndpoints(endpoints =>
 {

@@ -1,6 +1,5 @@
-﻿using System.Linq;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
+using MobileStore.Common.Identity;
 
 namespace MobileStore.Presentation.Controllers.Base
 {
@@ -8,6 +7,6 @@ namespace MobileStore.Presentation.Controllers.Base
     public  abstract class MvcControllerBaseSecure : MvcControllerBase
     {
         //из текущего авторизованного юзера достаёт ид
-        public int UserId => int.Parse(User.Claims.First(i => i.Type == ClaimTypes.NameIdentifier).Value);
+        public int UserId => IdentityState.Current!.UserId;
     }
 }

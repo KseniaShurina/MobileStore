@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MobileStore.Core.Models;
 using MobileStore.Infrastructure.Entities;
 
 namespace MobileStore.Presentation.ViewModels
@@ -8,6 +9,6 @@ namespace MobileStore.Presentation.ViewModels
     public class CartViewModel
     {
         //это товары, которые передаются от контроллера в представление
-        public List<CartItem> CartItems { get; set; } = new();
+        public List<CartItemModel> CartItems { get; set; } = new();
     }
 }

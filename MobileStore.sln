@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileStore.Presentation", "MobileStore.Presentation\MobileStore.Presentation.csproj", "{ABE7EEBC-0699-4FA0-8975-3B62DBF8C53B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Presentation", "MobileStore.Presentation\MobileStore.Presentation.csproj", "{ABE7EEBC-0699-4FA0-8975-3B62DBF8C53B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileStore.Core", "MobileStore.Core\MobileStore.Core.csproj", "{F8D83DB5-B7A2-4EA8-8FA2-9F43847FFF8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Core", "MobileStore.Core\MobileStore.Core.csproj", "{F8D83DB5-B7A2-4EA8-8FA2-9F43847FFF8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileStore.Infrastructure", "..\MobileStore.Infrastructure\MobileStore.Infrastructure.csproj", "{CC25DE38-C1DC-4E9C-8233-00AAC64BDD6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Infrastructure", "..\MobileStore.Infrastructure\MobileStore.Infrastructure.csproj", "{CC25DE38-C1DC-4E9C-8233-00AAC64BDD6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileStore.Common", "MobileStore.Common\MobileStore.Common.csproj", "{22B6ABE6-B875-4DB5-800F-DC3FD7851ABE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{CC25DE38-C1DC-4E9C-8233-00AAC64BDD6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC25DE38-C1DC-4E9C-8233-00AAC64BDD6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC25DE38-C1DC-4E9C-8233-00AAC64BDD6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22B6ABE6-B875-4DB5-800F-DC3FD7851ABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22B6ABE6-B875-4DB5-800F-DC3FD7851ABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22B6ABE6-B875-4DB5-800F-DC3FD7851ABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22B6ABE6-B875-4DB5-800F-DC3FD7851ABE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

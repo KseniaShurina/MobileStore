@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
-using System.Threading.Tasks;
+using MobileStore.Core.Abstractions.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MobileStore.Core.Models;
 using MobileStore.Infrastructure.Contexts;
 using MobileStore.Infrastructure.Entities;
 using MobileStore.Presentation.Controllers.Base;
@@ -18,10 +19,12 @@ namespace MobileStore.Presentation.Controllers
     public class AccountController : MvcControllerBase
     {
         private DefaultContext _context;
+        private readonly IAccountService _accountService;
 
-        public AccountController(DefaultContext context)
+        public AccountController(DefaultContext context, IAccountService accountService)
         {
             _context = context;
+            _accountService = accountService;
         }
         /// <summary>
         /// возвращает представление с формой
@@ -31,7 +34,7 @@ namespace MobileStore.Presentation.Controllers
         [HttpGet]
         public IActionResult Login(string returnUrl)
         {
-            var model = new LoginModel { ReturnUrl = returnUrl };
+            var model = new LoginViewModel { ReturnUrl = returnUrl };
             return View(model);
         }
         /// <summary>
@@ -41,16 +44,18 @@ namespace MobileStore.Presentation.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
+            if (model == null) throw new ArgumentNullException(nameof(model));
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
-            User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-            if (user != null)
+            // ! shows that item cannot be null here
+            var validUser = await _accountService.IsValidPassword(model.Email!, model.Password!);
+            if (validUser)
             {
+                var user = await _accountService.GetUserByEmail(model.Email!);
                 await Authenticate(user);
 
                 if (!string.IsNullOrEmpty(model.ReturnUrl))
@@ -62,48 +67,51 @@ namespace MobileStore.Presentation.Controllers
             ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             return View(model);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterModel model)
+        public async Task<IActionResult> Register(RegisterModel? model)
         {
+            if (model == null) throw new ArgumentNullException(nameof(model));
+
             if (ModelState.IsValid)
             {
-                User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
-                if (user == null)
-                {
-                    // добавляем пользователя в бд
-                    user = new User { Email = model.Email, Password = model.Password };
-                    _context.Users.Add(user);
-                    await _context.SaveChangesAsync();
+                // Достаем пользователя по почте
+                var user = await _accountService.GetUserByEmail(model.Email!);
 
-                    await Authenticate(user); // аутентификация
+                if (user == null) throw new ArgumentNullException($"{nameof(user)}", "Пользователь с такими параметрами уже существует");
+                // добавляем пользователя в бд
+                await _accountService.RegisterUser(user);
+                // аутентификация
+                await Authenticate(user);
 
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
-                }
+                return RedirectToAction("Index", "Home");
             }
             return View(model);
         }
         /// <summary>
-        /// Клаим помогает хранить некую информацию в куки
+        /// Claim is stored information in Cookie
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        private async Task Authenticate(User user)
+        private async Task Authenticate(UserModel user)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.Name, user.Email!),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             };
             // создаем объект ClaimsIdentity
