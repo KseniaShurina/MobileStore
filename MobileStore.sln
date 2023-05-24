@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Presentation", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Core", "MobileStore.Core\MobileStore.Core.csproj", "{F8D83DB5-B7A2-4EA8-8FA2-9F43847FFF8C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Infrastructure", "..\MobileStore.Infrastructure\MobileStore.Infrastructure.csproj", "{CC25DE38-C1DC-4E9C-8233-00AAC64BDD6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Infrastructure", "MobileStore.Infrastructure\MobileStore.Infrastructure.csproj", "{CC25DE38-C1DC-4E9C-8233-00AAC64BDD6F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileStore.Common", "MobileStore.Common\MobileStore.Common.csproj", "{22B6ABE6-B875-4DB5-800F-DC3FD7851ABE}"
 EndProject
