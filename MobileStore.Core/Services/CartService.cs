@@ -17,14 +17,21 @@ namespace MobileStore.Core.Services
         {
             _context = context;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private IQueryable<CartItem> GetBaseQuery()
         {
             return _context.CartItems
                 .AsNoTracking()
                 .Include(i => i.Product);
         }
-
+        /// <summary>
+        /// Got cart item
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private Task<CartItem?> Get(int id)
         {
             return GetBaseQuery()
@@ -42,6 +49,12 @@ namespace MobileStore.Core.Services
             return entity.Select(i => i.MapToModel()).ToList();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="productId"></param>
+        /// <param name="quantity"></param>
+        /// <returns></returns>
         public async Task <CartItemModel> Create(int productId, int quantity)
         {
             quantity = Guard.Against.NegativeOrZero(quantity);
@@ -81,21 +94,49 @@ namespace MobileStore.Core.Services
             return (await Get(item.Id))!.MapToModel();
         }
 
-        public async Task Remove(int itemId)
+        public async Task Remove(int cartItemId)
         {
-            var item = await _context.CartItems.FirstOrDefaultAsync(cart => cart.ProductId == itemId);
+            var item = await _context.CartItems
+                .Where(i => i.Id == cartItemId)
+                .FirstOrDefaultAsync();
+
             if (item == null)
             {
-                //return NotFound();
-                throw new ArgumentException(nameof(item));
+                throw new ArgumentException($"CartItem is null here {nameof(item)}"); /////////////////////////////////////////
             }
             _context.CartItems.Remove(item);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<CartItemModel> CreateOrder()
+        public async Task AddItemToOrder(string address, string contactPhone)
         {
-            throw new NotImplementedException();
+            var userId = IdentityState.Current!.UserId;
+            var items = await GetBaseQuery()
+                .Where(u => u.UserId == userId)
+                .ToListAsync();
+
+            var orderItems = items
+                .Select(i => new OrderItem()
+                {
+                    ProductId = i.ProductId,
+                    Product = i.Product,
+                    Quantity = i.Quantity,
+                    ProductPrice = i.Product.Price,
+                });
+            //_context.CartItems.Remove(items);
+
+
+                var order = new Order
+                {
+                    Datetime = DateTime.Now,
+                    Address = address,
+                    ContactPhone = contactPhone,
+                    Items = orderItems.ToList(),
+                };
+
+
+                await _context.SaveChangesAsync();
+
         }
     }
 }

@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using MobileStore.Core.Abstractions.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MobileStore.Core.Models;
 using MobileStore.Infrastructure.Contexts;
-using MobileStore.Infrastructure.Entities;
 using MobileStore.Presentation.Controllers.Base;
 using MobileStore.Presentation.ViewModels;
 // пространство имен моделей RegisterModel и LoginModel
@@ -32,8 +29,13 @@ namespace MobileStore.Presentation.Controllers
         /// <param name="returnUrl"></param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Login(string returnUrl)
+        public IActionResult Login(string? returnUrl)
         {
+            if (HttpContext.User.Identity?.IsAuthenticated ?? false)
+            {
+                return RedirectTo(returnUrl);
+            }
+
             var model = new LoginViewModel { ReturnUrl = returnUrl };
             return View(model);
         }
@@ -58,15 +60,14 @@ namespace MobileStore.Presentation.Controllers
                 var user = await _accountService.GetUserByEmail(model.Email!);
                 await Authenticate(user);
 
-                if (!string.IsNullOrEmpty(model.ReturnUrl))
-                {
-                    return Redirect(model.ReturnUrl);
-                }
-                return RedirectToAction("Index", "Home");
+                return RedirectTo(model.ReturnUrl);
+
+
             }
             ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             return View(model);
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -76,6 +77,7 @@ namespace MobileStore.Presentation.Controllers
         {
             return View();
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -102,6 +104,7 @@ namespace MobileStore.Presentation.Controllers
             }
             return View(model);
         }
+
         /// <summary>
         /// Claim is stored information in Cookie
         /// </summary>
@@ -125,6 +128,15 @@ namespace MobileStore.Presentation.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
+        }
+
+        private IActionResult RedirectTo(string? returnUrl)
+        {
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
         }
     }
 }

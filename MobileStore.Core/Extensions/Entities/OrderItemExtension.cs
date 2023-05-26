@@ -3,16 +3,17 @@ using MobileStore.Infrastructure.Entities;
 
 namespace MobileStore.Core.Extensions.Entities
 {
-    internal static class CartItemExtensions
+    internal static class OrderItemExtension
     {
-        public static CartItemModel MapToModel(this CartItem entity)
+        public static OrderItemModel MapToModel(this OrderItem entity)
         {
-            return new CartItemModel
+            return new OrderItemModel
             {
                 Id = entity.Id,
-                UserId = entity.UserId,
+                OrderId = entity.OrderId,
+                Order = entity.Order,
                 ProductId = entity.ProductId,
-                Product = entity.Product,
+                Product = entity.Product/*.MapToModel()*/,
                 Quantity = entity.Quantity,
             };
         }

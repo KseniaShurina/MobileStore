@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using MobileStore.Core.Models;
-using MobileStore.Infrastructure.Entities;
+﻿using MobileStore.Core.Models;
 
 namespace MobileStore.Presentation.ViewModels
 {/// <summary>

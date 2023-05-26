@@ -6,7 +6,7 @@
         public int ProductTypeId { get; set; }
         public string Name { get; set; }
         public string Company { get; set; }
-        public int Price { get; set; }
+        public double Price { get; set; }
         public string Img { get; set; }
     }
 }

@@ -13,23 +13,23 @@
             background-color: #333;
         }
 
-            .navigation li {
-                display: inline-block;
-                padding-block: 1px;
-            }
+        .navigation li {
+            display: inline-block;
+            padding-block: 1px;
+        }
 
-            .navigation a {
-                display: block;
-                color: #f2f2f2;
-                padding: 8px 16px;
-                font-size: 17px;
-                text-decoration: none;
-            }
-                /* Change the color of links on hover */
-                .navigation a:hover {
-                    background-color: #ddd;
-                    color: #111;
-                }
+        .navigation a {
+            display: block;
+            color: #f2f2f2;
+            padding: 8px 16px;
+            font-size: 17px;
+            text-decoration: none;
+        }
+        /* Change the color of links on hover */
+        .navigation a:hover {
+            background-color: #ddd;
+            color: #111;
+        }
     </style>
     <title>My Store</title>
     <div class="navigation">
@@ -53,59 +53,54 @@
 
 <body>
 
-    <style type="text/css">
+<style type="text/css">
 
-        .main-content {
-            display: flex
-        }
+    .main-content {
+        display: flex
+    }
 
-        .phone {
-            width: 150px; /* Ширина */
-            margin: 0 10px 10px 0; /* Отступы */
-            padding: 10px 0; /* Поля сверху и снизу */
-            text-align: center; /* Выравнивание по центру */
-        }
+    .phone {
+        width: 150px; /* Ширина */
+        margin: 0 10px 10px 0; /* Отступы */
+        padding: 10px 0; /* Поля сверху и снизу */
+        text-align: center; /* Выравнивание по центру */
+    }
 
-            .phone h3 {
-                height: 70px;
-            }
+    .phone h3 {
+        height: 70px;
+    }
 
-        .phone-actions {
-            display: block;
-        }
+    .phone-actions {
+        display: block;
+    }
 
-        img {
-            width: 100%;
-        }
-    </style>
+    img {
+        width: 100%;
+    }
+</style>
 
-    <section class="main-content sidebar-left-false ">
-        @foreach (var product in Model.Products)
-        {
-            <div class="phone">
-                <p><img src="@product.Img" alt=""></p>
-                <h3>@product.Name</h3>
-                <div class="phone-actions">
-                    <div>@product.Price</div>
-                    <a href="~/Home/Buy/@product.Id">Купить</a>
-                </div>
-                <div class="cart">
-                    @if (User.Identity?.IsAuthenticated ?? false)
-                    {
-                        <form asp-controller="Cart"
-                      asp-action="Create"
-                      asp-route-productId="@product.Id"
-                      asp-route-quantity="1">
-                            <button>В корзину</button>
-                        </form>
-                    }
-
-                    @*<a asp-controller="Cart"
-                asp-action="Create"
-                >В корзину</a> |*@
-                </div>
+<section class="main-content sidebar-left-false ">
+    @foreach (var product in Model.Products)
+    {
+        <div class="phone">
+            <p><img src="@product.Img" alt=""></p>
+            <h3>@product.Name</h3>
+            <div class="phone-actions">
+                <div>@product.Price</div>
             </div>
-        }
-    </section>
+            <div class="cart">
+                @if (User.Identity?.IsAuthenticated ?? false)
+                {
+                    <form asp-controller="Cart"
+                          asp-action="Create"
+                          asp-route-productId="@product.Id"
+                          asp-route-quantity="1">
+                        <button>В корзину</button>
+                    </form>
+                }
+            </div>
+        </div>
+    }
+</section>
 </body>
 </html>

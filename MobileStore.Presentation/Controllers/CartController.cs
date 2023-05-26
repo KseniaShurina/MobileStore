@@ -33,7 +33,7 @@ namespace MobileStore.Presentation.Controllers
         public async Task<IActionResult> Create(int productId, [Range(1, int.MaxValue)] int quantity)
         {
             await _cartService.Create(productId, quantity);
-            return await Index();
+            return RedirectToAction("Index", "Cart");
         }
 
         [HttpPost]
@@ -45,9 +45,15 @@ namespace MobileStore.Presentation.Controllers
 
         public async Task<IActionResult> Remove(int cartItemId)
         {
-            await _cartService.Remove(cartItemId);
-            //if (item == null) { return NotFound();}
-            return RedirectToAction("Index", "Cart");
+            try
+            {
+                await _cartService.Remove(cartItemId);
+                return RedirectToAction("Index", "Cart");
+            }
+            catch (ArgumentException)
+            {
+                return NotFound();
+            }
         }
 
         //public async Task<IActionResult> CreateOrder()

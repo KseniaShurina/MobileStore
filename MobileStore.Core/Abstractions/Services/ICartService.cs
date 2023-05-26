@@ -18,5 +18,5 @@ public interface ICartService
 
     Task Remove(int cartItemId);
 
-    Task<CartItemModel> CreateOrder();
+    Task AddItemToOrder(string address, string contactPhone);
 }

@@ -1,0 +1,32 @@
+﻿@model MobileStore.Presentation.ViewModels.OrderViewModel
+
+@{
+    ViewData["Title"] = "Заказ";
+}
+<!DOCTYPE html> 
+<html>
+<head>
+
+</head>
+<body>
+<div>
+    <h2>Вы покупаете:</h2>
+    <table class="table-of-order-items">
+        @foreach (var item in Model.OrderItems)
+        {
+            <tr>
+                <td>@item.Product.Name</td>
+                <td>@item.Quantity</td>
+                <td>@item.Product.Price <span>$</span></td>
+            </tr>
+        }
+        <thead>
+        <tr>
+            <td>Итого:</td>
+            <td>@Model.OrderItems.Sum(p => p.ProductPrice * p.Quantity) <span>$</span></td>
+        </tr>
+        </thead>
+    </table>
+</div>
+</body>
+</html>

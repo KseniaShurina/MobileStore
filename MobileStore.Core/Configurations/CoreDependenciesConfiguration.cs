@@ -17,7 +17,7 @@ public static class CoreDependenciesConfiguration
         services.AddScoped<IProductService, ProductService>();
         services.AddScoped<ICartService, CartService>();
         services.AddScoped<IAccountService, AccountService>();
-        //services.AddScoped<IOrderService, OrderService>();
+        services.AddScoped<IOrderService, OrderService>();
 
         return services;
     }
