@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using MobileStore.Core.Abstractions.Services;
+using MobileStore.Core.Models;
 using MobileStore.Presentation.Controllers.Base;
 using MobileStore.Presentation.ViewModels;
 
@@ -55,30 +56,19 @@ namespace MobileStore.Presentation.Controllers
                 return NotFound();
             }
         }
-
-        //public async Task<IActionResult> CreateOrder()
-        //{
-        //    var cartItems = await _context.CartItems.Where(c => c.UserId == UserId).ToListAsync();
-
-        //    var order = new Order()
-        //    {
-        //        Address = "test",
-        //        ContactPhone = "+123 45 678 9",
-        //        UserId = UserId,
-        //        Items = cartItems.Select(i => new OrderItem
-        //            {
-        //                ProductId = i.ProductId,
-        //                Quantity = i.Quantity,
-        //            })
-        //            .ToList()
-        //    };
-
-        //    _context.Orders.Add(order);
-        //    _context.CartItems.RemoveRange(cartItems);
-
-        //    await _context.SaveChangesAsync();
-
-        //    return null;
-        //}
+        [HttpPost]
+        public async Task<IActionResult> CreatOrder(string address, string contactPhone)
+        {
+            try
+            {
+                await _cartService.CreatOrder("address", "contactPhone");
+                return RedirectToAction("Index", "Order");
+            }
+            catch (ArgumentException)
+            {
+                return NotFound();
+            }
+            
+        }
     }
 }

@@ -12,6 +12,7 @@
 <div>
     <h2>Вы покупаете:</h2>
     <table class="table-of-order-items">
+        <tbody>
         @foreach (var item in Model.OrderItems)
         {
             <tr>
@@ -20,13 +21,19 @@
                 <td>@item.Product.Price <span>$</span></td>
             </tr>
         }
-        <thead>
+        </tbody>
+        <tfoot>
         <tr>
             <td>Итого:</td>
             <td>@Model.OrderItems.Sum(p => p.ProductPrice * p.Quantity) <span>$</span></td>
         </tr>
-        </thead>
+        </tfoot>
     </table>
+</div>
+<div>
+    <form asp-controller="Order" asp-action="RemoveOrder">
+        <button>Отменить заказ</button>
+    </form>
 </div>
 </body>
 </html>
