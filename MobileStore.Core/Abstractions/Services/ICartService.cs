@@ -1,4 +1,5 @@
 ﻿using MobileStore.Core.Models;
+using MobileStore.Infrastructure.Entities;
 
 namespace MobileStore.Core.Abstractions.Services;
 
@@ -18,5 +19,5 @@ public interface ICartService
 
     Task Remove(int cartItemId);
 
-    Task AddItemToOrder(string address, string contactPhone);
+    Task<OrderModel> CreatOrder(string address, string contactPhone);
 }

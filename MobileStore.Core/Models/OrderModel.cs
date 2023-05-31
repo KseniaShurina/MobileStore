@@ -2,7 +2,7 @@
 
 namespace MobileStore.Core.Models
 {
-    internal class OrderModel
+    public class OrderModel
     {
         public int Id { get; set; }
         public DateTime Datetime { get; set; }

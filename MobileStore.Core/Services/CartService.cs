@@ -55,7 +55,7 @@ namespace MobileStore.Core.Services
         /// <param name="productId"></param>
         /// <param name="quantity"></param>
         /// <returns></returns>
-        public async Task <CartItemModel> Create(int productId, int quantity)
+        public async Task<CartItemModel> Create(int productId, int quantity)
         {
             quantity = Guard.Against.NegativeOrZero(quantity);
 
@@ -80,7 +80,7 @@ namespace MobileStore.Core.Services
             return (await Get(item.Id))!.MapToModel();
         }
 
-        public async Task <CartItemModel> UpdateQuantity(int cartItemId, int quantity)
+        public async Task<CartItemModel> UpdateQuantity(int cartItemId, int quantity)
         {
             var item = await _context.CartItems.FirstOrDefaultAsync(c => c.Id == cartItemId);
             if (item == null)
@@ -102,41 +102,41 @@ namespace MobileStore.Core.Services
 
             if (item == null)
             {
-                throw new ArgumentException($"CartItem is null here {nameof(item)}"); /////////////////////////////////////////
+                throw new ArgumentException($"CartItem is null here {nameof(item)}");
             }
             _context.CartItems.Remove(item);
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddItemToOrder(string address, string contactPhone)
+        public async Task<OrderModel> CreatOrder(string address, string contactPhone)
         {
             var userId = IdentityState.Current!.UserId;
-            var items = await GetBaseQuery()
-                .Where(u => u.UserId == userId)
-                .ToListAsync();
+
+            var items = await GetBaseQuery().Where(x => x.UserId == userId).ToListAsync();
 
             var orderItems = items
                 .Select(i => new OrderItem()
                 {
                     ProductId = i.ProductId,
-                    Product = i.Product,
                     Quantity = i.Quantity,
-                    ProductPrice = i.Product.Price,
-                });
+                    ProductPrice = i.Product.Price * i.Quantity,
+                })
+                .ToList();
             //_context.CartItems.Remove(items);
 
 
-                var order = new Order
-                {
-                    Datetime = DateTime.Now,
-                    Address = address,
-                    ContactPhone = contactPhone,
-                    Items = orderItems.ToList(),
-                };
+            var order = new Order
+            {
+                Address = address,
+                ContactPhone = contactPhone,
+                UserId = userId,
+                Datetime = DateTime.Now.ToUniversalTime(),
+                Items = orderItems,
+            };
+            await _context.Orders.AddAsync(order);
 
-
-                await _context.SaveChangesAsync();
-
+            await _context.SaveChangesAsync();
+            return order.MapToModel();
         }
     }
 }

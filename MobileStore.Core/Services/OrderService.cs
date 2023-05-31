@@ -33,6 +33,7 @@ namespace MobileStore.Core.Services
                 .Where(i => i.Id == id)
                 .FirstOrDefaultAsync();
         }
+
         public async Task<List<OrderItemModel>> GetOrderItems()
         {
             var userId = IdentityState.Current!.UserId;
@@ -40,6 +41,20 @@ namespace MobileStore.Core.Services
                 .Where(u => u.Order.UserId == userId)
                 .ToListAsync();
             return entityOrderItems.Select(i => i.MapToModel()).ToList();
+        }
+
+        public async Task RemoveOrder(int orderId)
+        {
+            var order = await _context.Orders.Where(x => x.Id == orderId).FirstOrDefaultAsync();
+            if (order != null)
+            {
+                _context.Orders.Remove(order);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new Exception($"Order is null {nameof(order)}");
+            }
         }
     }
 }
