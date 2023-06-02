@@ -1,10 +1,13 @@
-﻿namespace MobileStore.Infrastructure.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MobileStore.Infrastructure.Entities
 {
     /// <summary>
     /// Order - the class that will represent the order
     /// </summary>
     public class Order
     {
+        [Key]
         public int Id { get; set; }
         public DateTime Datetime { get; set; }
         public string Address { get; set; } = null!;

@@ -1,7 +1,10 @@
-﻿namespace MobileStore.Infrastructure.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MobileStore.Infrastructure.Entities
 {
     public class OrderItem
     {
+        [Key]
         public int Id { get; set; }
 
         public int OrderId { get; set; }

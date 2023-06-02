@@ -18,7 +18,7 @@ namespace MobileStore.Infrastructure.Contexts
 
         public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
     }
 }
