@@ -4,16 +4,16 @@ using MobileStore.Common.Identity;
 using MobileStore.Core.Abstractions.Services;
 using MobileStore.Core.Extensions.Entities;
 using MobileStore.Core.Models;
-using MobileStore.Infrastructure.Contexts;
+using MobileStore.Infrastructure.Abstractions.Contexts;
 using MobileStore.Infrastructure.Entities;
 
 namespace MobileStore.Core.Services
 {
     internal class CartService : ICartService
     {
-        private readonly DefaultContext _context;
+        private readonly IDefaultContext _context;
 
-        public CartService(DefaultContext context)
+        public CartService(IDefaultContext context)
         {
             _context = context;
         }

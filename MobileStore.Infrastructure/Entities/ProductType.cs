@@ -9,7 +9,11 @@ namespace MobileStore.Infrastructure.Entities
     {
         [Key]
         public int Id { get; set; }
-        public string Name { get; set; }
-        public List<Product> Products { get; set; } //для того чтобы получить весь список продуктов по типу
+        public string Name { get; set; } = null!;
+
+        /// <summary>
+        /// для того чтобы получить весь список продуктов по типу
+        /// </summary>
+        public List<Product> Products { get; set; } = null!;
     }
 }

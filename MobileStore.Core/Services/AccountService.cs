@@ -1,17 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MobileStore.Infrastructure.Contexts;
 using MobileStore.Core.Abstractions.Services;
 using MobileStore.Core.Extensions.Entities;
 using MobileStore.Core.Models;
+using MobileStore.Infrastructure.Abstractions.Contexts;
 using MobileStore.Infrastructure.Entities;
 
 namespace MobileStore.Core.Services
 {
     internal class AccountService : IAccountService
     {
-        private readonly DefaultContext _context;
+        private readonly IDefaultContext _context;
 
-        public AccountService(DefaultContext context)
+        public AccountService(IDefaultContext context)
         {
             _context = context;
         }

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MobileStore.Core.Models;
-using MobileStore.Infrastructure.Contexts;
 using MobileStore.Presentation.Controllers.Base;
 using MobileStore.Presentation.ViewModels;
 // пространство имен моделей RegisterModel и LoginModel
@@ -15,12 +14,10 @@ namespace MobileStore.Presentation.Controllers
 {
     public class AccountController : MvcControllerBase
     {
-        private DefaultContext _context;
         private readonly IAccountService _accountService;
 
-        public AccountController(DefaultContext context, IAccountService accountService)
+        public AccountController(IAccountService accountService)
         {
-            _context = context;
             _accountService = accountService;
         }
         /// <summary>
@@ -58,7 +55,7 @@ namespace MobileStore.Presentation.Controllers
             if (validUser)
             {
                 var user = await _accountService.GetUserByEmail(model.Email!);
-                await Authenticate(user);
+                await Authenticate(user!);
 
                 return RedirectTo(model.ReturnUrl);
 
