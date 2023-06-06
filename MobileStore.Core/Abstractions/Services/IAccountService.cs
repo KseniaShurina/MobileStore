@@ -6,6 +6,6 @@ namespace MobileStore.Core.Abstractions.Services
     {
         Task<UserModel?> GetUserByEmail(string userEmail);
         Task<bool> IsValidPassword(string userEmail, string password);
-        Task<UserModel> RegisterUser(UserModel model);
+        Task<UserModel> RegisterUser(UserRegisterModel model);
     }
 }

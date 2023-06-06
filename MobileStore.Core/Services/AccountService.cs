@@ -4,11 +4,17 @@ using MobileStore.Core.Extensions.Entities;
 using MobileStore.Core.Models;
 using MobileStore.Infrastructure.Abstractions.Contexts;
 using MobileStore.Infrastructure.Entities;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MobileStore.Core.Services
 {
     internal class AccountService : IAccountService
     {
+        private const int KeySize = 64;
+        private const int Iterations = 350000;
+        private readonly HashAlgorithmName _hashAlgorithm = HashAlgorithmName.SHA512;
+
         private readonly IDefaultContext _context;
 
         public AccountService(IDefaultContext context)
@@ -26,28 +32,52 @@ namespace MobileStore.Core.Services
 
         public async Task<bool> IsValidPassword(string userEmail, string password)
         {
-            if (userEmail is null) throw new ArgumentNullException(nameof(userEmail));
+            if (userEmail == null) throw new ArgumentNullException(nameof(userEmail));
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail && u.Password == password);
-            var result = (password == user?.Password) ? true : false;
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
+
+            if (user == null) return false;
+
+            var passwordHash = HashPassword(password, user.PasswordSalt);
+
+            var result = passwordHash == user.PasswordHash;
             return result;
         }
 
-        public async Task<UserModel> RegisterUser(UserModel model)
+        public async Task<UserModel> RegisterUser(UserRegisterModel model)
         {
             if (model == null) throw new ArgumentNullException();
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+            // Достаем пользователя по почте
+            var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == model.Email);
+            if (user != null) throw new ArgumentNullException($"{nameof(user)}", "Пользователь с такими параметрами уже существует");
 
-            if (user == null)
+            var salt = Guid.NewGuid().ToString();
+            var passwordHash = HashPassword(model.Password, salt);
+
+            user = new User
             {
-                user = new User { Email = model.Email!, Password = model.Password! };
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
-            }
+                Email = model.Email,
+                PasswordHash = passwordHash,
+                PasswordSalt = salt,
+            };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
 
             return user.MapToModel();
+        }
 
+        private string HashPassword(string password, string salt)
+        {
+            var saltBytes = Encoding.UTF8.GetBytes(salt);
+
+            var hash = Rfc2898DeriveBytes.Pbkdf2(
+                Encoding.UTF8.GetBytes(password),
+                saltBytes,
+                Iterations,
+                _hashAlgorithm,
+                KeySize);
+            return Convert.ToHexString(hash);
         }
     }
 }

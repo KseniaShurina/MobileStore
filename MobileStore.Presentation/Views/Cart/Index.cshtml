@@ -10,10 +10,10 @@
     <title>Cart</title>
     <link rel="stylesheet" href="~/css/cartStyles.css" />
     <style>
-        .order-table-in-cart {
+/*        .order-table-in-cart {
             width: 100px;
             height: 300px;
-        }
+        }*/
     </style>
 </head>
 
@@ -36,7 +36,7 @@
                         <tr>
                             <td>@cartItem.Product.Name</td>
 
-                            <td><img src="@cartItem.Product.Img" alt=""></td>
+                            <td><img src="@cartItem.Product.Img" alt="@cartItem.Product.Name"></td>
 
                             <td class="cell-quantity">
                                 <div class="form-of-quantity-in-cart">

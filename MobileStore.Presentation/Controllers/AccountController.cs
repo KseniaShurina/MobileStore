@@ -88,12 +88,8 @@ namespace MobileStore.Presentation.Controllers
 
             if (ModelState.IsValid)
             {
-                // Достаем пользователя по почте
-                var user = await _accountService.GetUserByEmail(model.Email!);
-
-                if (user == null) throw new ArgumentNullException($"{nameof(user)}", "Пользователь с такими параметрами уже существует");
                 // добавляем пользователя в бд
-                await _accountService.RegisterUser(user);
+                var user = await _accountService.RegisterUser(new UserRegisterModel(model.Email!, model.Password!));
                 // аутентификация
                 await Authenticate(user);
 

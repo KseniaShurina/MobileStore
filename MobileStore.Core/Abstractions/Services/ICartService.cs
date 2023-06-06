@@ -1,5 +1,4 @@
 ﻿using MobileStore.Core.Models;
-using MobileStore.Infrastructure.Entities;
 
 namespace MobileStore.Core.Abstractions.Services;
 
