@@ -39,6 +39,15 @@ namespace MobileStore.Core.Services
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<List<ProductTypeModel>> GetProductTypes()
+        {
+            var entities = await _context.ProductTypes
+                .AsNoTracking().ToListAsync();
+            return entities
+                .Select(MapFromEntity)
+                .ToList();
+        }
+
         public async Task<List<CartItemModel>> GetCartItems()
         {
             var userId = IdentityState.Current!.UserId;
@@ -137,6 +146,15 @@ namespace MobileStore.Core.Services
 
             await _context.SaveChangesAsync();
             return order.MapToModel();
+        }
+
+        private static ProductTypeModel MapFromEntity(ProductType entity)
+        {
+            return new ProductTypeModel
+            {
+                Id = entity.Id,
+                Name = entity.Name,
+            };
         }
     }
 }

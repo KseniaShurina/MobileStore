@@ -33,7 +33,6 @@ form {
 .cart-container .lelt-column {
     background-color: white;
     margin-top: 20px;
-    margin-right: 20px;
     padding: 20px;
     float: left;
     width: 60%;
@@ -48,7 +47,6 @@ form {
 .cart-container .right-column {
     background-color: white;
     margin-top: 20px;
-    margin-left: 20px;
     padding: 20px;
     position: absolute;
     right: 0;

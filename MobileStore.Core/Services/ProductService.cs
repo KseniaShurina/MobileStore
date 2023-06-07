@@ -26,7 +26,7 @@ internal class ProductService : IProductService
         return entity?.MapToModel();
     }
 
-    public async Task<List<ProductModel>> GetProductsAsync(int? productTypeId)
+    public async Task<List<ProductModel>> GetProducts(int? productTypeId)
     {
         if (!productTypeId.HasValue)
         {
@@ -44,7 +44,7 @@ internal class ProductService : IProductService
             .ToList();
     }
 
-    public async Task<List<ProductTypeModel>> GetProductTypesAsync()
+    public async Task<List<ProductTypeModel>> GetProductTypes()
     {
         var entities = await _context
             .ProductTypes

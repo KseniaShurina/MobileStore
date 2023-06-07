@@ -3,7 +3,10 @@
 namespace MobileStore.Core.Abstractions.Services;
 
 public interface ICartService
+
 {
+    Task<List<ProductTypeModel>> GetProductTypes();
+
     Task<List<CartItemModel>> GetCartItems();
 
     /// <summary>

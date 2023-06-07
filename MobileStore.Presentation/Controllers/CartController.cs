@@ -20,6 +20,7 @@ namespace MobileStore.Presentation.Controllers
             //для взаимодействия с вьюхой
             var cartViewModel = new CartViewModel();
             cartViewModel.CartItems = await _cartService.GetCartItems();
+            cartViewModel.ProductTypes = await _cartService.GetProductTypes();
             if (cartViewModel.CartItems == null) throw new ArgumentNullException(nameof(cartViewModel.CartItems));
             return View(cartViewModel);
         }

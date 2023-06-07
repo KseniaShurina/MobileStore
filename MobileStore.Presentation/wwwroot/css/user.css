@@ -1,0 +1,26 @@
+body {
+    background-color: #dddddd;
+}
+
+.form {
+    background-color: white;
+}
+
+.container {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container h2 {
+    text-align: center;
+}
+
+.form div {
+    padding: 0.75rem;
+}
+
+.form input {
+    width: 300px;
+    height: 40px;
+}

@@ -1,28 +1,40 @@
-﻿.account-register-body, .account-login-body {
-    font-family: Arial, Helvetica, sans-serif;
-}
-
+﻿
 .form {
     padding: 16px;
     background-color: white;
     text-align: center;
+    margin: 1.5rem 30%;
 }
 
-.form input[type=text], input[type=Password] {
-    width: 50%;
+.form input {
+    width: 80%;
     padding: 15px;
     margin: 5px 0 22px 0;
     display: inline-block;
-    border: none;
-    background: #f1f1f1;
 }
 
-.form input[type=text]:focus, input[type=Password]:focus {
-    background-color: #ddd;
-    outline: none;
-}
+    .form input[type=text]:focus, input[type=Password]:focus {
+        background-color: #ddd;
+        outline: none;
+    }
 
-.signin {
+.description {
     text-align: center;
     margin: 16px;
+}
+
+@media (max-width: 1500px) {
+    .form {
+        margin: 1.5rem 10%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .form {
+        margin: 1.5rem;
+    }
+
+        .form input {
+            width: 100%;
+        }
 }

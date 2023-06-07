@@ -6,7 +6,7 @@ public interface IProductService
 {
     Task<ProductModel?> GetProduct(int productId);
 
-    Task<List<ProductModel>> GetProductsAsync(int? productTypeId);
+    Task<List<ProductModel>> GetProducts(int? productTypeId);
 
-    Task<List<ProductTypeModel>> GetProductTypesAsync();
+    Task<List<ProductTypeModel>> GetProductTypes();
 }

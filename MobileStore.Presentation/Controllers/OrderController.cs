@@ -15,6 +15,7 @@ namespace MobileStore.Presentation.Controllers
         public async Task<IActionResult> Index()
         {
             var orderViewModel = new OrderViewModel();
+            orderViewModel.CartItems = await _orderService.GetCartItems();
             orderViewModel.OrderItems = await _orderService.GetOrderItems();
             if (orderViewModel.OrderItems == null) throw new ArgumentNullException(nameof(orderViewModel.OrderItems));
 

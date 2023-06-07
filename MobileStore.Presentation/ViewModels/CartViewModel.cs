@@ -8,5 +8,6 @@ namespace MobileStore.Presentation.ViewModels
     {
         //это товары, которые передаются от контроллера в представление
         public List<CartItemModel> CartItems { get; set; } = new();
+        public List<ProductTypeModel> ProductTypes { get; set; } = new();
     }
 }

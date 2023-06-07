@@ -19,8 +19,8 @@ namespace MobileStore.Presentation.Controllers
         public async Task<IActionResult> Index([FromQuery] int? productTypeId)
         {
             var productView = new ProductsViewModel();
-            productView.ProductTypes = await _productService.GetProductTypesAsync();
-            productView.Products = await _productService.GetProductsAsync(productTypeId);
+            productView.ProductTypes = await _productService.GetProductTypes();
+            productView.Products = await _productService.GetProducts(productTypeId);
 
             return View(productView);
         }

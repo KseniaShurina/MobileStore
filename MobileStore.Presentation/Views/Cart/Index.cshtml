@@ -8,13 +8,23 @@
 
 <head>
     <title>Cart</title>
+    <link rel="stylesheet" href="~/css/navigationBarStyles.css" />
     <link rel="stylesheet" href="~/css/cartStyles.css" />
-    <style>
-/*        .order-table-in-cart {
-            width: 100px;
-            height: 300px;
-        }*/
-    </style>
+    <div class="navigation">
+        <nav>
+            @* Тег <nav> определяет набор навигационных ссылок *@
+            <div>
+                <ul>
+                    @foreach (var productType in Model.ProductTypes)
+                    {
+                        <li>
+                            <a href="@Url.Action("Index", "Home")?productTypeId=@productType.Id">@productType.Name</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </nav>
+    </div>
 </head>
 
 <body>
@@ -23,11 +33,11 @@
             <table class="table-of-items">
                 <thead class="view-cart-index-header-table">
                     <tr>
-                        <th>Наименование</th>
-                        <th></th>
-                        <th>Количество</th>
-                        <th>Цена</th>
-                        <th method-delite></th>
+                        <td>Name</td>
+                        <td></td>
+                        <td>Quantity</td>
+                        <td>Price</td>
+                        <td method-delite></td>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,7 +78,7 @@
                                 <form asp-controller="Cart"
                                   asp-action="Remove"
                                   asp-route-cartItemId="@(cartItem.Id)">
-                                    <button class="cart-button-delete">Удалить</button>
+                                    <button class="cart-button-delete">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -78,15 +88,15 @@
         </div>
 
         <div class="right-column">
-            <h2>Оформить заказ</h2>
+            <h2>Checkout</h2>
             <table class="order-table-in-cart">
                 <tr>
-                    <td>Сумма товаров</td>
+                    <td>Amount of goods</td>
                     <td> @Model.CartItems.Sum(x => x.Product.Price * x.Quantity) <span>$</span></td>
                 </tr>
 
                 <tr>
-                    <td>Сумма скидки</td>
+                    <td>Discount amount</td>
                     <td>-</td>
                 </tr>
             </table>
@@ -94,7 +104,7 @@
             <div class="order-button">
                 <form asp-controller="Cart"
                       asp-action="CreatOrder">
-                    <button>Оформить заказ</button>
+                    <button>Continue</button>
                 </form>
             </div>
         </div>

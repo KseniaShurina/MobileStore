@@ -1,34 +1,4 @@
-
-/* This is navBar*/
-.navigation {
-    margin-block: auto;
-    background-color: #333;
-}
-
-    .navigation li {
-        display: inline-block;
-        padding-block: 1px;
-    }
-
-    .navigation a {
-        display: block;
-        color: #f2f2f2;
-        padding: 8px 16px;
-        font-size: 17px;
-        text-decoration: none;
-    }
-        /* Change the color of links on hover */
-        .navigation a:hover {
-            background-color: #ddd;
-            color: #111;
-        }
-
-
-
-body {
-    background-color: #dddddd;
-}
-
+/* Main container of products */
 .main-content {
     display: flex
 }
@@ -37,7 +7,7 @@ body {
     background-color: white;
     text-align: center; /* Выравнивание по центру */
     height: 100%;
-    margin-bottom: 1.5rem;
+    margin-top: 1.5rem;
     display: flex;
     flex-direction: column;
     padding: 15px;
@@ -51,7 +21,6 @@ body {
     }
 
     .product-container > .container-footer {
-        
     }
 
 .image-contaier {

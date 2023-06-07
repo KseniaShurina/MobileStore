@@ -5,6 +5,7 @@ using MobileStore.Core.Extensions.Entities;
 using MobileStore.Core.Models;
 using MobileStore.Infrastructure.Abstractions.Contexts;
 using MobileStore.Infrastructure.Entities;
+using System.Linq;
 
 namespace MobileStore.Core.Services
 {
@@ -34,9 +35,24 @@ namespace MobileStore.Core.Services
                 .FirstOrDefaultAsync();
         }
 
+        private int GetUserId()
+        {
+            return IdentityState.Current!.UserId;
+        }
+
+        public async Task<List<CartItemModel>> GetCartItems()
+        {
+            var userId = GetUserId();
+            var entity = await _context.CartItems
+                .AsNoTracking()
+                .Include(p => p.Product)
+                .Where(u => u.UserId == userId).ToListAsync();
+            return entity.Select(p => p.MapToModel()).ToList();
+        }
+
         public async Task<List<OrderItemModel>> GetOrderItems()
         {
-            var userId = IdentityState.Current!.UserId;
+            var userId = GetUserId();
             var entityOrderItems = await GetBaseQuery()
                 .Where(u => u.Order.UserId == userId)
                 .ToListAsync();
@@ -45,15 +61,20 @@ namespace MobileStore.Core.Services
 
         public async Task RemoveOrder(int orderId)
         {
-            var order = await _context.Orders.Where(x => x.Id == orderId).FirstOrDefaultAsync();
-            if (order != null)
+            
+            try
             {
-                _context.Orders.Remove(order);
-                await _context.SaveChangesAsync();
+                await _context.OrderItem.Where(x => x.Id == orderId).ExecuteDeleteAsync();
+                //if (orderItems != null)
+                //{
+                //    _context.OrderItem..Remove
+                    await _context.SaveChangesAsync();
+                //}
             }
-            else
+            catch (Exception e)
             {
-                throw new Exception($"Order is null {nameof(order)}");
+                Console.WriteLine(e);
+                throw;
             }
         }
     }

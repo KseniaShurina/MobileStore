@@ -11,6 +11,9 @@ namespace MobileStore.Core.Extensions.Entities
             {
                 Id = entity.Id,
                 Email = entity.Email,
+                Address = entity.Address,
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
             };
         }
     }
