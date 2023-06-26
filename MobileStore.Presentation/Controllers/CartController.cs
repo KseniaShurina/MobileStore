@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using MobileStore.Core.Abstractions.Services;
-using MobileStore.Core.Models;
 using MobileStore.Presentation.Controllers.Base;
 using MobileStore.Presentation.ViewModels;
 
@@ -17,7 +16,6 @@ namespace MobileStore.Presentation.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //для взаимодействия с вьюхой
             var cartViewModel = new CartViewModel();
             cartViewModel.CartItems = await _cartService.GetCartItems();
             cartViewModel.ProductTypes = await _cartService.GetProductTypes();
@@ -25,12 +23,6 @@ namespace MobileStore.Presentation.Controllers
             return View(cartViewModel);
         }
 
-        ///// <summary>
-        ///// Добавляет товары в корзину
-        ///// </summary>
-        ///// <param name="productId">ид товара</param>
-        ///// <param name="quantity">количество товара</param>
-        ///// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Create(int productId, [Range(1, int.MaxValue)] int quantity)
         {
@@ -56,20 +48,6 @@ namespace MobileStore.Presentation.Controllers
             {
                 return NotFound();
             }
-        }
-        [HttpPost]
-        public async Task<IActionResult> CreatOrder(string address, string contactPhone)
-        {
-            try
-            {
-                await _cartService.CreatOrder("address", "contactPhone");
-                return RedirectToAction("Index", "Order");
-            }
-            catch (ArgumentException)
-            {
-                return NotFound();
-            }
-            
         }
     }
 }

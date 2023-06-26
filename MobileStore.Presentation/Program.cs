@@ -24,7 +24,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
-//TODO Непонятно чо как работает. настроить обработку ошибок
+
 else
 {
     app.UseExceptionHandler("/Home/Error");

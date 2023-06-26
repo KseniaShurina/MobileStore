@@ -27,7 +27,7 @@ namespace MobileStore.Core.Services
             if (userEmail is null) throw new ArgumentNullException(nameof(userEmail));
 
             var email = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
-            return email?.MapToModel(); // ????????????
+            return email?.MapToModel();
         }
 
         public async Task<bool> IsValidPassword(string userEmail, string password)
@@ -48,7 +48,6 @@ namespace MobileStore.Core.Services
         {
             if (model == null) throw new ArgumentNullException();
 
-            // Достаем пользователя по почте
             var user = await _context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == model.Email);
             if (user != null) throw new ArgumentNullException($"{nameof(user)}", "Пользователь с такими параметрами уже существует");
 

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using MobileStore.Infrastructure.Abstractions.Contexts;
 using MobileStore.Infrastructure.Entities;
+using System.Data;
 
 namespace MobileStore.Infrastructure.Contexts
 {
@@ -21,5 +23,20 @@ namespace MobileStore.Infrastructure.Contexts
         {
             //Database.EnsureCreated();
         }
+
+        public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
+        {
+            return Database.BeginTransactionAsync(cancellationToken);
+        }
+
+        public Task<IDbContextTransaction> BeginTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken = default)
+        {
+            return Database.BeginTransactionAsync(isolationLevel, cancellationToken);
+        }
+
+        //public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
+        //{
+        //    return Database.Ro(cancellationToken);
+        //}
     }
 }

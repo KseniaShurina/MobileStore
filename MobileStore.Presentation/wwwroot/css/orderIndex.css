@@ -3,7 +3,6 @@ body {
 }
 
 .container {
-    background-color: white;
     margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
@@ -13,8 +12,56 @@ body {
     text-align: center;
 }
 
+.form div {
+    padding: 0.75rem;
+}
+
+.products-container {
+    background-color: white;
+}
+
 .table-of-cart-items td {
     padding: 0.75rem;
     text-align: left;
     padding-right: 16px;
+}
+
+.contact-details-container {
+    background-color: white;
+    margin-top: 20px;
+}
+
+.form-row {
+    padding: 0.75rem;
+}
+
+.delivery-details {
+    background-color: white; 
+    margin-top: 20px;
+    padding: 0.75rem;
+}
+.form-check-input:checked {
+    background-color: #333;
+    border-color: #333;
+}
+.delivery-details p {
+    font-weight:bold;
+}
+.payments-container {
+    background-color: white; 
+    margin-top: 20px;
+    padding: 0.75rem;
+}
+.buttons-container {
+    background-color: white; 
+    margin-top: 20px;
+    padding: 0.75rem;
+}
+
+.buttons-container div {
+    display: inline-block;
+}
+
+.buttons-container .right-button {
+float: right;
 }

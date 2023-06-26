@@ -1,21 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MobileStore.Common.Identity;
 using MobileStore.Core.Abstractions.Services;
 using MobileStore.Core.Extensions.Entities;
 using MobileStore.Core.Models;
 using MobileStore.Infrastructure.Abstractions.Contexts;
-using MobileStore.Infrastructure.Entities;
 
 namespace MobileStore.Core.Services
 {
     internal class UserService : IUserService
     {
-        public readonly IDefaultContext _context;
+        private readonly IDefaultContext _context;
 
         public UserService(IDefaultContext context)
         {

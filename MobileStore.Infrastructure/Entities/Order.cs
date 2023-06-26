@@ -2,14 +2,13 @@
 
 namespace MobileStore.Infrastructure.Entities
 {
-    /// <summary>
-    /// Order - the class that will represent the order
-    /// </summary>
     public class Order
     {
         [Key]
         public int Id { get; set; }
         public DateTime Datetime { get; set; }
+        public string? FirstName { get; set; } = null!;
+        public string? LastName { get; set; } = null!;
         public string Address { get; set; } = null!;
         public string ContactPhone { get; set; } = null!;
 

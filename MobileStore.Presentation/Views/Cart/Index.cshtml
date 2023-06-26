@@ -1,7 +1,7 @@
 ﻿@model MobileStore.Presentation.ViewModels.CartViewModel
 
 @{
-    ViewData["Title"] = "Корзина";
+    ViewData["Title"] = "Cart";
 }
 <!DOCTYPE html>
 <html>
@@ -52,9 +52,9 @@
                                 <div class="form-of-quantity-in-cart">
                                     <div>
                                         <form asp-controller="Cart"
-                                          asp-action="UpdateQuantity"
-                                          asp-route-cartItemId="@cartItem.Id"
-                                          asp-route-quantity="@(cartItem.Quantity - 1)">
+                                              asp-action="UpdateQuantity"
+                                              asp-route-cartItemId="@cartItem.Id"
+                                              asp-route-quantity="@(cartItem.Quantity - 1)">
                                             <button disabled="@(cartItem.Quantity <= 1)">-</button>
                                         </form>
                                     </div>
@@ -63,9 +63,9 @@
                                     </div>
                                     <div>
                                         <form asp-controller="Cart"
-                                          asp-action="UpdateQuantity"
-                                          asp-route-cartItemId="@cartItem.Id"
-                                          asp-route-quantity="@(cartItem.Quantity + 1)">
+                                              asp-action="UpdateQuantity"
+                                              asp-route-cartItemId="@cartItem.Id"
+                                              asp-route-quantity="@(cartItem.Quantity + 1)">
                                             <button>+</button>
                                         </form>
                                     </div>
@@ -76,8 +76,8 @@
 
                             <td>
                                 <form asp-controller="Cart"
-                                  asp-action="Remove"
-                                  asp-route-cartItemId="@(cartItem.Id)">
+                                      asp-action="Remove"
+                                      asp-route-cartItemId="@(cartItem.Id)">
                                     <button class="cart-button-delete">Delete</button>
                                 </form>
                             </td>
@@ -102,10 +102,9 @@
             </table>
 
             <div class="order-button">
-                <form asp-controller="Cart"
-                      asp-action="CreatOrder">
-                    <button>Continue</button>
-                </form>
+                <a asp-controller="Order" asp-action="CreateOrder">
+                    <button type="button" class="btn btn-outline-success">Continue</button>
+                </a>
             </div>
         </div>
     </div>

@@ -117,36 +117,6 @@ namespace MobileStore.Core.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<OrderModel> CreatOrder(string address, string contactPhone)
-        {
-            var userId = IdentityState.Current!.UserId;
-
-            var items = await GetBaseQuery().Where(x => x.UserId == userId).ToListAsync();
-
-            var orderItems = items
-                .Select(i => new OrderItem()
-                {
-                    ProductId = i.ProductId,
-                    Quantity = i.Quantity,
-                    ProductPrice = i.Product.Price * i.Quantity,
-                })
-                .ToList();
-            //_context.CartItems.Remove(items);
-
-
-            var order = new Order
-            {
-                Address = address,
-                ContactPhone = contactPhone,
-                UserId = userId,
-                Datetime = DateTime.Now.ToUniversalTime(),
-                Items = orderItems,
-            };
-            await _context.Orders.AddAsync(order);
-
-            await _context.SaveChangesAsync();
-            return order.MapToModel();
-        }
 
         private static ProductTypeModel MapFromEntity(ProductType entity)
         {

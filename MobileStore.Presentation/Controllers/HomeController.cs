@@ -24,12 +24,5 @@ namespace MobileStore.Presentation.Controllers
 
             return View(productView);
         }
-
-        public async Task<IActionResult> Buy(int id)
-        {
-            var product = await _productService.GetProduct(id);
-
-            return product != null ? View(product) : NotFound();
-        }
     }
 }

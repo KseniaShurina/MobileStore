@@ -2,24 +2,53 @@
 using MobileStore.Presentation.Controllers.Base;
 using MobileStore.Presentation.ViewModels;
 using MobileStore.Core.Abstractions.Services;
+using MobileStore.Core.Models;
 
 namespace MobileStore.Presentation.Controllers
 {
     public class OrderController : MvcControllerBaseSecure
     {
         private readonly IOrderService _orderService;
-        public OrderController(IOrderService orderService)
+        private readonly IUserService _userService;
+        private readonly ICartService _cartService;
+
+        public OrderController(IOrderService orderService, IUserService userService, ICartService cartService)
         {
             _orderService = orderService;
+            _userService = userService;
+            _cartService = cartService;
         }
-        public async Task<IActionResult> Index()
+
+        [HttpGet]
+        public async Task<IActionResult> CreateOrder()
         {
             var orderViewModel = new OrderViewModel();
-            orderViewModel.CartItems = await _orderService.GetCartItems();
-            orderViewModel.OrderItems = await _orderService.GetOrderItems();
-            if (orderViewModel.OrderItems == null) throw new ArgumentNullException(nameof(orderViewModel.OrderItems));
+            orderViewModel.CartItems = await _cartService.GetCartItems();
+            orderViewModel.User = await _userService.GetCurrentUser();
 
             return View(orderViewModel);
+        }
+
+        
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder(OrderCreateModel model)
+        {
+            try
+            {
+                await _orderService.CreateOrder(model);
+                return RedirectToAction("OrderCreated", "Order");
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+
+        }
+
+        [HttpGet]
+        public IActionResult OrderCreated()
+        {
+            return View();
         }
 
         public async Task<IActionResult> RemoveOrder(int orderId)

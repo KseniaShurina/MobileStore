@@ -20,6 +20,4 @@ public interface ICartService
     Task<CartItemModel> UpdateQuantity(int cartItemId, int quantity);
 
     Task Remove(int cartItemId);
-
-    Task<OrderModel> CreatOrder(string address, string contactPhone);
 }

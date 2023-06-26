@@ -33,7 +33,6 @@ internal class ProductService : IProductService
             productTypeId = await _context.ProductTypes.Select(i => i.Id).FirstOrDefaultAsync();
         }
 
-        // достаём из БД продукты по типу
         var entities = await _context.Products
             .AsNoTracking()
             .Where(i => i.ProductTypeId == productTypeId)
@@ -65,5 +64,5 @@ internal class ProductService : IProductService
         };
     }
 
-    
+
 }
