@@ -37,11 +37,11 @@ namespace MobileStore.Presentation.Controllers
             return RedirectToAction("Index", "Cart");
         }
 
-        public async Task<IActionResult> Remove(int cartItemId)
+        public async Task<IActionResult> Delete(int cartItemId)
         {
             try
             {
-                await _cartService.Remove(cartItemId);
+                await _cartService.Delete(cartItemId);
                 return RedirectToAction("Index", "Cart");
             }
             catch (ArgumentException)

@@ -11,6 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+      <_Parameter1>MobileStore.Core.Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\MobileStore.Common\MobileStore.Common.csproj" />
     <ProjectReference Include="..\MobileStore.Infrastructure\MobileStore.Infrastructure.csproj" />
   </ItemGroup>

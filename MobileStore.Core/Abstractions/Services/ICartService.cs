@@ -19,5 +19,5 @@ public interface ICartService
 
     Task<CartItemModel> UpdateQuantity(int cartItemId, int quantity);
 
-    Task Remove(int cartItemId);
+    Task Delete(int cartItemId);
 }
