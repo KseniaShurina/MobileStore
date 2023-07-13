@@ -16,7 +16,7 @@ internal class ProductService : IProductService
         _context = context;
     }
 
-    public async Task<ProductModel?> GetProduct(int productId)
+    public async Task<ProductModel?> GetProduct(Guid productId)
     {
         var entity = await _context.Products
             .AsNoTracking()
@@ -26,7 +26,7 @@ internal class ProductService : IProductService
         return entity?.MapToModel();
     }
 
-    public async Task<List<ProductModel>> GetProducts(int? productTypeId)
+    public async Task<List<ProductModel>> GetProducts(Guid? productTypeId)
     {
         if (!productTypeId.HasValue)
         {

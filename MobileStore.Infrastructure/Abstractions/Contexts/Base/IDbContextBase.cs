@@ -3,9 +3,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace MobileStore.Infrastructure.Abstractions.Contexts.Base;
-/// <summary>
-/// Contain methods for interaction with 
-/// </summary>
+// Contain methods for interaction with 
 public interface IDbContextBase
 {
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
@@ -18,6 +16,4 @@ public interface IDbContextBase
     Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default);
 
     Task<IDbContextTransaction> BeginTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken = default);
-
-
 }

@@ -5,7 +5,7 @@ namespace MobileStore.Core.Extensions.Entities
 {
     internal static class ProductExtensions
     {
-        public static ProductModel MapToModel(this Product entity) // entity was null
+        public static ProductModel MapToModel(this Product entity)
         {
             return new ProductModel
             {

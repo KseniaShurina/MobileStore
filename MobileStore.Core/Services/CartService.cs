@@ -34,7 +34,7 @@ namespace MobileStore.Core.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        private Task<CartItem?> Get(int id)
+        private Task<CartItem?> Get(Guid id)
         {
             return GetBaseQuery()
                 .Where(i => i.Id == id)
@@ -66,10 +66,10 @@ namespace MobileStore.Core.Services
         /// <param name="productId"></param>
         /// <param name="quantity"></param>
         /// <returns></returns>
-        public async Task<CartItemModel> Create(int productId, int quantity)
+        public async Task<CartItemModel> Create(Guid productId, int quantity)
         {
             quantity = Guard.Against.NegativeOrZero(quantity);
-            productId = Guard.Against.NegativeOrZero(productId);
+            productId = Guard.Against.Default(productId);
 
             var userId = IdentityState.Current!.UserId;
 
@@ -99,9 +99,9 @@ namespace MobileStore.Core.Services
             return (await Get(item.Id))!.MapToModel();
         }
 
-        public async Task<CartItemModel> UpdateQuantity(int cartItemId, int quantity)
+        public async Task<CartItemModel> UpdateQuantity(Guid cartItemId, int quantity)
         {
-            cartItemId = Guard.Against.NegativeOrZero(cartItemId);
+            cartItemId = Guard.Against.Default(cartItemId);
             quantity = Guard.Against.NegativeOrZero(quantity);
 
             var item = await _context.CartItems.FirstOrDefaultAsync(c => c.Id == cartItemId);
@@ -117,7 +117,7 @@ namespace MobileStore.Core.Services
             return (await Get(item.Id))!.MapToModel();
         }
 
-        public async Task Delete(int cartItemId)
+        public async Task Delete(Guid cartItemId)
         {
             var item = await _context.CartItems
                 .Where(i => i.Id == cartItemId)
@@ -125,7 +125,7 @@ namespace MobileStore.Core.Services
 
             if (item == null)
             {
-                throw new ArgumentNullException($"Product not found {nameof(item)}");
+                throw new ArgumentException($"Product not found {nameof(item)}");
             }
             _context.CartItems.Remove(item);
             await _context.SaveChangesAsync();

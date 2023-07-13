@@ -4,9 +4,9 @@ namespace MobileStore.Core.Abstractions.Services;
 
 public interface IProductService
 {
-    Task<ProductModel?> GetProduct(int productId);
+    Task<ProductModel?> GetProduct(Guid productId);
 
-    Task<List<ProductModel>> GetProducts(int? productTypeId);
+    Task<List<ProductModel>> GetProducts(Guid? productTypeId);
 
     Task<List<ProductTypeModel>> GetProductTypes();
 }

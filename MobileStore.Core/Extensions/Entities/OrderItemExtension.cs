@@ -10,10 +10,8 @@ namespace MobileStore.Core.Extensions.Entities
             return new OrderItemModel
             {
                 Id = entity.Id,
-                OrderId = entity.OrderId,
-                Order = entity.Order,
                 ProductId = entity.ProductId,
-                Product = entity.Product/*.MapToModel()*/,
+                Product = entity.Product.MapToModel(),
                 Quantity = entity.Quantity,
             };
         }

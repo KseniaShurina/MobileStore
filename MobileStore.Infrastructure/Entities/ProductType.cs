@@ -2,18 +2,13 @@
 
 namespace MobileStore.Infrastructure.Entities
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class ProductType
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; } = null!;
 
-        /// <summary>
-        /// для того чтобы получить весь список продуктов по типу
-        /// </summary>
+        // to get list of products by type
         public List<Product> Products { get; set; } = null!;
     }
 }

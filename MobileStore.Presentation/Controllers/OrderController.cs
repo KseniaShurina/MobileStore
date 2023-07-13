@@ -51,9 +51,9 @@ namespace MobileStore.Presentation.Controllers
             return View();
         }
 
-        public async Task<IActionResult> RemoveOrder(int orderId)
+        public async Task<IActionResult> RemoveOrder(Guid orderId)
         {
-            await _orderService.RemoveOrder(orderId);
+            await _orderService.DeleteOrder(orderId);
             return RedirectToAction("Index", "Cart");
         }
     }

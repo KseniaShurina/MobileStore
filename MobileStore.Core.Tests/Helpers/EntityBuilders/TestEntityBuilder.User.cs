@@ -5,8 +5,29 @@ namespace MobileStore.Core.Tests.Helpers.EntityBuilders;
 
 internal static partial class TestEntityBuilder
 {
-    internal static async Task<User> CreateUser(this TestFixture test,
-        string email, string password, int? id = null)
+    internal static User CreateUser(this TestFixture test,
+        string email, string password, Guid? id = null)
+    {
+        var entity = CreateUserEntity(email, password, id);
+
+        test.DefaultContext.Users.Add(entity);
+        test.DefaultContext.SaveChanges();
+
+        return entity;
+    }
+
+    internal static async Task<User> CreateUserAsync(this TestFixture test,
+        string email, string password, Guid? id = null)
+    {
+        var entity = CreateUserEntity(email, password, id);
+
+        await test.DefaultContext.Users.AddAsync(entity);
+        await test.DefaultContext.SaveChangesAsync();
+
+        return entity;
+    }
+
+    private static User CreateUserEntity(string email, string password, Guid? id = null)
     {
         var passwordSalt = Guid.NewGuid().ToString();
         var passwordHash = PasswordHelper.HashPassword(password, passwordSalt);
@@ -22,9 +43,6 @@ internal static partial class TestEntityBuilder
         {
             entity.Id = id.Value;
         }
-
-        await test.DefaultContext.Users.AddAsync(entity);
-        await test.DefaultContext.SaveChangesAsync();
 
         return entity;
     }

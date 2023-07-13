@@ -7,6 +7,7 @@ using NUnit.Framework;
 namespace MobileStore.Core.Tests.Services;
 
 [TestFixture]
+[Parallelizable]
 public class AccountServiceTests : TestFixture
 {
     private readonly AccountService _accountService;
@@ -16,17 +17,11 @@ public class AccountServiceTests : TestFixture
         _accountService = new AccountService(DefaultContext);
     }
 
-    [TearDown]
-    public void TearDown()
-    {
-        DefaultContext.RemoveRange(DefaultContext.Users.ToList());
-    }
-
     [TestCase("test-get-by-email@mail.com")]
     public async Task GetUserByEmail_Expect_Success(string email)
     {
         // создаем фейк юзера и доб его в фейк дб
-        await this.CreateUser(email, Guid.NewGuid().ToString());
+        await this.CreateUserAsync(email, Guid.NewGuid().ToString());
         // достаём фейк юзера из фейк дб
         var res = await _accountService.GetUserByEmail(email);
         //проверка что юзер не null. Если null то юнит завершит тест и покажет ошибку
@@ -45,7 +40,7 @@ public class AccountServiceTests : TestFixture
     [TestCase("test-is-valid-pass_true@mail.com", "123")]
     public async Task IsValidPassword_Expect_True(string email, string password)
     {
-        await this.CreateUser(email, password);
+        await this.CreateUserAsync(email, password);
 
         var res = await _accountService.IsValidPassword(email, password);
         Assert.That(res, Is.True);
@@ -61,7 +56,7 @@ public class AccountServiceTests : TestFixture
     {
         if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
         {
-            await this.CreateUser(email, password);
+            await this.CreateUserAsync(email, password);
         }
         
         var res = await _accountService.IsValidPassword(email, Guid.NewGuid().ToString());
@@ -92,7 +87,7 @@ public class AccountServiceTests : TestFixture
     {
         if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
         {
-            await this.CreateUser(email, password);
+            await this.CreateUserAsync(email, password);
         }
 
         Assert.ThrowsAsync<ArgumentNullException>(async () => await _accountService.RegisterUser(null!));

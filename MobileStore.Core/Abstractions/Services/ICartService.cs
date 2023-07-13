@@ -15,9 +15,9 @@ public interface ICartService
     /// <param name="productId"></param>
     /// <param name="quantity"></param>
     /// <returns></returns>
-    Task<CartItemModel> Create(int productId, int quantity);
+    Task<CartItemModel> Create(Guid productId, int quantity);
 
-    Task<CartItemModel> UpdateQuantity(int cartItemId, int quantity);
+    Task<CartItemModel> UpdateQuantity(Guid cartItemId, int quantity);
 
-    Task Delete(int cartItemId);
+    Task Delete(Guid cartItemId);
 }

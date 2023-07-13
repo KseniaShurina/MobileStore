@@ -2,6 +2,8 @@
 using MobileStore.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using MobileStore.Common.Identity;
+using MobileStore.Core.Tests.Helpers.EntityBuilders;
+using NUnit.Framework;
 
 namespace MobileStore.Core.Tests.Helpers;
 
@@ -9,11 +11,17 @@ public class TestFixture : IDisposable
 {
     private bool _disposed;
 
-    private readonly int _userId = 1;
-
-    internal int UserId => IdentityState.Current!.UserId;
+    internal Guid UserId => IdentityState.Current!.UserId;
 
     internal DefaultContext DefaultContext { get; }
+
+    [SetUp]
+    public virtual void SetUp()
+    {
+        var id = Guid.NewGuid();
+        IdentityState.SetCurrent(id);
+        this.CreateUser($"test_{id}", "test", UserId);
+    }
 
     public TestFixture()
     {
@@ -23,8 +31,7 @@ public class TestFixture : IDisposable
             .Options;
 
 
-        IdentityState.SetCurrent(_userId);
-
+        
         DefaultContext = new DefaultContext(options);
         DefaultContext.Database.EnsureCreated();
     }

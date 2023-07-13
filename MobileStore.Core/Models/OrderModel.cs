@@ -1,17 +1,14 @@
-﻿using MobileStore.Infrastructure.Entities;
-
-namespace MobileStore.Core.Models
+﻿namespace MobileStore.Core.Models
 {
     public class OrderModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public DateTime Datetime { get; set; }
         public string Address { get; set; } = null!;
         public string ContactPhone { get; set; } = null!;
 
-        public int UserId { get; set; }
-        public User User { get; set; } = null!;
+        public Guid UserId { get; set; }
 
-        public List<OrderItem> Items { get; set; } = null!;
+        public List<OrderItemModel> Items { get; set; } = null!;
     }
 }

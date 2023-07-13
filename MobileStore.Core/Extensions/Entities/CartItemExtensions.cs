@@ -12,7 +12,7 @@ namespace MobileStore.Core.Extensions.Entities
                 Id = entity.Id,
                 UserId = entity.UserId,
                 ProductId = entity.ProductId,
-                Product = entity.Product,
+                Product = entity.Product.MapToModel(),
                 Quantity = entity.Quantity,
             };
         }

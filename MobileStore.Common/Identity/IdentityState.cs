@@ -10,14 +10,14 @@ public class IdentityState
     /// </summary>
     public static IdentityState? Current => CurrentLocal.Value;
 
-    public static void SetCurrent(int userId)
+    public static void SetCurrent(Guid userId)
     {
         CurrentLocal.Value = new IdentityState(userId);
     }
 
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
 
-    private IdentityState(int userId)
+    private IdentityState(Guid userId)
     {
         UserId = userId;
     }

@@ -16,7 +16,7 @@ namespace MobileStore.Core.Services
             _context = context;
         }
 
-        private int GetUserId()
+        private Guid GetUserId()
         {
             return IdentityState.Current!.UserId;
         }

@@ -4,9 +4,8 @@ namespace MobileStore.Core.Abstractions.Services
 {
     public interface IOrderService
     {
-        //Task<List<CartItemModel>> GetCartItems();
         Task<List<OrderItemModel>> GetOrderItems();
-        Task RemoveOrder(int orderId);
+        Task DeleteOrder(Guid orderId);
         Task CreateOrder(OrderCreateModel userModel);
     }
 }

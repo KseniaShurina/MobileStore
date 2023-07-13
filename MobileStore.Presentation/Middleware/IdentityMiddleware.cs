@@ -30,7 +30,7 @@ public class IdentityMiddleware
         {
             var userIdString = context.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
-            IdentityState.SetCurrent(int.Parse(userIdString));
+            IdentityState.SetCurrent(Guid.Parse(userIdString));
         }
 
         await _next(context);

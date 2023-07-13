@@ -21,7 +21,7 @@ namespace MobileStore.Infrastructure.Contexts
 
         public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
         {
-            //Database.EnsureCreated();
+
         }
 
         public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
@@ -33,10 +33,5 @@ namespace MobileStore.Infrastructure.Contexts
         {
             return Database.BeginTransactionAsync(isolationLevel, cancellationToken);
         }
-
-        //public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
-        //{
-        //    return Database.Ro(cancellationToken);
-        //}
     }
 }

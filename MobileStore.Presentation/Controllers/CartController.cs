@@ -24,20 +24,20 @@ namespace MobileStore.Presentation.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(int productId, [Range(1, int.MaxValue)] int quantity)
+        public async Task<IActionResult> Create(Guid productId, [Range(1, int.MaxValue)] int quantity)
         {
             await _cartService.Create(productId, quantity);
             return RedirectToAction("Index", "Cart");
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateQuantity(int cartItemId, [Range(1, int.MaxValue)] int quantity)
+        public async Task<IActionResult> UpdateQuantity(Guid cartItemId, [Range(1, int.MaxValue)] int quantity)
         {
             await _cartService.UpdateQuantity(cartItemId, quantity);
             return RedirectToAction("Index", "Cart");
         }
 
-        public async Task<IActionResult> Delete(int cartItemId)
+        public async Task<IActionResult> Delete(Guid cartItemId)
         {
             try
             {

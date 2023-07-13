@@ -24,14 +24,7 @@ namespace MobileStore.Core.Services
                 .Include(p => p.Product);
         }
 
-        //private Task<OrderItem?> Get(int id)
-        //{
-        //    return GetBaseQuery()
-        //        .Where(i => i.Id == id)
-        //        .FirstOrDefaultAsync();
-        //}
-
-        private int GetUserId()
+        private Guid GetUserId()
         {
             return IdentityState.Current!.UserId;
         }
@@ -45,7 +38,7 @@ namespace MobileStore.Core.Services
             return entityOrderItems.Select(i => i.MapToModel()).ToList();
         }
 
-        public async Task RemoveOrder(int orderId)
+        public async Task DeleteOrder(Guid orderId)
         {
             try
             {

@@ -7,6 +7,6 @@ namespace MobileStore.Presentation.Controllers.Base
     public  abstract class MvcControllerBaseSecure : MvcControllerBase
     {
         //из текущего авторизованного юзера достаёт ид
-        public int UserId => IdentityState.Current!.UserId;
+        public Guid UserId => IdentityState.Current!.UserId;
     }
 }

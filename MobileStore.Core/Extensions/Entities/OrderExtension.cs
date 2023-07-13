@@ -13,8 +13,7 @@ namespace MobileStore.Core.Extensions.Entities
                 Address = entity.Address,
                 ContactPhone = entity.ContactPhone,
                 UserId = entity.UserId,
-                User = entity.User,
-                Items = entity.Items,
+                Items = entity.Items.Select(i => i.MapToModel()).ToList(),
                 Datetime = entity.Datetime,
             };
         }

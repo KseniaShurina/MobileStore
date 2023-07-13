@@ -5,8 +5,8 @@ namespace MobileStore.Infrastructure.Entities
     public class Product
     {
         [Key]
-        public int Id { get; set; }
-        public int ProductTypeId { get; set; }
+        public Guid Id { get; set; }
+        public Guid ProductTypeId { get; set; }
         public ProductType ProductType { get; set; } = null!;
         public string Name { get; set; } = null!;
         public string Company { get; set; } = null!;
