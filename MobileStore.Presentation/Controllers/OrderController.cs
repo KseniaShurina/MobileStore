@@ -22,27 +22,36 @@ namespace MobileStore.Presentation.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateOrder()
         {
-            var orderViewModel = new OrderViewModel();
-            orderViewModel.CartItems = await _cartService.GetCartItems();
-            orderViewModel.User = await _userService.GetCurrentUser();
+            var user = await _userService.GetCurrentUser();
+
+            var orderViewModel = new CreateOrderViewModel
+            {
+                CartItems = await _cartService.GetCartItems(),
+                //TODO
+                CreateModel = new OrderCreateModel
+                {
+                    Email = user.Email,
+                    Address = user.Address,
+                }
+            };
 
             return View(orderViewModel);
         }
 
-        
+
         [HttpPost]
-        public async Task<IActionResult> CreateOrder(OrderCreateModel model)
+        public async Task<IActionResult> CreateOrder(CreateOrderViewModel model)
         {
             try
             {
-                await _orderService.CreateOrder(model);
+                // creating Order entity
+                await _orderService.CreateOrder(model.CreateModel);
                 return RedirectToAction("OrderCreated", "Order");
             }
             catch (Exception)
             {
                 return NotFound();
             }
-
         }
 
         [HttpGet]

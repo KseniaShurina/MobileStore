@@ -4,6 +4,13 @@
     {
         public Guid Id { get; set; }
         public DateTime Datetime { get; set; }
+
+        //TODO Add Email
+
+        //TODO Add First name
+
+        //TODO Add Last name
+
         public string Address { get; set; } = null!;
         public string ContactPhone { get; set; } = null!;
 

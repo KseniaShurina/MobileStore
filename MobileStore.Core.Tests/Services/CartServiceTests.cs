@@ -114,14 +114,6 @@ public class CartServiceTests : TestFixture
 
         Assert.ThrowsAsync<ArgumentException>(async () =>
             await _cartService.UpdateQuantity(cartItemId, quantity));
-
-        //if (cartItemId != null)
-        //{
-        //    //проверка что продукт не существует
-        //    Assert.ThrowsAsync<ArgumentNullException>(async () => await _cartService.UpdateQuantity((int)cartItemId, quantity));
-        //}
-        //проверка quantity
-        //Assert.ThrowsAsync<ArgumentException>(async () => await _cartService.UpdateQuantity(cartItemId ?? 1, quantity));
     }
 
     [Test]
