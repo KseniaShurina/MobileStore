@@ -1,13 +1,14 @@
-﻿using MobileStore.Core.Models;
+﻿using MobileStore.Presentation.Models;
 
 namespace MobileStore.Presentation.ViewModels
 {
     /// <summary>
     /// Передает из метода Index продукты и типы по View
+    /// Send from method Index products and types by View
     /// </summary>
     public class ProductsViewModel
     {
-        public List<ProductModel> Products { get; set; } = new();
-        public List<ProductTypeModel> ProductTypes { get; set; } = new();
+        public List<ProductDto> Products { get; set; } = new(); 
+        public List<ProductTypeDto> ProductTypes { get; set; } = new();
     }
 }

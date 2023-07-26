@@ -1,19 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using MobileStore.Presentation.Controllers.Base;
 using MobileStore.Presentation.ViewModels;
 using MobileStore.Core.Abstractions.Services;
 using MobileStore.Core.Models;
+using MobileStore.Presentation.Models;
 
 namespace MobileStore.Presentation.Controllers
 {
     public class OrderController : MvcControllerBaseSecure
     {
+        private readonly IMapper _mapper;
         private readonly IOrderService _orderService;
         private readonly IUserService _userService;
         private readonly ICartService _cartService;
 
-        public OrderController(IOrderService orderService, IUserService userService, ICartService cartService)
+        public OrderController(IMapper mapper, IOrderService orderService, IUserService userService, ICartService cartService)
         {
+            _mapper = mapper;
             _orderService = orderService;
             _userService = userService;
             _cartService = cartService;
@@ -26,9 +30,9 @@ namespace MobileStore.Presentation.Controllers
 
             var orderViewModel = new CreateOrderViewModel
             {
-                CartItems = await _cartService.GetCartItems(),
-                //TODO
-                CreateModel = new OrderCreateModel
+
+                CartItems = _mapper.Map<List<CartItemDto>>(await _cartService.GetCartItems()),
+                ContactInfo =
                 {
                     Email = user.Email,
                     Address = user.Address,
@@ -45,7 +49,16 @@ namespace MobileStore.Presentation.Controllers
             try
             {
                 // creating Order entity
-                await _orderService.CreateOrder(model.CreateModel);
+                var orderCreate = model.ContactInfo;
+
+                await _orderService.CreateOrder(new OrderCreateModel(
+                    orderCreate.Email!,
+                    orderCreate.FirstName!,
+                    orderCreate.LastName!,
+                    orderCreate.ContactPhone!,
+                    orderCreate.Address!
+                    ));
+
                 return RedirectToAction("OrderCreated", "Order");
             }
             catch (Exception)

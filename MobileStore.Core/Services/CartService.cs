@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using MobileStore.Common.Identity;
 using MobileStore.Core.Abstractions.Services;
@@ -56,6 +57,10 @@ namespace MobileStore.Core.Services
             var entity = await GetBaseQuery()
                 .Where(i => i.UserId == userId)
                 .ToListAsync();
+            
+            //var mapper = new MapperConfiguration(x => x.CreateMap(CartItem, CartItemDto)).CreateMapper();
+            //TODO 
+            //if(entity == null) ?? throw new ArgumentNullException(nameof(entity));
 
             return entity.Select(i => i.MapToModel()).ToList();
         }
@@ -73,7 +78,7 @@ namespace MobileStore.Core.Services
 
             var userId = IdentityState.Current!.UserId;
 
-            if  (!await _context.Products.AnyAsync(p => p.Id == productId))
+            if (!await _context.Products.AnyAsync(p => p.Id == productId))
             {
                 throw new ArgumentException($"Product id = {productId} not found", nameof(productId));
             }
@@ -104,13 +109,8 @@ namespace MobileStore.Core.Services
             cartItemId = Guard.Against.Default(cartItemId);
             quantity = Guard.Against.NegativeOrZero(quantity);
 
-            var item = await _context.CartItems.FirstOrDefaultAsync(c => c.Id == cartItemId);
-
-            if (item == null)
-            {
-                throw new ArgumentException($"CartItem id = {cartItemId} not found", nameof(cartItemId));
-            }
-
+            var item = await _context.CartItems.FirstOrDefaultAsync(c => c.Id == cartItemId)
+                       ?? throw new ArgumentException($"CartItem id = {cartItemId} not found", nameof(cartItemId));
             item.Quantity = quantity;
             await _context.SaveChangesAsync();
 

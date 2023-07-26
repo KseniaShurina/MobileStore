@@ -8,7 +8,7 @@ namespace MobileStore.Core.Configurations;
 
 public static class CoreDependenciesConfiguration
 {
-    public static IServiceCollection RegisterCoreDependencies(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddCoreDependencies(this IServiceCollection services, IConfiguration configuration)
     {
         services.RegisterInfrastructureDependencies(configuration);
 

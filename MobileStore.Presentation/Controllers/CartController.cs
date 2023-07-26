@@ -1,24 +1,31 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MobileStore.Core.Abstractions.Services;
 using MobileStore.Presentation.Controllers.Base;
+using MobileStore.Presentation.Models;
 using MobileStore.Presentation.ViewModels;
 
 namespace MobileStore.Presentation.Controllers
 {
     public class CartController : MvcControllerBaseSecure
     {
+        private readonly IMapper _mapper;
         private readonly ICartService _cartService;
-        public CartController(ICartService cartService)
+        public CartController(ICartService cartService, IMapper mapper)
         {
             _cartService = cartService;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
         {
-            var cartViewModel = new CartViewModel();
-            cartViewModel.CartItems = await _cartService.GetCartItems();
-            cartViewModel.ProductTypes = await _cartService.GetProductTypes();
+            var cartViewModel = new CartViewModel
+            {
+                CartItems = _mapper.Map<List<CartItemDto>>(await _cartService.GetCartItems()),
+                ProductTypes = _mapper.Map<List<ProductTypeDto>>(await _cartService.GetProductTypes())
+            };
             if (cartViewModel.CartItems == null) throw new ArgumentNullException(nameof(cartViewModel.CartItems));
             return View(cartViewModel);
         }

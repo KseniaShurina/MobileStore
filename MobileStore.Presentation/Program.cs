@@ -1,12 +1,17 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using MobileStore.Core.Configurations;
+using MobileStore.Presentation.Configurations;
+using MobileStore.Presentation.Helpers.Mapper;
 using MobileStore.Presentation.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.RegisterCoreDependencies(builder.Configuration);
+builder.Services.AddCoreDependencies(builder.Configuration);
+builder.Services.AddAutoMapperProfiles(o =>
+{
+    o.AddProfile<PresentationMapperProfile>();
+});
 
-//services.AddRazorPages(); - AddMvc() inclued Razor yet
 builder.Services.AddMvc();
 builder.Services.AddControllersWithViews();
 
@@ -14,7 +19,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+        options.LoginPath = new PathString("/Account/Login");
     });
 
 // Build

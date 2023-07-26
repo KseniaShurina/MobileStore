@@ -18,14 +18,7 @@ namespace MobileStore.Core.Services
             _context = context;
         }
 
-        private IQueryable<OrderItem> GetBaseQuery()
-        {
-            return _context.OrderItem
-                .AsNoTracking()
-                .Include(p => p.Product);
-        }
-
-        private Guid GetUserId()
+        private static Guid GetUserId()
         {
             return IdentityState.Current!.UserId;
         }
@@ -35,9 +28,6 @@ namespace MobileStore.Core.Services
             var userId = GetUserId();
 
             await using var transaction = await _context.BeginTransactionAsync();
-
-            Guard.Against.NullOrEmpty(orderCreateModel.Address);
-            Guard.Against.NullOrEmpty(orderCreateModel.ContactPhone);
 
             try
             {

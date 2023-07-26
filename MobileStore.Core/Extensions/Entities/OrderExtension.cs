@@ -10,6 +10,9 @@ namespace MobileStore.Core.Extensions.Entities
             return new OrderModel
             {
                 Id = entity.Id,
+                FirstName = entity.FirstName,
+                LastName = entity.LastName,
+                Email = entity.Email,
                 Address = entity.Address,
                 ContactPhone = entity.ContactPhone,
                 UserId = entity.UserId,

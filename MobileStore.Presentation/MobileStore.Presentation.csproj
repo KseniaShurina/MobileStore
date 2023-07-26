@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -17,11 +18,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MobileStore.Common\MobileStore.Common.csproj" />
     <ProjectReference Include="..\MobileStore.Core\MobileStore.Core.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="Configurations\" />
   </ItemGroup>
 
 </Project>

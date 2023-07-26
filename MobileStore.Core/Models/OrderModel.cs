@@ -5,13 +5,14 @@
         public Guid Id { get; set; }
         public DateTime Datetime { get; set; }
 
-        //TODO Add Email
+        public string Email { get; set; } = null!;
 
-        //TODO Add First name
+        public string FirstName { get; set; } = null!;
 
-        //TODO Add Last name
+        public string LastName { get; set; } = null!;
 
         public string Address { get; set; } = null!;
+
         public string ContactPhone { get; set; } = null!;
 
         public Guid UserId { get; set; }

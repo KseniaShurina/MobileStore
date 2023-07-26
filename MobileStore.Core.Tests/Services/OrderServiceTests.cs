@@ -23,47 +23,48 @@ namespace MobileStore.Core.Tests.Services
             var productType = await this.CreateProductType("Watches");
             var product1 = await this.CreateProduct("Apple Watch Series 8", productType.Id);
             var product2 = await this.CreateProduct("Apple Watch Series 9", productType.Id);
-            var cartItem1 = await this.CreateCartItem(product1.Id, 1);
-            var cartItem2 = await this.CreateCartItem(product2.Id, 1);
+            await this.CreateCartItem(product1.Id, 1);
+            await this.CreateCartItem(product2.Id, 1);
 
             var orderCreateModel = new OrderCreateModel
-            {
-                Email = "Email",
-                FirstName = "FirstNameTest",
-                LastName = "LastNameTest",
-                ContactPhone = "+375-29-123-45-67",
-                Address = "Address",
-            };
+                (
+                    "Natasha",
+                    "Large",
+                    "natusic1992@gmail.com",
+                    "+35-247-544-307",
+                    "ul. Dmowskiego 50b"
+                );
 
             var result = await _orderService.CreateOrder(orderCreateModel);
 
             Assert.That(result, Is.Not.Null);
-            //TODO Add email to entity and model
+            Assert.That(result.FirstName, Is.EqualTo(orderCreateModel.FirstName));
+            //Assert.That(result.LastName, Is.EqualTo(orderCreateModel.LastName));
             //Assert.That(result.Email, Is.EqualTo(orderCreateModel.Email));
-            //Assert.That(result.FirstName, Is.EqualTo(orderCreateModel.FirstName));
-            Assert.That(result.Address, Is.EqualTo(orderCreateModel.Address));
+            //Assert.That(result.ContactPhone, Is.EqualTo(orderCreateModel.ContactPhone));
+            //Assert.That(result.Address, Is.EqualTo(orderCreateModel.Address));
 
         }
 
         private static readonly IEnumerable<OrderCreateModel> CreateOrderExpectExceptionData = new[]
         {
             new OrderCreateModel
-            {
-                Email = "ooo2000@gmail.com",
-                FirstName = "Oleg",
-                LastName = "",
-                ContactPhone = "+375-29-123-45-67",
-                Address = "Address",
-            },
+            (
+                "Oleg",
+                "",
+                "ooo2000@gmail.com",
+                "+375-29-123-45-67",
+                "ul. Dmowskiego 50b"
+            ),
 
             new OrderCreateModel
-            {
-                Email = "",
-                FirstName = "Kate",
-                LastName = "Smite",
-                ContactPhone = "+375-29-395-43-19",
-                Address = "ul. Pupcina 7d",
-            },
+            (
+            "Kate",
+            "Smite",
+            " ",
+            " ",
+            "ul. Pupcina 7d"
+            )
         };
 
         [TestCaseSource(nameof(CreateOrderExpectExceptionData))]

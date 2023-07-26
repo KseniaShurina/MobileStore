@@ -1,6 +1,6 @@
-﻿namespace MobileStore.Presentation.ViewModels
+﻿namespace MobileStore.Presentation.Models
 {
-    public class ProductViewModel
+    public class ProductDto
     {
         public Guid Id { get; init; }
         public Guid ProductTypeId { get; init; }
