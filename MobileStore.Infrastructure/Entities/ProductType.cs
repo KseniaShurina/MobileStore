@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MobileStore.Infrastructure.Entities
+﻿namespace MobileStore.Infrastructure.Entities
 {
     public class ProductType
     {
-        [Key]
         public Guid Id { get; set; }
         public string Name { get; set; } = null!;
 

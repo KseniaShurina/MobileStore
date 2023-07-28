@@ -9,6 +9,10 @@ namespace MobileStore.Infrastructure.EntityConfigurations
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.HasKey(x => x.Id);
+
+            builder.HasMany(o => o.Orders)
+                .WithOne(u => u.User)
+                .HasForeignKey(o => o.UserId);
         }
     }
 }

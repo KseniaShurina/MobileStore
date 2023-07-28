@@ -1,13 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MobileStore.Infrastructure.Entities
+﻿namespace MobileStore.Infrastructure.Entities
 {
     public class Order
     {
-        [Key]
         public Guid Id { get; set; }
         public DateTime Datetime { get; set; }
-        //public string? FirstName { get; set; } = null!;
         public string FirstName { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public string Email { get; set; } = null!;

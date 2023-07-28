@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MobileStore.Infrastructure.Entities
+﻿namespace MobileStore.Infrastructure.Entities
 {
     public class CartItem
     {
-        [Key]
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; } = null!;

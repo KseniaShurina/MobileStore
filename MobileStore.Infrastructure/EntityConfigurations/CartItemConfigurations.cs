@@ -9,6 +9,11 @@ namespace MobileStore.Infrastructure.EntityConfigurations
         public void Configure(EntityTypeBuilder<CartItem> builder)
         {
             builder.HasKey(x => x.Id);
+
+            builder
+                .HasOne(i => i.Product)
+                .WithMany(p => p.CartItems)
+                .HasForeignKey(i => i.ProductId);
         }
     }
 }

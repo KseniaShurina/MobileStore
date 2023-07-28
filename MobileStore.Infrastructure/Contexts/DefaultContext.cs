@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Storage;
 using MobileStore.Infrastructure.Abstractions.Contexts;
 using MobileStore.Infrastructure.Entities;
+using MobileStore.Infrastructure.EntityConfigurations;
 using System.Data;
 
 namespace MobileStore.Infrastructure.Contexts
@@ -21,8 +22,22 @@ namespace MobileStore.Infrastructure.Contexts
 
         public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
         {
-
+           
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Configurations
+            modelBuilder.ApplyConfiguration(new CartItemConfigurations());
+            modelBuilder.ApplyConfiguration(new OrderConfigurations());
+            modelBuilder.ApplyConfiguration(new OrderItemConfigurations());
+            modelBuilder.ApplyConfiguration(new ProductConfigurations());
+            modelBuilder.ApplyConfiguration(new ProductTypeConfigurations());
+            modelBuilder.ApplyConfiguration(new UserConfigurations());
+        }
+
 
         public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
         {

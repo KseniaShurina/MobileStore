@@ -9,5 +9,7 @@
         public string? Address { get; set; } = null!;
         public string PasswordHash { get; set; } = null!;
         public string PasswordSalt { get; set; } = null!;
+
+        public List<Order> Orders { get; set; } = null!;
     }
 }

@@ -1,10 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MobileStore.Infrastructure.Entities
+﻿namespace MobileStore.Infrastructure.Entities
 {
     public class OrderItem
     {
-        [Key]
         public Guid Id { get; set; }
 
         public Guid OrderId { get; set; }
@@ -14,5 +11,7 @@ namespace MobileStore.Infrastructure.Entities
         public Product Product { get; set; } = null!;
         public int Quantity { get; set; }
         public double ProductPrice { get; set; }
+
+        public List<Order> Orders { get; set; } = null!;
     }
 }
