@@ -3,7 +3,7 @@ using MobileStore.Infrastructure.Entities;
 
 namespace MobileStore.Core.Extensions.Entities
 {
-    internal static class UserExtension
+    internal static class UserExtensions
     {
         public static UserModel MapToModel(this User entity)
         {

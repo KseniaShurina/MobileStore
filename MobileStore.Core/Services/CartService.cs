@@ -1,5 +1,4 @@
 ﻿using Ardalis.GuardClauses;
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using MobileStore.Common.Identity;
 using MobileStore.Core.Abstractions.Services;

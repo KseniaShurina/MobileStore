@@ -3,7 +3,7 @@ using MobileStore.Infrastructure.Entities;
 
 namespace MobileStore.Core.Extensions.Entities
 {
-    internal static class OrderExtension
+    internal static class OrderExtensions
     {
         public static OrderModel MapToModel(this Order entity)
         {
