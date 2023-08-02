@@ -1,0 +1,37 @@
+﻿@using MobileStore.Presentation.ViewModels
+@model MobileStore.Presentation.ViewModels.EditProductViewModel
+
+@{
+    ViewData["Title"] = "Admin panel";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Admin panel</title>
+    <link rel="stylesheet" href="~/css/product.css" />
+</head>
+
+<body>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Name</td>
+                <td>Image</td>
+                <td>Product type id</td>
+                <td>Price</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Name</td>
+                <td><img src="@Model.Img" /></td>
+                <td>@Model.ProductTypeId</td>
+                <td>@Model.Price</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+
+</html>
