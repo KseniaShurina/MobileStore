@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Presentation", "MobileStore.Presentation\MobileStore.Presentation.csproj", "{ABE7EEBC-0699-4FA0-8975-3B62DBF8C53B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Presentation.Mvc", "MobileStore.Presentation.Mvc\MobileStore.Presentation.Mvc.csproj", "{ABE7EEBC-0699-4FA0-8975-3B62DBF8C53B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Core", "MobileStore.Core\MobileStore.Core.csproj", "{F8D83DB5-B7A2-4EA8-8FA2-9F43847FFF8C}"
 EndProject

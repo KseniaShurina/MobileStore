@@ -1,0 +1,60 @@
+﻿@model MobileStore.Presentation.Mvc.ViewModels.EditProductViewModel
+
+@{
+    ViewData["Title"] = "Admin panel";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Admin panel</title>
+    <link rel="stylesheet" href="~/css/product.css" />
+</head>
+
+<body>
+    <table class="table">
+        <thead>
+            <tr>
+                <td>Id</td>
+                <td>Product type id</td>
+                <td>Name</td>
+                <td>Company</td>
+                <td>Price</td>
+                <td>Image</td>
+            </tr>
+        </thead>
+        <tbody>
+            <form asp-controller="Products" asp-action="UpdateCurrentProduct">
+            <tr>
+                <td>@Model.Id</td>
+                <td>@Model.ProductTypeId</td>
+                <td>
+                    <label asp-for="Name"></label><br />
+                    <input asp-for="Name" type="text" />
+                </td>
+                <td>
+                    <label asp-for="Company"></label><br />
+                    <input asp-for="Company" type="text" />
+                </td>
+                <td>
+                    <label asp-for="Price"></label><br />
+                    <input asp-for="Price" type="number" />
+                </td>
+                <td><img src="@Model.Img" /></td>
+                <div>
+                    <input type="submit" value="save" />
+                </div>
+            </tr>
+            </form>
+        </tbody>
+    </table>
+</body>
+
+@*<form asp-controller="Products" asp-action="SubmitCreateOrUpdateProduct" method="post" enctype="multipart/form-data">
+    <input type="text" asp-for="Id" hidden />
+
+    <input type="file" asp-for="Files" multiple/>
+    <button type="submit">Upload Files</button>
+</form>*@
+
+</html>

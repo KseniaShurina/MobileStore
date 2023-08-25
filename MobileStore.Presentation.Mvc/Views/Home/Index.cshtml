@@ -1,0 +1,66 @@
+﻿@model MobileStore.Presentation.Mvc.ViewModels.ProductsViewModel
+@{
+    ViewData["Title"] = "Store";
+}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Store</title>
+    <link rel="stylesheet" href="~/css/navigationBarStyles.css" />
+    <link rel="stylesheet" href="~/css/homeStyles.css" />
+
+    <div class="navigation">
+        <nav>
+            @* Тег <nav> определяет набор навигационных ссылок *@
+            <div>
+                <ul>
+                    @foreach (var productType in Model.ProductTypes)
+                    {
+                        <li>
+                            <a href="@Url.Action("Index", "Home")?productTypeId=@productType.Id">@productType.Name</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </nav>
+    </div>
+</head>
+
+
+
+<body>
+    <div class="container">
+        <div class="row">
+            @foreach (var product in Model.Products)
+            {
+                <div class="col-3">
+                    <div class="product-container">
+                        <div class="container-content">
+                            <div class="image-contaier" style="background-image: url('@product.Img')"></div>
+                            <div>
+                                <h4>@product.Name</h4>
+                            </div>
+                            <div>
+                                <h5>@product.Price</h5>
+                            </div>
+                        </div>
+                        <div class="container-footer">
+                            @if (User.Identity?.IsAuthenticated ?? false)
+                            {
+                                <form asp-controller="Cart"
+                                      asp-action="Create"
+                                      asp-route-productId="@product.Id"
+                                      asp-route-quantity="1">
+                                    <button class="btn btn-primary">В корзину</button>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</body>
+</html>
