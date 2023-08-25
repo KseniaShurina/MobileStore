@@ -110,9 +110,11 @@ namespace MobileStore.Presentation.Controllers
                 new Claim(ClaimTypes.Name, user.Email!),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             };
-            // создаем объект ClaimsIdentity
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            // установка аутентификационных куки
+
+            // creating ClaimsIdentity object
+            var id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            
+            // setting authentication cookies
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 

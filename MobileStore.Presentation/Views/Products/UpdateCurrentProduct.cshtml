@@ -1,0 +1,38 @@
+﻿@model MobileStore.Presentation.ViewModels.UpdateCurrentProductViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+    <div class="container">
+        <div class="form">
+            <form asp-controller="Products" asp-action="UpdateCurrentProduct">
+                <div>
+                    <label asp-for="Id"></label><br />
+                    <input asp-for="Id" type="text" />
+                </div>
+                <div>
+                    <label asp-for="ProductTypeId"></label><br />
+                    <input asp-for="ProductTypeId" type="text" />
+                </div>
+                <div>
+                    <label asp-for="Name"></label><br />
+                    <input asp-for="Name" type="text" />
+                </div>
+                <div>
+                    <label asp-for="Company"></label><br />
+                    <input asp-for="Company" type="text" />
+                </div>
+                <div>
+                    <label asp-for="Price"></label><br />
+                    <input asp-for="Price" type="number" />
+                </div>
+                <div>
+                    <input type="submit" value="save"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

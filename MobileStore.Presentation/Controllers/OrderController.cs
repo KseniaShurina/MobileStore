@@ -46,6 +46,7 @@ namespace MobileStore.Presentation.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder(CreateOrderViewModel model)
         {
+            //TODO ???
             try
             {
                 // creating Order entity
@@ -73,7 +74,7 @@ namespace MobileStore.Presentation.Controllers
             return View();
         }
 
-        public async Task<IActionResult> RemoveOrder(Guid orderId)
+        public async Task<IActionResult> DeleteOrder(Guid orderId)
         {
             await _orderService.DeleteOrder(orderId);
             return RedirectToAction("Index", "Cart");

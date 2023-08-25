@@ -37,7 +37,7 @@ namespace MobileStore.Core.Services
 
                 if (!cartItems.Any())
                 {
-                    throw new ArgumentException("Cart items not exists");
+                    throw new ArgumentException("Cart items does not exists");
                 }
 
                 var orderItems = cartItems

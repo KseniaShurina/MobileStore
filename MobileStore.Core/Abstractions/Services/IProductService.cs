@@ -9,4 +9,9 @@ public interface IProductService
     Task<List<ProductModel>> GetProducts(Guid? productTypeId);
 
     Task<List<ProductTypeModel>> GetProductTypes();
+
+    Task<ProductModel> Create(Guid productTypeId, string name, string company, double price, 
+        List<ContentCreateModel> contents);
+
+    Task UpdateCurrentProduct(ProductModel productModel);
 }

@@ -17,6 +17,7 @@ public static class CoreDependenciesConfiguration
         services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<IOrderService, OrderService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IContentService, ContentService>();
 
         return services;
     }

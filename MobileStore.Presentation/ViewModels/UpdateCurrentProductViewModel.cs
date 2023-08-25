@@ -1,9 +1,6 @@
 ﻿namespace MobileStore.Presentation.ViewModels
 {
-    /// <summary>
-    /// To interact with Products/Edit
-    /// </summary>
-    public class EditProductViewModel
+    public class UpdateCurrentProductViewModel
     {
         public Guid Id { get; init; }
         public Guid ProductTypeId { get; init; }
@@ -11,7 +8,5 @@
         public string Company { get; init; } = null!;
         public double Price { get; init; }
         public string Img { get; init; } = null!;
-
-        public List<IFormFile> Files { get; set; } = new();
     }
 }
