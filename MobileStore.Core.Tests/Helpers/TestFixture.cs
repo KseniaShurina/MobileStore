@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MobileStore.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using MobileStore.Common.Identity;
+using MobileStore.Common.Models;
 using MobileStore.Core.Tests.Helpers.EntityBuilders;
 using NUnit.Framework;
 

@@ -1,9 +1,85 @@
-﻿@page "/"
+﻿@using MobileStore.Core.Abstractions.Services
+@using MobileStore.Core.Models
+@using MobileStore.Presentation.Blazor.Components.NoData
+@using MobileStore.Presentation.Blazor.Components.Product
+@using MobileStore.Presentation.Blazor.Extensions
+
+@inject IProductService ProductService
+@inject NavigationManager NavigationManager
+
+@page "/"
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<div>
+    <ProductMenu ValueChanged="OnProductChanged"></ProductMenu>
 
-Welcome to your new app.
+    <MudGrid>
+        @foreach (var productModel in _models)
+        {
+            <MudItem xs="12" sm="6" md="4" lg="3">
+                <ProductCard Model="productModel"></ProductCard>
+            </MudItem>
+        }
+        @if (!_isLoading && !_models.Any())
+        {
+            <NoData></NoData>
+        }
+    </MudGrid>
+</div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+
+@code
+{
+
+    private Guid? _productTypeId;
+    private bool _isLoading = true;
+    private List<ProductModel> _models = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (Guid.TryParse(NavigationManager.QueryString("productTypeId"), out var productTypeId))
+        {
+            _productTypeId = productTypeId;
+        }
+
+        await Reload();
+    }
+
+    private async Task OnProductChanged(Guid? value)
+    {
+        _productTypeId = value;
+
+        await Reload();
+    }
+
+    private async Task Reload()
+    {
+        try
+        {
+            _isLoading = true;
+            _models.Clear();
+            _models = await ProductService.GetProducts(_productTypeId);
+
+            var queryParams = new Dictionary<string, object?>
+            {
+                { "productTypeId", _productTypeId?.ToString() },
+            };
+
+            // Get current
+            var newUri = NavigationManager.GetUriWithQueryParameters(queryParams);
+
+            if (NavigationManager.Uri != newUri)
+            {
+                NavigationManager.NavigateTo(newUri, forceLoad: false);
+            }
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+}

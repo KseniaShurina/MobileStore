@@ -1,0 +1,26 @@
+﻿.product-card {
+    height: 100%;
+    box-shadow: var(--mud-elevation-1);
+    border-radius: var(--mud-default-borderradius);
+    color: var(--mud-palette-text-primary);
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.card-img {
+    height: 190px;
+    min-height: 190px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.card-content {
+    height: 100%;
+    text-align: center;
+}
+
+.card-actions {
+    text-align: center;
+}

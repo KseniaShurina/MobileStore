@@ -1,0 +1,51 @@
+﻿.card-img {
+    height: 80px;
+    min-height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-align: end;
+    justify-content: end;
+    height: 100%;
+}
+
+    .actions ::deep .mud-input-input-control {
+        margin: 0 !important;
+    }
+
+    .actions ::deep .mud-input {
+        margin: 0 !important;
+    }
+
+    .actions ::deep button {
+        margin-left: 5px;
+    }
+
+.price {
+    min-width: 100px;
+    margin-right: 15px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+::deep .update-quantity-btn {
+    width: 100px;
+}
+
+@media only screen and (max-width: 600px) {
+    ::deep .update-quantity-btn {
+        width: 100%;
+    }
+
+    .card-img {
+        display: none;
+    }
+}

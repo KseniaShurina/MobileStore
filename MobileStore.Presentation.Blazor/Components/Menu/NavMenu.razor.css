@@ -1,0 +1,19 @@
+.nav-menu {
+    display: flex;
+    white-space: nowrap;
+    background-color: var(--mud-palette-primary);
+    color: var(--mud-palette-white);
+}
+
+    .nav-menu ::deep svg {
+        color: var(--mud-palette-white) !important;
+    }
+
+::deep .mud-navmenu {
+    display: flex;
+}
+
+::deep .mud-nav-link.active:not(.mud-nav-link-disabled) {
+    font-weight: inherit !important;
+    color: var(--mud-palette-white) !important;
+}

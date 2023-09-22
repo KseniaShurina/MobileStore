@@ -1,0 +1,21 @@
+﻿@using MobileStore.Core.Abstractions.Services
+@inject ICartService CartService
+@inject NavigationManager NavigationManager
+
+<div>
+    <MudIconButton Color="Color.Error"
+               Icon="@Icons.Material.Filled.Delete"
+               OnClick="Delete">
+    </MudIconButton>
+</div>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    public async Task Delete()
+    {
+        await CartService.Delete(Id);
+        NavigationManager.NavigateTo("/Cart", forceLoad: true);
+    }
+}

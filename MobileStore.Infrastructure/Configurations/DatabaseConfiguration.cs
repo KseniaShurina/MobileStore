@@ -19,7 +19,7 @@ namespace MobileStore.Infrastructure.Configurations
                 {
                     options.LogTo(Console.WriteLine);
                 }
-            });
+            }, ServiceLifetime.Transient);
         }
     }
 }

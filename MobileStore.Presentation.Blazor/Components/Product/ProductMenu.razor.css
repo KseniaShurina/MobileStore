@@ -1,0 +1,14 @@
+﻿.product-menu {
+    display: flex;
+    white-space: nowrap;
+    text-align: center;
+    text-decoration-color: inherit;
+}
+
+::deep .mud-navmenu {
+    display: flex;
+}
+
+.mud-nav-link {
+    color: revert;
+}

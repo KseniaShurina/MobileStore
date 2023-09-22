@@ -1,0 +1,33 @@
+﻿
+
+<div class="nav-menu">
+    <MudNavMenu>
+        <MudNavLink Href="/"
+                    DisableRipple="true"
+                    Match="NavLinkMatch.All"
+                    Icon="@Icons.Material.Filled.Home">Mobile store</MudNavLink>
+        <MudNavLink Href="/Cart" Icon="@Icons.Material.Filled.ShoppingCart">Cart</MudNavLink>
+        
+        <AuthorizeView>
+            <Authorized>
+                <MudNavLink Href="/Account/Logout" 
+                            DisableRipple="true"
+                            Match="NavLinkMatch.All"
+                            Icon="@Icons.Material.Filled.Logout">Logout</MudNavLink>
+            </Authorized>
+            <NotAuthorized>
+                <MudNavLink Href="/Account/Login"
+                            DisableRipple="true"
+                            Match="NavLinkMatch.All" 
+                            Icon="@Icons.Material.Filled.Login">Login</MudNavLink>
+            </NotAuthorized>
+        </AuthorizeView>
+    </MudNavMenu>
+</div>
+
+
+
+@code
+{
+    // EventConsole console;
+}

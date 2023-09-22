@@ -1,0 +1,48 @@
+﻿@model MobileStore.Presentation.Blazor.ViewModels.RegisterModel
+
+<!DOCTYPE html>
+
+
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" href="~/css/accountStyles.css" />
+</head>
+
+<body>
+    <div>
+        <form asp-controller="Account" asp-action="Register" asp-anti-forgery="true">
+
+            <!---->
+            <div class="validation" asp-validation-summary="ModelOnly"></div>
+
+            <div class="form">
+                <h2 align="center">Registration</h2>
+                <div class="description">
+                    <p>Do you have an account? <a asp-controller="Account" asp-action="Login">Login</a></p>
+                </div>
+
+                <div>
+                    <label asp-for="Email">Enter your Email</label><br />
+                    <input type="text" asp-for="Email" placeholder="Email" />
+                    <span asp-validation-for="Email"></span>
+                </div>
+
+                <div>
+                    <label asp-for="Password">Enter your password</label><br />
+                    <input asp-for="Password" placeholder="Password" />
+                    <span asp-validation-for="Password"></span>
+                </div>
+
+                <div>
+                    <label asp-for="ConfirmPassword">Repeat your password</label><br />
+                    <input asp-for="ConfirmPassword" placeholder="Password" />
+                    <span asp-validation-for="ConfirmPassword"></span>
+                </div>
+
+                <div>
+                    <input type="submit" value="Registration" class="btn btn-dark" />
+                </div>
+            </div>
+        </form>
+    </div>
+</body>

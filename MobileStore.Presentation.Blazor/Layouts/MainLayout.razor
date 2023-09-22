@@ -1,0 +1,33 @@
+﻿@using MobileStore.Presentation.Blazor.Components.Menu
+
+@inherits LayoutComponentBase
+
+<PageTitle>MobileStore.Presentation.Blazor</PageTitle>
+
+<MudThemeProvider Theme="@_myCustomTheme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <div class="main-menu-container">
+        <NavMenu />
+    </div>
+    <div class="main-content-container">
+        @Body
+    </div>
+</MudLayout>
+
+@code
+{
+    private readonly MudTheme _myCustomTheme = new()
+    {
+        Palette = new PaletteLight
+        {
+            Primary = Colors.Orange.Darken4,
+        },
+        PaletteDark = new PaletteLight
+        {
+            Primary = Colors.Orange.Darken4,
+        },
+    };
+}

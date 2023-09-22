@@ -1,0 +1,13 @@
+.main-menu-container {
+    position: fixed;
+    width: 100vw;
+    top: 0;
+    z-index: 10;
+}
+
+.main-content-container {
+    padding: 15px;
+    padding-top: 55px;
+    overflow-y: auto;
+    height: 100%;
+}

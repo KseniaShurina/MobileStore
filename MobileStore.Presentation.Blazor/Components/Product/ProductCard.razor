@@ -1,0 +1,23 @@
+﻿@using MobileStore.Core.Models
+@using System.Globalization
+@using MobileStore.Presentation.Blazor.Components.Button
+@using MobileStore.Presentation.Blazor.Pages
+
+<div class="product-card">
+    
+    <div class="card-img" style="background-image: url(@Model.Img)"></div>
+    <div class="card-content">
+        <MudText Typo="Typo.h5">@Model.Name</MudText>
+        <MudText Typo="Typo.body2">@Model.Price.ToString(CultureInfo.InvariantCulture)</MudText>
+    </div>
+    <div class="card-actions">
+        <CreateCartItemButton ProductId="Model.Id"></CreateCartItemButton>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public ProductModel Model { get; set; } = null!;
+
+}

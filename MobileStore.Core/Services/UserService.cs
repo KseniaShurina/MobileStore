@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MobileStore.Common.Identity;
+using MobileStore.Common.Abstractions.Services;
 using MobileStore.Core.Abstractions.Services;
 using MobileStore.Core.Extensions.Entities;
 using MobileStore.Core.Models;
@@ -10,15 +10,17 @@ namespace MobileStore.Core.Services
     internal class UserService : IUserService
     {
         private readonly IDefaultContext _context;
+        private readonly IReadIdentityService _identityService;
 
-        public UserService(IDefaultContext context)
+        public UserService(IDefaultContext context, IReadIdentityService identityService)
         {
             _context = context;
+            _identityService = identityService;
         }
 
-        private static Guid GetUserId()
+        private Guid GetUserId()
         {
-            return IdentityState.Current!.UserId;
+            return _identityService.UserId!.Value;
         }
 
         public async Task<UserModel> GetCurrentUser()

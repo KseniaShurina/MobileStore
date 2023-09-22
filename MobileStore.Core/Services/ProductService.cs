@@ -25,6 +25,11 @@ internal class ProductService : IProductService
         };
     }
 
+    /// <summary>
+    /// Gets current product by Id
+    /// </summary>
+    /// <param name="productId">Product Id</param>
+    /// <returns></returns>
     public async Task<ProductModel?> GetProduct(Guid productId)
     {
         var entity = await _context.Products
@@ -35,14 +40,23 @@ internal class ProductService : IProductService
         return entity?.MapToModel();
     }
 
+    /// <summary>
+    /// Gets all products by product type Id
+    /// </summary>
+    /// <param name="productTypeId">product type Id</param>
+    /// <returns></returns>
     public async Task<List<ProductModel>> GetProducts(Guid? productTypeId)
     {
-        //
-        productTypeId ??= await _context.ProductTypes.Select(i => i.Id).FirstOrDefaultAsync();
+        var query = _context.Products
+            .AsNoTracking();
 
-        var entities = await _context.Products
-            .AsNoTracking()
-            .Where(i => i.ProductTypeId == productTypeId)
+        if (productTypeId != null)
+        {
+            query = query
+                    .Where(i => i.ProductTypeId == productTypeId.Value);
+        }
+
+        var entities = await query
             .ToListAsync();
 
         return entities
@@ -50,6 +64,10 @@ internal class ProductService : IProductService
             .ToList();
     }
 
+    /// <summary>
+    /// Gets all product types
+    /// </summary>
+    /// <returns></returns>
     public async Task<List<ProductTypeModel>> GetProductTypes()
     {
         var entities = await _context
@@ -62,6 +80,16 @@ internal class ProductService : IProductService
             .ToList();
     }
 
+    /// <summary>
+    /// Create new product and added to DB
+    /// </summary>
+    /// <param name="productTypeId">product type Id</param>
+    /// <param name="name">product name</param>
+    /// <param name="company">product company</param>
+    /// <param name="price">product price</param>
+    /// <param name="contents">product content</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentNullException"> Throw Exception if product exist</exception>
     public async Task<ProductModel> Create(
         Guid productTypeId,
         string name,
@@ -107,6 +135,12 @@ internal class ProductService : IProductService
         await _context.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="productId"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public async Task Delete(Guid productId)
     {
         var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId) ??

@@ -1,0 +1,30 @@
+﻿@using MobileStore.Core.Abstractions.Services
+@using MobileStore.Core.Models
+@using MobileStore.Presentation.Blazor.Components.Product
+
+@inject ICartService CartService
+
+@page "/cart"
+
+<PageTitle>Cart</PageTitle>
+
+
+<MudGrid Justify="Justify.Center">
+    @foreach (var cartItemModel in _models)
+    {
+        <MudItem xs="12">
+            <CartItem Model="cartItemModel"></CartItem>
+        </MudItem>
+    }
+</MudGrid>
+
+@code {
+
+    private List<CartItemModel> _models = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _models = await CartService.GetCartItems();
+    }
+}

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MobileStore.Common.Configurations;
 using MobileStore.Core.Abstractions.Services;
 using MobileStore.Core.Services;
 using MobileStore.Infrastructure.Configurations;
@@ -10,14 +11,16 @@ public static class CoreDependenciesConfiguration
 {
     public static IServiceCollection AddCoreDependencies(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddIdentityDependencies();
+
         services.RegisterInfrastructureDependencies(configuration);
 
-        services.AddScoped<IProductService, ProductService>();
-        services.AddScoped<ICartService, CartService>();
-        services.AddScoped<IAccountService, AccountService>();
-        services.AddScoped<IOrderService, OrderService>();
-        services.AddScoped<IUserService, UserService>();
-        services.AddScoped<IContentService, ContentService>();
+        services.AddTransient<IProductService, ProductService>();
+        services.AddTransient<ICartService, CartService>();
+        services.AddTransient<IAccountService, AccountService>();
+        services.AddTransient<IOrderService, OrderService>();
+        services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IContentService, ContentService>();
 
         return services;
     }

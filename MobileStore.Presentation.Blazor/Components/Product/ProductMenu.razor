@@ -1,0 +1,32 @@
+﻿@using MobileStore.Core.Models
+@using MobileStore.Core.Abstractions.Services
+
+@inject IProductService ProductService
+
+<div class="product-menu">
+    <MudNavMenu> 
+        <MudNavLink DisableRipple="true" OnClick="() => OnProductSelected(null)">All</MudNavLink>
+        @foreach (var productType in _productTypes)
+        {
+            <MudNavLink DisableRipple="true" OnClick="() => OnProductSelected(productType.Id)">@productType.Name</MudNavLink>
+        }
+    </MudNavMenu>
+</div>
+
+@code {
+
+    [Parameter] public EventCallback<Guid?> ValueChanged { get; set; }
+
+    private List<ProductTypeModel> _productTypes = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _productTypes = await ProductService.GetProductTypes();
+    }
+
+    private async Task OnProductSelected(Guid? value)
+    {
+        await ValueChanged.InvokeAsync(value);
+    }
+}

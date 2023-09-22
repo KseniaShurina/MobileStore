@@ -1,0 +1,40 @@
+﻿@using MobileStore.Core.Models
+@using System.Globalization
+@using MobileStore.Presentation.Blazor.Components.Button
+
+<div class="cart-item-card">
+    
+    <MudGrid>
+        <MudItem xs="12" sm="2" md="1">
+            <div class="card-img" style="background-image: url(@Model.Product.Img)"></div>
+        </MudItem>
+        <MudItem xs="12" sm="10" md="11">
+            <div class="card-content">
+                <MudGrid>
+                    <MudItem xs="12" sm="6" md="6">
+                        <MudText Typo="Typo.h5">@Model.Product.Name</MudText>
+                        <MudText Typo="Typo.body2">@Model.Product.Company</MudText>
+                    </MudItem>
+                    <MudItem xs="12" sm="6" md="6">
+                        <div class="actions">
+                            <div class="price">
+                                <MudText Typo="Typo.h5">@Model.Product.Price.ToString("#0.00", CultureInfo.InvariantCulture)</MudText>
+                            </div>
+                            <UpdateQuantityButton Model="Model"></UpdateQuantityButton>
+
+                            <DeleteButton Id="Model.Id"></DeleteButton>
+@*                             <MudIconButton Color="Color.Error" Variant="Variant.Filled" Icon="@Icons.Material.Filled.Delete"/>
+ *@                        </div>
+
+                    </MudItem>
+                </MudGrid>
+            </div>
+        </MudItem>
+    </MudGrid>
+</div>
+
+@code
+{
+    [Parameter]
+    public CartItemModel Model { get; set; } = null!;
+}

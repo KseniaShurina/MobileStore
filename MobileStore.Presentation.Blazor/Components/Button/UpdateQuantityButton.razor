@@ -1,0 +1,24 @@
+﻿@using MobileStore.Core.Abstractions.Services
+@using MobileStore.Core.Models
+
+@inject ICartService CartService
+
+<div class="update-quantity-btn">
+    <MudNumericField T="int"
+                     Value="Model.Quantity"
+                     ValueChanged="UpdateQuantity"
+                     Min="1"></MudNumericField>
+</div>
+
+@code 
+{
+    [Parameter]
+    public CartItemModel Model { get; set; } = null!;
+
+
+    public async Task UpdateQuantity(int quantity)
+    {
+        Model.Quantity = quantity;
+        await CartService.UpdateQuantity(Model.Id, Model.Quantity);
+    }
+}

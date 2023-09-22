@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using MobileStore.Common.Identity;
+using MobileStore.Common.Abstractions.Services;
 
 namespace MobileStore.Presentation.Mvc.Middleware;
 
@@ -24,13 +24,12 @@ public class IdentityMiddleware
     /// Invoke
     /// </summary>
     /// <param name="context"></param>
-    public async Task Invoke(HttpContext context)
+    /// <param name="writeIdentityService"></param>
+    public async Task Invoke(HttpContext context, IWriteIdentityService writeIdentityService)
     {
         if (context.User.Identity?.IsAuthenticated ?? false)
         {
-            var userIdString = context.User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-
-            IdentityState.SetCurrent(Guid.Parse(userIdString));
+            writeIdentityService.SetCurrent(context.User);
         }
 
         await _next(context);

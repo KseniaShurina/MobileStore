@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
-using MobileStore.Common.Identity;
+using MobileStore.Common.Abstractions.Services;
+using MobileStore.Common.Models;
 using MobileStore.Core.Abstractions.Services;
 using MobileStore.Core.Extensions.Entities;
 using MobileStore.Core.Models;
@@ -12,10 +13,12 @@ namespace MobileStore.Core.Services
     internal class CartService : ICartService
     {
         private readonly IDefaultContext _context;
+        private readonly IReadIdentityService _identityService;
 
-        public CartService(IDefaultContext context)
+        public CartService(IDefaultContext context, IReadIdentityService identityService)
         {
             _context = context;
+            _identityService = identityService;
         }
 
         /// <summary>
@@ -52,7 +55,7 @@ namespace MobileStore.Core.Services
 
         public async Task<List<CartItemModel>> GetCartItems()
         {
-            var userId = IdentityState.Current!.UserId;
+            var userId = _identityService.UserId!.Value;
             var entity = await GetBaseQuery()
                 .Where(i => i.UserId == userId)
                 .ToListAsync();
@@ -75,7 +78,7 @@ namespace MobileStore.Core.Services
             quantity = Guard.Against.NegativeOrZero(quantity);
             productId = Guard.Against.Default(productId);
 
-            var userId = IdentityState.Current!.UserId;
+            var userId = _identityService.UserId!.Value;
 
             if (!await _context.Products.AnyAsync(p => p.Id == productId))
             {

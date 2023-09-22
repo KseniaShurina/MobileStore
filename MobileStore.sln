@@ -15,9 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CB08761F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Core.Tests", "MobileStore.Core.Tests\MobileStore.Core.Tests.csproj", "{B5FC300B-C1B1-4508-8432-68EA1218A92C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileStore.Presentation.Blazor", "MobileStore.Presentation.Blazor\MobileStore.Presentation.Blazor.csproj", "{8B597E05-98C6-4E0B-A113-6379E91E7EE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Presentation.Blazor", "MobileStore.Presentation.Blazor\MobileStore.Presentation.Blazor.csproj", "{8B597E05-98C6-4E0B-A113-6379E91E7EE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileStore.Presentation.Api", "MobileStore.Presentation.Api\MobileStore.Presentation.Api.csproj", "{2092C7B1-0062-41E5-9B59-99D0A1E962CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Presentation.Api", "MobileStore.Presentation.Api\MobileStore.Presentation.Api.csproj", "{2092C7B1-0062-41E5-9B59-99D0A1E962CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
