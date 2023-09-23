@@ -1,7 +1,8 @@
 ﻿@using MobileStore.Core.Abstractions.Services
 @using MobileStore.Core.Models
-@using MobileStore.Presentation.Blazor.Components.NoData
-@using MobileStore.Presentation.Blazor.Components.Product
+@using MobileStore.Presentation.Blazor.Components.Business.Product
+@using MobileStore.Presentation.Blazor.Components.Standard.Grid
+@using MobileStore.Presentation.Blazor.Components.Standard.NoData
 @using MobileStore.Presentation.Blazor.Extensions
 
 @inject IProductService ProductService
@@ -12,20 +13,20 @@
 <PageTitle>Index</PageTitle>
 
 <div>
-    <ProductMenu ValueChanged="OnProductChanged"></ProductMenu>
+    <XStProductMenu ValueChanged="OnProductChanged"></XStProductMenu>
 
-    <MudGrid>
+    <XStGrid>
         @foreach (var productModel in _models)
         {
-            <MudItem xs="12" sm="6" md="4" lg="3">
-                <ProductCard Model="productModel"></ProductCard>
-            </MudItem>
+            <XStItem xs="12" sm="6" md="4" lg="3">
+                <XStProductCard Model="productModel"></XStProductCard>
+            </XStItem>
         }
         @if (!_isLoading && !_models.Any())
         {
-            <NoData></NoData>
+            <XStNoData></XStNoData>
         }
-    </MudGrid>
+    </XStGrid>
 </div>
 
 
@@ -34,9 +35,14 @@
 {
 
     private Guid? _productTypeId;
+    //
     private bool _isLoading = true;
     private List<ProductModel> _models = new();
 
+    /// <summary>
+    /// для извлечения значения параметра "productTypeId" из текущего URL-запроса (query string)
+    /// </summary>
+    /// <returns></returns>
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();

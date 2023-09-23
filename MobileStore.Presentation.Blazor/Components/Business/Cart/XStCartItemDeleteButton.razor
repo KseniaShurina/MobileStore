@@ -1,12 +1,13 @@
 ﻿@using MobileStore.Core.Abstractions.Services
+@using MobileStore.Presentation.Blazor.Components.Standard.Button
+
 @inject ICartService CartService
 @inject NavigationManager NavigationManager
 
 <div>
-    <MudIconButton Color="Color.Error"
-               Icon="@Icons.Material.Filled.Delete"
+    <XStDangerIconButton Icon="@Icons.Material.Filled.Delete"
                OnClick="Delete">
-    </MudIconButton>
+    </XStDangerIconButton>
 </div>
 
 @code {

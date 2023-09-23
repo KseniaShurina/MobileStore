@@ -1,4 +1,5 @@
 ﻿@using MobileStore.Core.Abstractions.Services
+@using MobileStore.Presentation.Blazor.Components.Standard.Button
 @using MobileStore.Presentation.Blazor.Services
 
 @inject NotificationService NotificationService
@@ -9,10 +10,10 @@
 <div>
     <AuthorizeView>
         <Authorized>
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnAddToCart">Add</MudButton>
+            <XStPrimaryButton OnClick="OnAddToCart">Add</XStPrimaryButton>
         </Authorized>
         <NotAuthorized>
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="OnLoginClick">Add</MudButton>
+            <XStPrimaryButton OnClick="OnLoginClick">Add</XStPrimaryButton>
         </NotAuthorized>
     </AuthorizeView>
 </div>

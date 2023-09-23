@@ -1,11 +1,6 @@
 ﻿.product-card {
     height: 100%;
-    box-shadow: var(--mud-elevation-1);
-    border-radius: var(--mud-default-borderradius);
-    color: var(--mud-palette-text-primary);
-    display: flex;
     flex-direction: column;
-    padding: 15px;
 }
 
 .card-img {

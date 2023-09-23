@@ -1,0 +1,28 @@
+﻿@using MobileStore.Core.Models
+@using System.Globalization
+@using MobileStore.Presentation.Blazor.Components.Business.Cart
+@using MobileStore.Presentation.Blazor.Components.Standard.Card
+@using MobileStore.Presentation.Blazor.Components.Standard.Text
+@using MobileStore.Presentation.Blazor.Pages
+
+<div class="product-card">
+    <XStCard>
+        <Content>
+            <div class="card-img" style="background-image: url(@Model.Img)"></div>
+            <div class="card-content">
+                <XStText Typo="Typo.h5">@Model.Name</XStText>
+                <XStText Typo="Typo.body2">@Model.Price.ToString(CultureInfo.InvariantCulture)</XStText>
+            </div>
+            <div class="card-actions">
+                <XStCartItemCreateButton ProductId="Model.Id"></XStCartItemCreateButton>
+            </div>
+        </Content>
+    </XStCard>
+</div>
+
+@code {
+
+    [Parameter]
+    public ProductModel Model { get; set; } = null!;
+
+}

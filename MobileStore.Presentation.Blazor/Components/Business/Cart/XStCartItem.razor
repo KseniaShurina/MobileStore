@@ -1,0 +1,40 @@
+﻿@using MobileStore.Core.Models
+@using System.Globalization
+@using MobileStore.Presentation.Blazor.Components.Standard.Grid
+@using MobileStore.Presentation.Blazor.Components.Standard.Text
+
+<div class="cart-item-card">
+    
+    <XStGrid>
+        <XStItem xs="12" sm="2" md="1">
+            <div class="card-img" style="background-image: url(@Model.Product.Img)"></div>
+        </XStItem>
+        <XStItem xs="12" sm="10" md="11">
+            <div class="card-content">
+                <XStGrid>
+                    <XStItem xs="12" sm="6" md="6">
+                        <XStText Typo="Typo.h5">@Model.Product.Name</XStText>
+                        <XStText Typo="Typo.body2">@Model.Product.Company</XStText>
+                    </XStItem>
+                    <XStItem xs="12" sm="6" md="6">
+                        <div class="actions">
+                            <div class="price">
+                                <XStText Typo="Typo.h5">@Model.Product.Price.ToString("#0.00", CultureInfo.InvariantCulture)</XStText>
+                            </div>
+                            <XStCartItemUpdateQuantityButton Model="Model"></XStCartItemUpdateQuantityButton>
+
+                            <XStCartItemDeleteButton Id="Model.Id"></XStCartItemDeleteButton>
+                        </div>
+
+                    </XStItem>
+                </XStGrid>
+            </div>
+        </XStItem>
+    </XStGrid>
+</div>
+
+@code
+{
+    [Parameter]
+    public CartItemModel Model { get; set; } = null!;
+}

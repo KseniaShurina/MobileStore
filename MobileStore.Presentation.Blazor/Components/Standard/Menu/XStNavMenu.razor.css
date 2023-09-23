@@ -17,3 +17,7 @@
     font-weight: inherit !important;
     color: var(--mud-palette-white) !important;
 }
+
+.h3 {
+    text-align: center;
+}
