@@ -1,8 +1,10 @@
 ﻿@using MobileStore.Core.Abstractions.Services
 @using MobileStore.Presentation.Blazor.Components.Standard.Button
+@using MobileStore.Presentation.Blazor.Services
 
 @inject ICartService CartService
 @inject NavigationManager NavigationManager
+@inject NotificationService NotificationService
 
 <div>
     <XStDangerIconButton Icon="@Icons.Material.Filled.Delete"
@@ -14,9 +16,15 @@
     [Parameter]
     public Guid Id { get; set; }
 
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+
     public async Task Delete()
     {
         await CartService.Delete(Id);
-        NavigationManager.NavigateTo("/Cart", forceLoad: true);
+        NotificationService.ShowSuccess("Deleted");
+
+        // invoke OnDeleted in XStCartItem and then Refresh method in Cart
+        await OnClick.InvokeAsync();
     }
 }

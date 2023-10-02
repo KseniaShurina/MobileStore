@@ -1,0 +1,29 @@
+﻿@using MobileStore.Core.Abstractions.Services
+@using MobileStore.Core.Models
+@using MobileStore.Presentation.Blazor.Components.Business
+
+@inject IUserService UserService
+
+@page "/Account"
+
+<PageTitle>Account</PageTitle>
+
+<div>
+    <XStUserAddressForm User="User" OnChanged="UpdateCurrentUser"></XStUserAddressForm>
+</div>
+
+@code {
+    public UserModel User { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        User = await UserService.GetCurrentUser();
+    }
+
+    public async Task UpdateCurrentUser()
+    {
+       await UserService.UpdateCurrentUser(User);
+    }
+}

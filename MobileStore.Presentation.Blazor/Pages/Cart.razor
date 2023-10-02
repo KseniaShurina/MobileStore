@@ -17,7 +17,9 @@
                 <Content>
                     @foreach (var cartItemModel in _models)
                     {
-                        <XStCartItem Model="cartItemModel"></XStCartItem>
+                        <XStCartItem Model="cartItemModel" 
+                                     OnQuantityChanged="_ => OnQuantityChanged()" 
+                                     OnDeleted="Refresh" />
                     }
                 </Content>
             </XStCard>
@@ -26,7 +28,7 @@
         <XStItem xs="12" md="4">
             <XStCard>
                 <Content>
-                    <XStCartCheckout></XStCartCheckout>
+                    <XStCartCheckout CartItems="_models"></XStCartCheckout>
                 </Content>
             </XStCard>
         </XStItem>
@@ -39,9 +41,29 @@
 
     private List<CartItemModel> _models = new();
 
+    /// <summary>
+    /// Override this method if you will perform an asynchronous operation and want the
+    /// component to refresh when that operation is completed.
+    /// </summary>
+    /// <returns> Representing any asynchronous operation.</returns>
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+
+        await Refresh();
+    }
+
+    private async Task Refresh()
+    {
         _models = await CartService.GetCartItems();
     }
+
+    /// <summary>
+    /// To refresh reference of list
+    /// </summary>
+    private void OnQuantityChanged()
+    {
+        _models = _models.ToList();
+    }
+
 }

@@ -1,29 +1,56 @@
 ﻿@using MobileStore.Core.Models
-@using MobileStore.Core.Abstractions.Services
 @using MobileStore.Presentation.Blazor.Components.Standard.Grid
+
+@inject NavigationManager NavigationManager
 
 <div class="checkout-container">
     <XStGrid>
-        <XStItem xs="12" sm="6">
+        <XStItem xs="12" sm="12">
             <h3>Checkout:</h3>
         </XStItem>
-        <XStItem>
-            <tr>
-                <td>Sum:</td>
-                <td>0$</td>
-            </tr>
+        <XStItem xs="12" sm="12">
             <tr>
                 <td>Discount:</td>
-                <td>0$</td>
+                <td>@_discount <span>$</span></td>
             </tr>
             <tr>
                 <td>Total:</td>
-                <td>0$</td>
+                <td>@_summary <span>$</span></td>
             </tr>
+        </XStItem>
+        <XStItem>
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Warning"
+                       OnClick="Continue">
+                Continue
+            </MudButton>
         </XStItem>
     </XStGrid>
 </div>
 
 @code {
+
+    [Parameter]
+    public List<CartItemModel> CartItems { get; set; } = null!;
+
+    private double _summary;
+    private double _discount;
+
+    /// <summary>
+    /// because of CartItems is refreshed in Cart, OnParametersSetAsync is worked
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        _discount = 0;
+        _summary = Math.Round(CartItems.Sum(i => i.Quantity * i.Product.Price), 2);
+    }
+
+    private void Continue()
+    {
+        NavigationManager.NavigateTo("/CreateOrder");
+    }
 
 }

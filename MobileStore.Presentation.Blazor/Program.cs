@@ -14,7 +14,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 
-// Radzen
+// Mud blazor
 builder.Services.AddMudServices();
 builder.Services.AddTransient<NotificationService>();
 

@@ -1,0 +1,35 @@
+﻿@using MobileStore.Core.Abstractions.Services
+@using MobileStore.Core.Models
+@using MobileStore.Presentation.Blazor.Components.Standard.Form
+
+@inject IUserService UserService
+
+<div>
+    <XStForm Model="User">
+        <XStTextField @bind-Value="@User.Email"
+                      For="@(() => User.Email)"
+                      Immediate="true"
+                      Label="Email" />
+    </XStForm>
+</div>
+
+@code {
+    [Parameter]
+    public UserModel User { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<UserModel> OnChanged { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        //await OnChanged.InvokeAsync(User);
+    }
+
+    // public async void Get()
+    // {
+    //     var result = await UserService.GetCurrentUser();
+    //     User = result;
+    // }
+}

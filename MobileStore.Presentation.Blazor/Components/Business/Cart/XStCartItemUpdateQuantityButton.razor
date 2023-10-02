@@ -10,15 +10,21 @@
                      Min="1"></MudNumericField>
 </div>
 
-@code 
+@code
 {
     [Parameter]
     public CartItemModel Model { get; set; } = null!;
 
+    [Parameter]
+    public EventCallback<int> OnChanged { get; set; }
 
     public async Task UpdateQuantity(int quantity)
     {
         Model.Quantity = quantity;
         await CartService.UpdateQuantity(Model.Id, Model.Quantity);
+
+        // Dispatches an event notification to the appropriate component.
+        //invoke OnQuantityChanged event in XStCartItem and then OnQuantityChanged() method in Cart
+        await OnChanged.InvokeAsync(quantity);
     }
 }

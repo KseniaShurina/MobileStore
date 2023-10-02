@@ -21,9 +21,9 @@
                             <div class="price">
                                 <XStText Typo="Typo.h5">@Model.Product.Price.ToString("#0.00", CultureInfo.InvariantCulture)</XStText>
                             </div>
-                            <XStCartItemUpdateQuantityButton Model="Model"></XStCartItemUpdateQuantityButton>
+                            <XStCartItemUpdateQuantityButton Model="Model" OnChanged="OnQuantityChanged"></XStCartItemUpdateQuantityButton>
 
-                            <XStCartItemDeleteButton Id="Model.Id"></XStCartItemDeleteButton>
+                            <XStCartItemDeleteButton Id="Model.Id" OnClick="OnDeleted"></XStCartItemDeleteButton>
                         </div>
 
                     </XStItem>
@@ -37,4 +37,10 @@
 {
     [Parameter]
     public CartItemModel Model { get; set; } = null!;
+
+    [Parameter]
+    public EventCallback<int> OnQuantityChanged { get; set; }
+
+    [Parameter]
+    public EventCallback OnDeleted { get; set; }
 }
