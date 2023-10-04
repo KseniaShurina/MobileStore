@@ -1,12 +1,15 @@
 ﻿@using MobileStore.Core.Abstractions.Services
 @using MobileStore.Core.Models
 @using MobileStore.Presentation.Blazor.Components.Business.Cart
+@using MobileStore.Presentation.Blazor.Components.Standard.Button
 @using MobileStore.Presentation.Blazor.Components.Standard.Grid
 @using MobileStore.Presentation.Blazor.Components.Standard.Card
 
 @inject ICartService CartService
+@inject NavigationManager NavigationManager
 
 @page "/cart"
+@attribute [Authorize]
 
 <PageTitle>Cart</PageTitle>
 
@@ -30,6 +33,16 @@
                 <Content>
                     <XStCartCheckout CartItems="_models"></XStCartCheckout>
                 </Content>
+            </XStCard>
+        </XStItem>
+        <!--Continue-->
+        <XStItem xs="12">
+            <XStCard>
+                <Actions>
+                    <XStPrimaryButton OnClick="Continue">
+                        Continue
+                    </XStPrimaryButton>
+                </Actions>
             </XStCard>
         </XStItem>
     </XStGrid>
@@ -64,6 +77,11 @@
     private void OnQuantityChanged()
     {
         _models = _models.ToList();
+    }
+
+    private void Continue()
+    {
+        NavigationManager.NavigateTo("/Cart/CreateOrder");
     }
 
 }

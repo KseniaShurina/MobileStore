@@ -12,3 +12,7 @@
 .mud-nav-link {
     color: revert;
 }
+
+::deep .mud-nav-link-text {
+    margin: 0px;
+}

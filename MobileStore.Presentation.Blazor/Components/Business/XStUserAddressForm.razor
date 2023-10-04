@@ -1,19 +1,52 @@
 ﻿@using MobileStore.Core.Abstractions.Services
 @using MobileStore.Core.Models
+@using MobileStore.Presentation.Blazor.Components.Standard.Button
+@using MobileStore.Presentation.Blazor.Components.Standard.Card
 @using MobileStore.Presentation.Blazor.Components.Standard.Form
+@using MobileStore.Presentation.Blazor.Components.Standard.Grid
 
 @inject IUserService UserService
 
-<div>
-    <XStForm Model="User">
-        <XStTextField @bind-Value="@User.Email"
-                      For="@(() => User.Email)"
-                      Immediate="true"
-                      Label="Email" />
-    </XStForm>
+<div class="user-address-form-container">
+    <XStCard>
+        <Content>
+            <XStForm Model="User">
+                <XStGrid>
+
+                    <XStItem xs="12" sm="6" md="6">
+                        <XStTextField @bind-Value="@User.FirstName"
+                                      For="@(() => User.FirstName)"
+                                      Immediate="true"
+                                      Label="First Name"/>
+
+                        <XStTextField @bind-Value="@User.LastName"
+                                      For="@(() => User.LastName)"
+                                      Immediate="true"
+                                      Label="Last Name"/>
+
+                        <XStTextField @bind-Value="@User.Address"
+                                      For="@(() => User.Address)"
+                                      Immediate="true"
+                                      Label="Address"/>
+
+                        <XStTextField @bind-Value="@User.Email"
+                                      For="@(() => User.Email)"
+                                      Immediate="true"
+                                      Label="Email"/>
+                    </XStItem>
+                </XStGrid>
+            </XStForm>
+        </Content>
+        <Actions>
+            <XStPrimaryButton OnClick="@(() => OnChanged.InvokeAsync(User))">
+                Save changes
+            </XStPrimaryButton>
+        </Actions>
+    </XStCard>
 </div>
 
-@code {
+@code
+{
     [Parameter]
     public UserModel User { get; set; } = new();
 
@@ -23,13 +56,5 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-
-        //await OnChanged.InvokeAsync(User);
     }
-
-    // public async void Get()
-    // {
-    //     var result = await UserService.GetCurrentUser();
-    //     User = result;
-    // }
 }

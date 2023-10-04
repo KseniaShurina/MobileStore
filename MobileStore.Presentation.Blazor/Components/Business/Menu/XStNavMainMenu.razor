@@ -1,0 +1,56 @@
+﻿@using MobileStore.Presentation.Blazor.Components.Standard.Menu
+
+<div class="xst-nav-menu">
+    <div>
+        <XStNavMenu>
+            <!--Home-->
+            <XStNavLink Href="/"
+                        Icon="@Icons.Material.Filled.Home">
+                Mobile store
+            </XStNavLink>
+
+            <!--Cart-->
+            <XStNavLink Href="/Cart"
+                        Icon="@Icons.Material.Filled.ShoppingCart">
+                Cart
+            </XStNavLink>
+
+            
+
+        </XStNavMenu>
+    </div>
+
+    <div>
+        <XStNavMenu>
+            <AuthorizeView>
+                <Authorized>
+                    <!--Account-->
+                    <XStNavLink Href="/Account"
+                                Icon="@Icons.Material.Filled.AccountBox">
+                        Account
+                    </XStNavLink>
+                    <!--Logout-->
+                    <XStNavLink Href="/Account/Logout"
+                                Icon="@Icons.Material.Filled.Logout">
+                        Logout
+                    </XStNavLink>
+                </Authorized>
+                <NotAuthorized>
+                    <!--Login-->
+                    <XStNavLink Href="/Account/Login"
+                                Icon="@Icons.Material.Filled.Login">
+                        Login
+                    </XStNavLink>
+                </NotAuthorized>
+            </AuthorizeView>
+        </XStNavMenu>
+    </div>
+    
+</div>
+
+
+
+@code
+{
+    // EventConsole console;
+}

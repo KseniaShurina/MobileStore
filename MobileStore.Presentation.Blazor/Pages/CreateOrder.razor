@@ -1,6 +1,59 @@
-﻿
-@page "/CreateOrder"
-@code 
+﻿@using MobileStore.Presentation.Blazor.Components.Business
+@using MobileStore.Presentation.Blazor.Components.Standard.Card
+@using MobileStore.Presentation.Blazor.Components.Standard.Grid
+@using MobileStore.Core.Abstractions.Services
+@using MobileStore.Core.Models
+@using MobileStore.Presentation.Blazor.Components.Standard.Table
+
+@inject ICartService CartService
+@inject IUserService UserService
+
+@page "/Cart/CreateOrder"
+@attribute [Authorize]
+
+<div>
+    <XStGrid>
+        <!--Cart info-->
+        <XStItem xs="12" sm="6" md="6">
+            <XStCard>
+                <Content>
+                    <h3>Your cart</h3>
+                    <XStTable Items="_cartItems.Take(3)">
+                        <HeaderContent>
+                            <XStTh>Name</XStTh>
+                            <XStTh>Price</XStTh>
+                            <XStTh>Quantity</XStTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <XStTd DataLabel="Name">@context.Product.Name</XStTd>
+                            <XStTd DataLabel="Price">@context.Product.Price</XStTd>
+                            <XStTd DataLabel="Quantity">@context.Quantity</XStTd>
+                        </RowTemplate>
+                    </XStTable>
+                </Content>
+            </XStCard>
+        </XStItem>
+        
+        <!--Contact details-->
+        @if (_user != null)
+        {
+            <XStItem xs="12" sm="6" md="6">
+                <XStUserAddressForm User="_user" />
+            </XStItem>
+        }
+        
+    </XStGrid>
+</div>
+@code
 {
 
+    private List<CartItemModel> _cartItems = new();
+    private UserModel? _user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _user = await UserService.GetCurrentUser();
+        _cartItems = await CartService.GetCartItems();
+
+    }
 }

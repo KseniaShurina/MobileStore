@@ -1,16 +1,17 @@
 ﻿@using MobileStore.Core.Models
 @using MobileStore.Core.Abstractions.Services
+@using MobileStore.Presentation.Blazor.Components.Standard.Menu
 
 @inject IProductService ProductService
 
 <div class="product-menu">
-    <MudNavMenu> 
-        <MudNavLink DisableRipple="true" OnClick="() => OnProductSelected(null)">All</MudNavLink>
+    <XStNavMenu> 
+        <XStNavLink OnClick="() => OnProductSelected(null)">All</XStNavLink>
         @foreach (var productType in _productTypes)
         {
-            <MudNavLink DisableRipple="true" OnClick="() => OnProductSelected(productType.Id)">@productType.Name</MudNavLink>
+            <XStNavLink DisableRipple="true" OnClick="() => OnProductSelected(productType.Id)">@productType.Name</XStNavLink>
         }
-    </MudNavMenu>
+    </XStNavMenu>
 </div>
 
 @code {

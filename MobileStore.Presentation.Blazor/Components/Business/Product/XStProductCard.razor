@@ -13,10 +13,10 @@
                 <XStText Typo="Typo.h5">@Model.Name</XStText>
                 <XStText Typo="Typo.body2">@Model.Price.ToString(CultureInfo.InvariantCulture)</XStText>
             </div>
-            <div class="card-actions">
-                <XStCartItemCreateButton ProductId="Model.Id"></XStCartItemCreateButton>
-            </div>
         </Content>
+        <Actions>
+            <XStCartItemCreateButton ProductId="Model.Id"></XStCartItemCreateButton>
+        </Actions>
     </XStCard>
 </div>
 

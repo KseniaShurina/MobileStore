@@ -1,0 +1,22 @@
+﻿@typeparam T
+
+<div class="xst-table-container">
+    <MudTable T="T" 
+              Items="Items" 
+              HeaderContent="HeaderContent"
+              RowTemplate="RowTemplate">
+    </MudTable>
+</div>
+
+
+@code
+{
+    [Parameter]
+    public RenderFragment HeaderContent { get; set; } = null!;
+
+    [Parameter]
+    public RenderFragment<T> RowTemplate { get; set; } = null!;
+
+    [Parameter]
+    public IEnumerable<T> Items { get; set; } = null!;
+}

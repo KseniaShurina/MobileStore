@@ -1,8 +1,20 @@
-﻿<MudCard Outlined="true">
-    <MudCardContent>
-        @Content
-    </MudCardContent>
-</MudCard>
+﻿<div class="xst-cart">
+    <MudCard Outlined="true">
+        <MudCardContent>
+            <div class="xst-card-content-container">
+                <div class="xst-card-content">
+                    @Content
+                </div>
+                @if (Actions != null)
+                {
+                    <div class="xst-card-actions">
+                        @Actions
+                    </div>
+                }
+            </div>
+        </MudCardContent>
+    </MudCard>
+</div>
 
 
 @code {
@@ -11,4 +23,7 @@
     /// </summary>
     [Parameter]
     public RenderFragment? Content { get; set; }
+
+    [Parameter]
+    public RenderFragment? Actions { get; set; }
 }

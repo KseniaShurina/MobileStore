@@ -1,7 +1,7 @@
 ﻿@using MobileStore.Core.Models
 @using MobileStore.Presentation.Blazor.Components.Standard.Grid
 
-@inject NavigationManager NavigationManager
+
 
 <div class="checkout-container">
     <XStGrid>
@@ -17,13 +17,6 @@
                 <td>Total:</td>
                 <td>@_summary <span>$</span></td>
             </tr>
-        </XStItem>
-        <XStItem>
-            <MudButton Variant="Variant.Filled"
-                       Color="Color.Warning"
-                       OnClick="Continue">
-                Continue
-            </MudButton>
         </XStItem>
     </XStGrid>
 </div>
@@ -47,10 +40,4 @@
         _discount = 0;
         _summary = Math.Round(CartItems.Sum(i => i.Quantity * i.Product.Price), 2);
     }
-
-    private void Continue()
-    {
-        NavigationManager.NavigateTo("/CreateOrder");
-    }
-
 }

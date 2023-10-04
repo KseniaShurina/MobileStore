@@ -1,0 +1,7 @@
+﻿element.style {
+    background-color: lightblue;
+}
+
+::deep .xst-cart {
+    height: 100%;
+}

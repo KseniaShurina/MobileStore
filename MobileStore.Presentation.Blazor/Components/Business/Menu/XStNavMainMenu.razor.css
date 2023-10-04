@@ -1,11 +1,12 @@
-.nav-menu {
+﻿.xst-nav-menu {
     display: flex;
     white-space: nowrap;
     background-color: var(--mud-palette-primary);
     color: var(--mud-palette-white);
+    justify-content: space-between;
 }
 
-    .nav-menu ::deep svg {
+    .xst-nav-menu ::deep svg {
         color: var(--mud-palette-white) !important;
     }
 
