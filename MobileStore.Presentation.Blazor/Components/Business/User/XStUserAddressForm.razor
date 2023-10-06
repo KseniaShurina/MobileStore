@@ -1,0 +1,57 @@
+﻿@using MobileStore.Core.Abstractions.Services
+@using MobileStore.Core.Models
+@using MobileStore.Presentation.Blazor.Components.Standard.Button
+@using MobileStore.Presentation.Blazor.Components.Standard.Card
+@using MobileStore.Presentation.Blazor.Components.Standard.Form
+@using MobileStore.Presentation.Blazor.Components.Standard.Grid
+
+@inject IUserService UserService
+
+<div class="user-address-form-container">
+    <XStForm Model="User">
+        <XStGrid>
+            <XStItem xs="12">
+                <XStTextField @bind-Value="@User.FirstName"
+                              Disabled="Disabled"
+                              For="@(() => User.FirstName)"
+                              Immediate="true"
+                              Label="First Name"/>
+
+                <XStTextField @bind-Value="@User.LastName"
+                              Disabled="Disabled"
+                              For="@(() => User.LastName)"
+                              Immediate="true"
+                              Label="Last Name"/>
+
+                <XStTextField @bind-Value="@User.Address"
+                              Disabled="Disabled"
+                              For="@(() => User.Address)"
+                              Immediate="true"
+                              Label="Address"/>
+
+                <XStTextField @bind-Value="@User.Email"
+                              Disabled="Disabled"
+                              For="@(() => User.Email)"
+                              Immediate="true"
+                              Label="Email"/>
+            </XStItem>
+        </XStGrid>
+    </XStForm>
+</div>
+
+@code
+{
+    [Parameter]
+    public UserModel User { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<UserModel> OnChanged { get; set; }
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
+}

@@ -1,4 +1,4 @@
-﻿@using MobileStore.Presentation.Blazor.Components.Business
+﻿@using MobileStore.Presentation.Blazor.Components.Business.User
 @using MobileStore.Presentation.Blazor.Components.Standard.Card
 @using MobileStore.Presentation.Blazor.Components.Standard.Grid
 @using MobileStore.Core.Abstractions.Services
@@ -17,7 +17,7 @@
         <XStItem xs="12" sm="6" md="6">
             <XStCard>
                 <Content>
-                    <h3>Your cart</h3>
+                    <h3>Your cart:</h3>
                     <XStTable Items="_cartItems.Take(3)">
                         <HeaderContent>
                             <XStTh>Name</XStTh>
@@ -33,20 +33,40 @@
                 </Content>
             </XStCard>
         </XStItem>
-        
+
         <!--Contact details-->
         @if (_user != null)
         {
             <XStItem xs="12" sm="6" md="6">
-                <XStUserAddressForm User="_user" />
+                <XStCard>
+                    <Content>
+                        <h3>Contact details:</h3>
+                        <XStUserAddressForm User="_user" Disabled="true" />
+                    </Content>
+                </XStCard>
             </XStItem>
         }
-        
+
+        <!--Delivery details-->
+        <XStItem xs="12" sm="6" md="6">
+
+            <XStCard>
+                <Content>
+                    <h3>Delivery details:</h3>
+                    <MudRadioGroup T="int">
+                        <MudRadio Option="1" Color="Color.Primary" Size="Size.Small">Courier</MudRadio>
+                        <MudText>5.00 $(1-5 days)</MudText>
+                        <MudRadio Option="2" Color="Color.Primary" Size="Size.Small">Post</MudRadio>
+                        <MudText>1.00 $(7-14 days)</MudText>
+                    </MudRadioGroup>
+                </Content>
+            </XStCard>
+        </XStItem>
+
     </XStGrid>
 </div>
 @code
 {
-
     private List<CartItemModel> _cartItems = new();
     private UserModel? _user;
 

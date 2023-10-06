@@ -1,6 +1,9 @@
 ﻿@using MobileStore.Core.Abstractions.Services
 @using MobileStore.Core.Models
-@using MobileStore.Presentation.Blazor.Components.Business
+@using MobileStore.Presentation.Blazor.Components.Business.User
+@using MobileStore.Presentation.Blazor.Components.Standard.Button
+@using MobileStore.Presentation.Blazor.Components.Standard.Card
+@using MobileStore.Presentation.Blazor.Components.Standard.Grid
 
 @inject IUserService UserService
 
@@ -10,7 +13,21 @@
 <PageTitle>Account</PageTitle>
 
 <div>
-    <XStUserAddressForm User="User" OnChanged="UpdateCurrentUser"></XStUserAddressForm>
+    <XStGrid Justify="Justify.Center">
+        <XStItem xs="12" sm="10" md="8" lg="6" xl="4" xxl="3">
+            <XStCard>
+                <Content>
+                    <XStUserAddressForm User="User" OnChanged="UpdateCurrentUser"></XStUserAddressForm>
+                </Content>
+                <Actions>
+                    <XStPrimaryButton OnClick="UpdateCurrentUser">
+                        Save changes
+                    </XStPrimaryButton>
+                </Actions>
+            </XStCard>
+        </XStItem>
+    </XStGrid>
+    
 </div>
 
 @code {

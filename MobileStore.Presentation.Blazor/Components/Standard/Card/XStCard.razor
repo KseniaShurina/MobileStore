@@ -1,13 +1,15 @@
-﻿<div class="xst-cart">
+﻿<!-- -->
+<div class="xst-cart">
     <MudCard Outlined="true">
         <MudCardContent>
             <div class="xst-card-content-container">
                 <div class="xst-card-content">
                     @Content
                 </div>
+
                 @if (Actions != null)
                 {
-                    <div class="xst-card-actions">
+                    <div class="@("xst-card-actions" + (Content != null ? " mt-4" : ""))">
                         @Actions
                     </div>
                 }

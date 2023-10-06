@@ -15,19 +15,21 @@
 
 <div>
     <XStGrid>
+        <!--CartItem-->
         <XStItem xs="12" md="8">
             <XStCard>
                 <Content>
                     @foreach (var cartItemModel in _models)
                     {
-                        <XStCartItem Model="cartItemModel" 
-                                     OnQuantityChanged="_ => OnQuantityChanged()" 
+                        <XStCartItem Model="cartItemModel"
+                                     OnQuantityChanged="_ => OnQuantityChanged()"
                                      OnDeleted="Refresh" />
                     }
                 </Content>
             </XStCard>
-            
         </XStItem>
+
+        <!--Checkout-->
         <XStItem xs="12" md="4">
             <XStCard>
                 <Content>
@@ -35,6 +37,7 @@
                 </Content>
             </XStCard>
         </XStItem>
+
         <!--Continue-->
         <XStItem xs="12">
             <XStCard>
