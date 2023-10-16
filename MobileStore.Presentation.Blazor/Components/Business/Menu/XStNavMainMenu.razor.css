@@ -2,10 +2,6 @@
     background-color: var(--mud-palette-primary);
 }
 
-.h3 {
-    text-align: center;
-}
-
 .xst-desktop-menu-container {
     display: flex;
     justify-content: space-between;

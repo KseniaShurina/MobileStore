@@ -1,16 +1,21 @@
-﻿@typeparam T
+﻿@using System.Reflection.Metadata
+@typeparam T
 
 <div class="xst-table-container">
-    <MudTable T="T" 
-              Items="Items" 
+    <MudTable T="T"
+              Items="Items"
               HeaderContent="HeaderContent"
-              RowTemplate="RowTemplate">
+              RowTemplate="RowTemplate"
+              FooterContent="FooterContent">
     </MudTable>
 </div>
 
 
 @code
 {
+    [Parameter]
+    public RenderFragment FooterContent { get; set; } = null!;
+
     [Parameter]
     public RenderFragment HeaderContent { get; set; } = null!;
 

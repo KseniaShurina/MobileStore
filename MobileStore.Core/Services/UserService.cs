@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
 using MobileStore.Common.Abstractions.Services;
 using MobileStore.Core.Abstractions.Services;
 using MobileStore.Core.Extensions.Entities;
@@ -58,5 +59,29 @@ namespace MobileStore.Core.Services
             }
             await _context.SaveChangesAsync();
         }
+
+        //private IEnumerable<string> PasswordStrenght(string password)
+        //{
+        //    if (string.IsNullOrWhiteSpace(password))
+        //    {
+        //        yield return "Password is required";
+        //        yield break;
+        //    }
+
+        //    if (password.Length < 8)
+        //    {
+        //        yield return "password must be at least of length 8";
+        //    }
+
+        //    if (!Regex.IsMatch(password, @"[a-z]"))
+        //    {
+        //        yield return "password must contain at least one lowercase letter";
+        //    }
+
+        //    if (!Regex.IsMatch(password, @"[0-9]"))
+        //    {
+        //        yield return "password must contain at least one digit";
+        //    }
+        //}
     }
 }

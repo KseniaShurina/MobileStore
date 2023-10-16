@@ -5,3 +5,9 @@
 ::deep .xst-cart {
     height: 100%;
 }
+::deep .xst-desktop-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    white-space: nowrap;
+    color: var(--mud-palette-white) !important;
+}

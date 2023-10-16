@@ -15,5 +15,10 @@ namespace MobileStore.Presentation.Blazor.Services
         {
             _snackBar.Add(message, Severity.Success);
         }
+
+        public void ShowError(string message)
+        {
+            _snackBar.Add(message, Severity.Error);
+        }
     }
 }

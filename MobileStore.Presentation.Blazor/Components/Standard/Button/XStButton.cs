@@ -2,11 +2,11 @@
 
 namespace MobileStore.Presentation.Blazor.Components.Standard.Button
 {
-    public class XStPrimaryButton : XStButton
+    public class XStButton : MudButton
     {
-        public XStPrimaryButton()
+        public XStButton()
         {
-            Color = Color.Primary;
+            Variant = Variant.Filled;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace MobileStore.Presentation.Blazor.Extensions
 {
     public static class NavigationManagerExtensions
     {
-        // Get entire querystring name/value collection
+        // Get entire query string name/value collection
         public static NameValueCollection QueryString(this NavigationManager navigationManager)
         {
             return HttpUtility.ParseQueryString(new Uri(navigationManager.Uri).Query);

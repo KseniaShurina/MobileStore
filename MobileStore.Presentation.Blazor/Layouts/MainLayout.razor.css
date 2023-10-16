@@ -9,6 +9,10 @@
 .main-content-container {
     padding: 12px;
     padding-top: 52px;
-    overflow-y: auto;
-    height: 100%;
+}
+
+@media only screen and (max-width: 600px) {
+    .main-content-container {
+        margin-bottom: 10px;
+    }
 }

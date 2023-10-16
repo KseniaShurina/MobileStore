@@ -1,0 +1,35 @@
+﻿@using MobileStore.Presentation.Blazor.Components.Standard.Form
+@using MobileStore.Presentation.Blazor.Components.Standard.Grid
+
+
+@page "/payments"
+
+<div class="user-payments-form-container">
+    <XStForm>
+        <XStGrid>
+            <XStItem>
+                <MudForm>
+                    <MudRadioGroup T="int" Required="true" RequiredError="This is required field">
+                        <MudRadio Option="1"
+                                  Color="Color.Primary" 
+                                  Size="Size.Small">
+                            Pay by cash
+                        </MudRadio>
+                        <MudText>Upon receipt of the parcel</MudText>
+                        <MudRadio Option="2"
+                                  Color="Color.Primary"
+                                  Size="Size.Small"
+                                  Disabled="true">
+                            Pay by card
+                        </MudRadio>
+                        <MudText>Unfortunately payments by card is not possible</MudText>
+                    </MudRadioGroup>
+                </MudForm>
+            </XStItem>
+        </XStGrid>
+    </XStForm>
+</div>
+
+@code {
+
+}

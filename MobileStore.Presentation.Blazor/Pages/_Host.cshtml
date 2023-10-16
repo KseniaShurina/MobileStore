@@ -9,35 +9,43 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
+    <!--To disable zooming on phones-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="~/" />
-    
+
     <link rel="icon" type="image/png" href="favicon.png" />
-    
+
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 
-    <link href="css/site.css" rel="stylesheet" />
-    <link href="MobileStore.Presentation.Blazor.styles.css" rel="stylesheet" />
+    @{
+        var stylesVersion = "v1.2";
+
+        //To set up so that my CSS will be downloaded when the site binaries change
+        <link href="css/site.css?@stylesVersion" rel="stylesheet" />
+        <link href="MobileStore.Presentation.Blazor.styles.css?@stylesVersion" rel="stylesheet" />
+    }
 
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
 <body>
     <component type="typeof(App)" render-mode="ServerPrerendered" />
 
-<div id="blazor-error-ui">
-    <environment include="Staging,Production">
-        An error has occurred. This application may no longer respond until reloaded.
-    </environment>
-    <environment include="Development">
-        An unhandled exception has occurred. See browser dev tools for details.
-    </environment>
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
 
-    @* автоматически подключаемый скрипт, который устанавливает подключение между браузером и сервером посредством SignalR. *@
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <!--Set up connection between Browser and Server By SignalR-->
     <script src="_framework/blazor.server.js"></script>
 </body>
 </html>

@@ -1,7 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using MobileStore.Common.Abstractions.Services;
-using MobileStore.Common.Models;
 using MobileStore.Core.Abstractions.Services;
 using MobileStore.Core.Extensions.Entities;
 using MobileStore.Core.Models;
@@ -35,12 +34,12 @@ namespace MobileStore.Core.Services
         /// <summary>
         /// Got cart item
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="cartItemId"></param>
         /// <returns></returns>
-        private Task<CartItem?> Get(Guid id)
+        private Task<CartItem?> Get(Guid cartItemId)
         {
             return GetBaseQuery()
-                .Where(i => i.Id == id)
+                .Where(i => i.Id == cartItemId)
                 .FirstOrDefaultAsync();
         }
 
@@ -59,10 +58,6 @@ namespace MobileStore.Core.Services
             var entity = await GetBaseQuery()
                 .Where(i => i.UserId == userId)
                 .ToListAsync();
-            
-            //var mapper = new MapperConfiguration(x => x.CreateMap(CartItem, CartItemDto)).CreateMapper();
-            //TODO 
-            //if(entity == null) ?? throw new ArgumentNullException(nameof(entity));
 
             return entity.Select(i => i.MapToModel()).ToList();
         }
@@ -82,7 +77,7 @@ namespace MobileStore.Core.Services
 
             if (!await _context.Products.AnyAsync(p => p.Id == productId))
             {
-                throw new ArgumentException($"Product id = {productId} not found", nameof(productId));
+                throw new ArgumentException($"Product cartItemId = {productId} not found", nameof(productId));
             }
 
             var item = await _context.CartItems.FirstOrDefaultAsync(p => p.ProductId == productId);
@@ -112,7 +107,7 @@ namespace MobileStore.Core.Services
             quantity = Guard.Against.NegativeOrZero(quantity);
 
             var item = await _context.CartItems.FirstOrDefaultAsync(c => c.Id == cartItemId)
-                       ?? throw new ArgumentException($"CartItem id = {cartItemId} not found", nameof(cartItemId));
+                       ?? throw new ArgumentException($"CartItem cartItemId = {cartItemId} not found", nameof(cartItemId));
             item.Quantity = quantity;
             await _context.SaveChangesAsync();
 

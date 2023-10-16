@@ -14,6 +14,7 @@ namespace MobileStore.Core.Models
 
         public string Address { get; private set; }
 
+
         public OrderCreateModel(string email, string firstName, string lastName, string contactPhone, string address)
         {
             Email = Guard.Against.NullOrEmpty(email);

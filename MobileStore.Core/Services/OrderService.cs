@@ -33,18 +33,19 @@ namespace MobileStore.Core.Services
             try
             {
                 var cartItems = await _context.CartItems
-                    .Include(p => p.Product)
                     .Where(u => u.UserId == userId)
+                    .Include(i => i.Product)
                     .ToListAsync();
 
                 if (!cartItems.Any())
                 {
-                    throw new ArgumentException("Cart items does not exists");
+                    throw new ArgumentException("There are not any items in the Cart");
                 }
 
                 var orderItems = cartItems
                     .Select(i => new OrderItem
                     {
+                        Id = Guid.NewGuid(),
                         ProductId = i.ProductId,
                         Quantity = i.Quantity,
                         ProductPrice = i.Product.Price,
@@ -53,9 +54,11 @@ namespace MobileStore.Core.Services
 
                 var order = new Order
                 {
-                    Datetime = DateTime.Now.ToUniversalTime(),
+                    Id = Guid.NewGuid(),
+                    Datetime = DateTime.UtcNow,
                     FirstName = orderCreateModel.FirstName,
                     LastName = orderCreateModel.LastName,
+                    Email = orderCreateModel.Email,
                     Address = orderCreateModel.Address,
                     ContactPhone = orderCreateModel.ContactPhone,
                     UserId = userId,

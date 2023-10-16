@@ -1,10 +1,12 @@
 ﻿@using MobileStore.Presentation.Blazor.Layouts
 @using MobileStore.Common.Abstractions.Services
+
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IWriteIdentityService WriteIdentityService
 
 @* Router добавляет возможность маршрутизации по вложенным компонентам *@
 @* атрибут AppAssembly указывает на сборку, в которой следует искать запрошенные вложенные компоненты *@
+
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">

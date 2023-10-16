@@ -1,12 +1,19 @@
-﻿@using MobileStore.Presentation.Blazor.Components.Business.User
+﻿@using MobileStore.Presentation.Blazor.Components.Business.Cart
+@using MobileStore.Presentation.Blazor.Components.Business.User
+@using MobileStore.Presentation.Blazor.Components.Standard.Button
 @using MobileStore.Presentation.Blazor.Components.Standard.Card
 @using MobileStore.Presentation.Blazor.Components.Standard.Grid
 @using MobileStore.Core.Abstractions.Services
 @using MobileStore.Core.Models
 @using MobileStore.Presentation.Blazor.Components.Standard.Table
+@using MobileStore.Presentation.Blazor.Components.Standard.Text
+@using MobileStore.Presentation.Blazor.Services
 
 @inject ICartService CartService
 @inject IUserService UserService
+@inject IOrderService OrderService
+@inject NavigationManager NavigationManager
+@inject NotificationService NotificationService
 
 @page "/Cart/CreateOrder"
 @attribute [Authorize]
@@ -17,7 +24,7 @@
         <XStItem xs="12" sm="6" md="6">
             <XStCard>
                 <Content>
-                    <h3>Your cart:</h3>
+                    <XStText Typo="Typo.h3">Your cart:</XStText>
                     <XStTable Items="_cartItems.Take(3)">
                         <HeaderContent>
                             <XStTh>Name</XStTh>
@@ -29,8 +36,14 @@
                             <XStTd DataLabel="Price">@context.Product.Price</XStTd>
                             <XStTd DataLabel="Quantity">@context.Quantity</XStTd>
                         </RowTemplate>
+                        <FooterContent>
+
+                        </FooterContent>
                     </XStTable>
                 </Content>
+                <Actions>
+                    <XStCartCheckout CartItems="_cartItems"></XStCartCheckout>
+                </Actions>
             </XStCard>
         </XStItem>
 
@@ -40,8 +53,10 @@
             <XStItem xs="12" sm="6" md="6">
                 <XStCard>
                     <Content>
-                        <h3>Contact details:</h3>
-                        <XStUserAddressForm User="_user" Disabled="true" />
+                        <MudTooltip Text="You can changhe this informayion in your account." Color="Color.Warning">
+                            <XStText Typo="Typo.h3">Contact details:</XStText>
+                            <XStUserAddressForm User="_user" Disabled="true" />
+                        </MudTooltip>
                     </Content>
                 </XStCard>
             </XStItem>
@@ -49,16 +64,45 @@
 
         <!--Delivery details-->
         <XStItem xs="12" sm="6" md="6">
-
             <XStCard>
                 <Content>
-                    <h3>Delivery details:</h3>
-                    <MudRadioGroup T="int">
+                    <XStText Typo="Typo.h3">Delivery details:</XStText>
+                    <MudRadioGroup T="int" Required="true" RequiredError="This is required field">
                         <MudRadio Option="1" Color="Color.Primary" Size="Size.Small">Courier</MudRadio>
                         <MudText>5.00 $(1-5 days)</MudText>
                         <MudRadio Option="2" Color="Color.Primary" Size="Size.Small">Post</MudRadio>
                         <MudText>1.00 $(7-14 days)</MudText>
                     </MudRadioGroup>
+                </Content>
+            </XStCard>
+        </XStItem>
+
+        <!--Payments-->
+        <XStItem xs="12" sm="6" md="6">
+            <XStCard>
+                <Content>
+                    <XStText Typo="Typo.h3">Payments:</XStText>
+                    <Payments></Payments>
+                </Content>
+            </XStCard>
+        </XStItem>
+
+
+        <XStItem xs="12" sm="12" md="12">
+            <XStCard>
+                <Content>
+                    <div class="xst-desktop-buttons-container">
+                        <div>
+                            <XStCancelButton OnClick="CancelOrder">
+                                Cancel order
+                            </XStCancelButton>
+                        </div>
+                        <div>
+                            <XStPrimaryButton OnClick="ConfirmOrder">
+                                Confirm order
+                            </XStPrimaryButton>
+                        </div>
+                    </div>
                 </Content>
             </XStCard>
         </XStItem>
@@ -74,6 +118,33 @@
     {
         _user = await UserService.GetCurrentUser();
         _cartItems = await CartService.GetCartItems();
+    }
 
+    private async Task ConfirmOrder()
+    {
+        try
+        {
+            var order = new OrderCreateModel
+                (
+                $"{_user!.Email}",
+                $"{_user.FirstName}",
+                $"{_user.LastName}",
+                "-",
+                $"{_user.Address}"
+                );
+
+            await OrderService.CreateOrder(order);
+            NavigationManager.NavigateTo("/OrderCreated");
+        }
+        catch
+        {
+            NotificationService.ShowError("Error");
+        }
+
+    }
+
+    private void CancelOrder()
+    {
+        NavigationManager.NavigateTo("/Cart");
     }
 }
