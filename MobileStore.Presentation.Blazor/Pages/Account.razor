@@ -4,8 +4,10 @@
 @using MobileStore.Presentation.Blazor.Components.Standard.Button
 @using MobileStore.Presentation.Blazor.Components.Standard.Card
 @using MobileStore.Presentation.Blazor.Components.Standard.Grid
+@using MobileStore.Presentation.Blazor.Services
 
 @inject IUserService UserService
+@inject NotificationService NotificationService
 
 @page "/Account"
 @attribute [Authorize]
@@ -17,7 +19,13 @@
         <XStItem xs="12" sm="10" md="8" lg="6" xl="4" xxl="3">
             <XStCard>
                 <Content>
-                    <XStUserAddressForm User="User" OnChanged="UpdateCurrentUser"></XStUserAddressForm>
+                    @* if для  того чтобы избежать двойного рендеринга *@
+                    @if (User != null)
+                    {
+                        <XStUserAddressForm User="User"
+                                            IsValidChanged="IsValidChanged"
+                                            IsTouched="_isSubmitted"/>
+                    }
                 </Content>
                 <Actions>
                     <XStPrimaryButton OnClick="UpdateCurrentUser">
@@ -31,7 +39,10 @@
 </div>
 
 @code {
-    public UserModel User { get; set; } = new();
+    public UserModel? User { get; set; }
+
+    private bool _isValid;
+    private bool _isSubmitted;
 
     protected override async Task OnInitializedAsync()
     {
@@ -40,8 +51,27 @@
         User = await UserService.GetCurrentUser();
     }
 
+    public void IsValidChanged(bool value)
+    {
+        _isValid = value;
+    }
+
     public async Task UpdateCurrentUser()
     {
-       await UserService.UpdateCurrentUser(User);
+        _isSubmitted = true;
+        if (!_isValid)
+        {
+            return;
+        }
+
+        try
+        {
+            await UserService.UpdateCurrentUser(User);
+            NotificationService.ShowSuccess("Saved");
+        }
+        catch
+        {
+            NotificationService.ShowError("Save error");
+        }
     }
 }

@@ -8,31 +8,39 @@
 @inject IUserService UserService
 
 <div class="user-address-form-container">
-    <XStForm Model="User">
+    <XStForm @ref="_form" Model="User" IsValidChanged="IsValidChanged">
         <XStGrid>
             <XStItem xs="12">
                 <XStTextField @bind-Value="@User.FirstName"
                               Disabled="Disabled"
                               For="@(() => User.FirstName)"
                               Immediate="true"
+                              Required="true"
+                              RequiredError="First Name is required!"
                               Label="First Name" />
 
                 <XStTextField @bind-Value="@User.LastName"
                               Disabled="Disabled"
                               For="@(() => User.LastName)"
                               Immediate="true"
+                              Required="true"
+                              RequiredError="Last Name is required!"
                               Label="Last Name" />
 
                 <XStTextField @bind-Value="@User.Address"
                               Disabled="Disabled"
                               For="@(() => User.Address)"
                               Immediate="true"
+                              Required="true"
+                              RequiredError="Address is required!"
                               Label="Address" />
 
                 <XStTextField @bind-Value="@User.Email"
                               Disabled="Disabled"
                               For="@(() => User.Email)"
                               Immediate="true"
+                              Required="true"
+                              RequiredError="Email is required!"
                               Label="Email" />
             </XStItem>
         </XStGrid>
@@ -45,13 +53,52 @@
     public UserModel User { get; set; } = new();
 
     [Parameter]
-    public EventCallback<UserModel> OnChanged { get; set; }
+    public bool Disabled { get; set; }
 
     [Parameter]
-    public bool Disabled { get; set; }
+    public bool IsTouched
+    { 
+        get => _isTouched;
+        set => SetIsTouched(value);
+    }
+
+    [Parameter]
+    public EventCallback<bool> IsValidChanged { get; set; }
+
+    XStForm? _form;
+    private bool _isTouched;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+    }
+
+    /// <summary>
+    /// Method invoked after each time the component has been rendered.
+    /// Нужно чтобы правильно устанавливалось значение при первом рендеринге
+    /// При первом рендеринге устанавливает true
+    /// </summary>
+    /// <param name="firstRender"></param>
+    /// <returns></returns>
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            SetIsTouched(_isTouched);
+        }
+    }
+
+    /// <summary>
+    /// Чтобы корректно реализовалось в последующем 
+    /// </summary>
+    /// <param name="value"></param>
+    private void SetIsTouched(bool value)
+    {
+        _isTouched = value;
+        if (_isTouched)
+        {
+            _form?.Validate();
+        }
     }
 }
