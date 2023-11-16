@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MobileStore.Core.Abstractions.Services;
-using MobileStore.Core.Models;
 using MobileStore.Presentation.Mvc.Controllers.Base;
 
 namespace MobileStore.Presentation.Mvc.Controllers
@@ -9,27 +8,25 @@ namespace MobileStore.Presentation.Mvc.Controllers
     public class ContentController : ApiControllerBase
     {
         private readonly IContentService _contentService;
-        private readonly IMapper _mapper;
 
-        public ContentController(IContentService contentService, 
-            IProductService productService, IMapper mapper)
+        public ContentController(IContentService contentService)
         {
             _contentService = contentService;
-            _mapper = mapper;
         }
 
-        
-
-        public async Task Create(string contentType, string name, byte[] data)
-        {
-            await _contentService.SaveFileToDatabase(contentType, name, data);
-        }
 
         [HttpGet("{contentId}")]
-        public async Task<ContentInfoModel> Get(Guid contentId)
+        public async Task<IActionResult> Get(Guid contentId, CancellationToken cancellationToken)
         {
-            var content = await _contentService.Get(contentId);
-            return content;
+            var contentInfo = await _contentService.GetContentInfo(contentId, cancellationToken);
+
+            if (contentInfo == null)
+            {
+                return NotFound();
+            }
+
+            var content = await _contentService.Get(contentId, cancellationToken);
+            return File(content, contentInfo.ContentType, contentInfo.Name);
         }
 
         public async Task Delete(Guid contentId)
