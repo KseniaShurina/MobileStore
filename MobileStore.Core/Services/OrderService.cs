@@ -23,6 +23,13 @@ namespace MobileStore.Core.Services
         {
             return _identityService.UserId!.Value;;
         }
+        private IQueryable<Order> GetBaseQuery()
+        {
+            return _context.Orders
+                .AsNoTracking()
+                .Include(i => i.Items)
+                .ThenInclude(i => i.Product);
+        }
 
         public async Task<OrderModel> CreateOrder(OrderCreateModel orderCreateModel)
         {
@@ -84,11 +91,10 @@ namespace MobileStore.Core.Services
 
         public async Task<OrderModel?> GetOrder(Guid orderId)
         {
-            var userId = GetUserId();
-            var order = await _context.Orders
+            var userId = _identityService.UserId!.Value;
+
+            var order = await GetBaseQuery()
                 .Where(i => i.UserId == userId && i.Id == orderId)
-                .Include(i => i.Items)
-                .ThenInclude(i => i.Product)
                 .FirstOrDefaultAsync();
 
             return order?.MapToModel();
@@ -96,10 +102,12 @@ namespace MobileStore.Core.Services
 
         public async Task<List<OrderModel>> GetOrders()
         {
-            var userId = GetUserId();
-            var orders = await _context.Orders
-                .Where(u => u.UserId == userId)
+            var userId = _identityService.UserId!.Value;
+
+            var orders = await GetBaseQuery()
+                .Where(i => i.UserId == userId)
                 .ToListAsync();
+
             return orders.Select(i => i.MapToModel()).ToList();
         }
 

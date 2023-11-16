@@ -1,0 +1,37 @@
+﻿@using MobileStore.Presentation.Blazor.Components.Standard.Card
+@using MobileStore.Presentation.Blazor.Components.Standard.Grid
+@using MobileStore.Presentation.Blazor.Components.Standard.Table
+@using MobileStore.Core.Models
+
+<div class="order-items-table">
+    <XStGrid>
+        <XStCard>
+            <Content>
+                <XStItem xs="12" sm="10" md="11">
+                    <XStTable Items="@Orders.Take(3)" T="OrderModel">
+                        <HeaderContent>
+                            <XStTh>Number</XStTh>
+                            <XStTh>Date</XStTh>
+                            <XStTh>Goods</XStTh>
+                            <XStTh>Status</XStTh>
+                        </HeaderContent>
+                        <RowTemplate>
+                            <XStTd DataLabel="Number">@context.Id</XStTd>
+                            <XStTd DataLabel="Number">@context.Datetime</XStTd>
+                            <XStTd DataLabel="Number">@context.Items</XStTd>
+                            <XStTd DataLabel="Number">-</XStTd>
+                        </RowTemplate>
+                    </XStTable>
+                </XStItem>
+            </Content>
+        </XStCard>
+
+    </XStGrid>
+</div>
+
+@code {
+    [Parameter]
+    public List<OrderModel> Orders { get; set; } = null!;
+
+
+}

@@ -14,4 +14,8 @@
     <ProjectReference Include="..\MobileStore.Core\MobileStore.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\Business\Admin\" />
+  </ItemGroup>
+
 </Project>

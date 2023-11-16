@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MobileStore.Core.Abstractions.Services;
-using MobileStore.Core.Extensions.Entities;
-using MobileStore.Core.Models;
 using MobileStore.Infrastructure.Abstractions.Contexts;
-using MobileStore.Infrastructure.Entities;
+using Npgsql;
+using Ardalis.GuardClauses;
+using MobileStore.Core.Models;
 
 namespace MobileStore.Core.Services
 {
@@ -15,25 +15,95 @@ namespace MobileStore.Core.Services
             _context = context;
         }
 
-        public async Task Create(string contentType, string name, byte[] data)
+        public async Task<ContentInfoModel> SaveFileToDatabase
+        (string contentType, string name, Stream stream, CancellationToken cancellationToken)
         {
-            var content = new Content
+            Guard.Against.NullOrEmpty(contentType);
+            Guard.Against.NullOrEmpty(name);
+            Guard.Against.Null(stream);
+
+            var id = Guid.NewGuid();
+
+            stream.Position = 0;
+
+            NpgsqlConnection? dbConnection = null;
+
+            try
             {
-                Id = Guid.NewGuid(),
-                ContentType = contentType,
-                Name = name,
-                Data = data
-            };
-            await _context.Contents.AddAsync(content);
-            await _context.SaveChangesAsync();
+                // Open a connection to the database.
+                await using (dbConnection = _context.GetDbConnection() as NpgsqlConnection)
+                {
+                    await dbConnection!.OpenAsync(cancellationToken);
+
+                    // Open a large object transaction.
+                    await using var transaction = await dbConnection.BeginTransactionAsync(cancellationToken);
+                    // It's query
+                    var sql =
+                        "INSERT INTO public.\"Contents\"(\t\"Id\", \"ContentType\", \"Name\", \"Data\")" +
+                        "VALUES (@id, @contentType, @name, @data)";
+
+                    //command of SQL is being created
+                    await using (var command = new NpgsqlCommand(sql, dbConnection))
+                    {
+                        command.Parameters.Add(
+                            new NpgsqlParameter("@id", NpgsqlTypes.NpgsqlDbType.Uuid) { Value = id });
+
+                        command.Parameters.Add(
+                            new NpgsqlParameter("@contentType", NpgsqlTypes.NpgsqlDbType.Text)
+                                { Value = contentType });
+
+                        command.Parameters.Add(                                                                                             
+                            new NpgsqlParameter("@name", NpgsqlTypes.NpgsqlDbType.Text) { Value = name });
+
+                        // Add stream data as a parameter to the command
+                        command.Parameters.Add(
+                            new NpgsqlParameter("@data", NpgsqlTypes.NpgsqlDbType.Bytea) { Value = stream });
+
+                        // Execute the command
+                        await command.ExecuteNonQueryAsync(cancellationToken);
+                    }
+
+                    await transaction.CommitAsync(cancellationToken);
+
+                    return (await GetContentInfo(id, cancellationToken))!;
+                }
+            }
+            catch
+            {
+                if (dbConnection != null)
+                {
+                    await dbConnection.CloseAsync();
+                }
+
+                throw;
+            }
         }
 
-        public async Task<ContentModel> Get(Guid contentId)
+        public async Task<ContentInfoModel?> GetContentInfo(Guid contentId, CancellationToken cancellationToken)
         {
-            var content = await _context.Contents.FirstOrDefaultAsync(i => i.Id == contentId) ?? 
+            var content = await _context.Contents
+                .Where(i => i.Id == contentId)
+                .Select(i => new ContentInfoModel
+                {
+                    Id = i.Id,
+                    ContentType = i.ContentType,
+                    Name = i.Name,
+                })
+                .FirstOrDefaultAsync(cancellationToken);
+
+            return content;
+        }
+
+        public async Task<Stream> Get(Guid contentId, CancellationToken cancellationToken)
+        {
+            var content = await _context.Contents
+                              .AsNoTracking()
+                              .FirstOrDefaultAsync(i => i.Id == contentId, cancellationToken: cancellationToken) ??
                           throw new ArgumentNullException($"Content does not exist {nameof(contentId)}");
 
-            return content.MapToModel();
+            var stream = new MemoryStream(content.Data);
+
+            return stream;
         }
 
         public async Task Delete(Guid contentId)
@@ -47,7 +117,7 @@ namespace MobileStore.Core.Services
 
         #region MyRegion
 
-        //public async Task<ProductModel> Create(Guid productTypeId, string productTypeName, string name, string company, double price, string img)
+        //public async Task<ProductModel> SaveFileToDatabase(Guid productTypeId, string productTypeName, string name, string company, double price, string img)
         //{
         //    var productTypeExist = await _context.Products.AnyAsync(p => p.ProductTypeId == productTypeId);
         //    Product? product = null;

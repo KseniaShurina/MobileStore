@@ -1,0 +1,41 @@
+﻿@using MobileStore.Core.Abstractions.Services
+@using MobileStore.Presentation.Blazor.Services
+
+@page "/Admin"
+
+@inject IContentService ContentService
+@inject NotificationService NotificationService
+
+<div>
+    <MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
+        <ButtonTemplate>
+            <MudButton HtmlTag="label"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.CloudUpload"
+                       for="@context">
+                Upload Files
+            </MudButton>
+        </ButtonTemplate>
+    </MudFileUpload>
+</div>
+
+
+@code {
+
+    private async Task UploadFiles(IBrowserFile file)
+    {
+        try
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await file.OpenReadStream().CopyToAsync(memoryStream);
+                //await ContentService.SaveFileToDatabase(file.ContentType, file.Name, memoryStream);
+            }
+        }
+        catch
+        {
+            NotificationService.ShowError("Error");
+        }
+    }
+}

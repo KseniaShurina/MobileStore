@@ -81,7 +81,7 @@ internal class ProductService : IProductService
     }
 
     /// <summary>
-    /// Create new product and added to DB
+    /// SaveFileToDatabase new product and added to DB
     /// </summary>
     /// <param name="productTypeId">product type Id</param>
     /// <param name="name">product name</param>

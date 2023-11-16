@@ -22,11 +22,11 @@ namespace MobileStore.Presentation.Mvc.Controllers
 
         public async Task Create(string contentType, string name, byte[] data)
         {
-            await _contentService.Create(contentType, name, data);
+            await _contentService.SaveFileToDatabase(contentType, name, data);
         }
 
         [HttpGet("{contentId}")]
-        public async Task<ContentModel> Get(Guid contentId)
+        public async Task<ContentInfoModel> Get(Guid contentId)
         {
             var content = await _contentService.Get(contentId);
             return content;

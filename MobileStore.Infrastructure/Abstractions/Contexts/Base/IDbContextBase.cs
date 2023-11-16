@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Data.Common;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -6,6 +7,8 @@ namespace MobileStore.Infrastructure.Abstractions.Contexts.Base;
 // Contain methods for interaction with 
 public interface IDbContextBase
 {
+    DbConnection GetDbConnection();
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
     EntityEntry Entry(object entity);

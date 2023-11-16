@@ -1,4 +1,6 @@
-﻿@using MobileStore.Presentation.Blazor.Components.Standard.Menu
+﻿@using MobileStore.Presentation.Blazor.Components.Standard.Grid
+@using MobileStore.Presentation.Blazor.Components.Standard.Menu
+@using MobileStore.Presentation.Blazor.Components.Standard.Text
 
 @implements IBrowserViewportObserver
 @implements IAsyncDisposable
@@ -6,24 +8,26 @@
 @inject IBrowserViewportService BrowserViewportService
 
 <div class="xst-nav-menu">
-    
+
     <!--Mobile menu-->
     <div class="xst-mobile-menu-container">
-        <MudIconButton Variant="Variant.Text" 
+        <MudIconButton Variant="Variant.Text"
                        OnClick="@(OpenDrawer)"
                        Class="xst-open-menu-btn"
                        Icon="@Icons.Material.Filled.Menu" />
     </div>
-    
+
     <MudDrawer @bind-Open="@_isOpen" Anchor="Anchor.Top" Elevation="1" Variant="@DrawerVariant.Temporary">
         <XStNavMenu>
             <!--Home-->
             <XStNavLink Href="/"
+                        Match="NavLinkMatch.All"
                         Icon="@Icons.Material.Filled.Home">
                 Mobile store
             </XStNavLink>
             <!--Cart-->
             <XStNavLink Href="/Cart"
+                        Match="NavLinkMatch.All"
                         Icon="@Icons.Material.Filled.ShoppingCart">
                 Cart
             </XStNavLink>
@@ -32,11 +36,13 @@
                 <Authorized>
                     <!--Account-->
                     <XStNavLink Href="/Account"
-                                Icon="@Icons.Material.Filled.AccountBox">
+                                Match="NavLinkMatch.All">
                         Account
                     </XStNavLink>
+
                     <!--Logout-->
                     <XStNavLink Href="/Account/Logout"
+                                Match="NavLinkMatch.All"
                                 Icon="@Icons.Material.Filled.Logout">
                         Logout
                     </XStNavLink>
@@ -44,6 +50,7 @@
                 <NotAuthorized>
                     <!--Login-->
                     <XStNavLink Href="/Account/Login"
+                                Match="NavLinkMatch.All"
                                 Icon="@Icons.Material.Filled.Login">
                         Login
                     </XStNavLink>
@@ -52,18 +59,21 @@
         </XStNavMenu>
     </MudDrawer>
 
+
     <!--Desktop menu-->
     <div class="xst-desktop-menu-container">
         <div>
             <XStNavMenu>
                 <!--Home-->
                 <XStNavLink Href="/"
+                            Match="NavLinkMatch.All"
                             Icon="@Icons.Material.Filled.Home">
                     Mobile store
                 </XStNavLink>
 
                 <!--Cart-->
                 <XStNavLink Href="/Cart"
+                            Match="NavLinkMatch.All"
                             Icon="@Icons.Material.Filled.ShoppingCart">
                     Cart
                 </XStNavLink>
@@ -75,19 +85,33 @@
                 <AuthorizeView>
                     <Authorized>
                         <!--Account-->
-                        <XStNavLink Href="/Account"
-                                    Icon="@Icons.Material.Filled.AccountBox">
-                            Account
-                        </XStNavLink>
+                        <MudMenu ActivationEvent="@MouseEvent.MouseOver" FullWidth="true" Dense="true" AnchorOrigin="Origin.BottomLeft">
+                            <ActivatorContent>
+                                <XStNavLink Href="/Account"
+                                            Icon="@Icons.Material.Filled.AccountBox"
+                                            Match="NavLinkMatch.All">
+                                    Account
+                                </XStNavLink>
+                            </ActivatorContent>
+                            <ChildContent>
+                                <MudMenuItem Href="/Account">Profile</MudMenuItem>
+                                <MudMenuItem Href="/Orders">Orders</MudMenuItem>
+                                <MudMenuItem Disabled="true" Href="/Favorites">Favorites</MudMenuItem>
+                            </ChildContent>
+                        </MudMenu>
+
                         <!--Logout-->
                         <XStNavLink Href="/Account/Logout"
+                                    Match="NavLinkMatch.All"
                                     Icon="@Icons.Material.Filled.Logout">
                             Logout
                         </XStNavLink>
                     </Authorized>
+
                     <NotAuthorized>
                         <!--Login-->
                         <XStNavLink Href="/Account/Login"
+                                    Match="NavLinkMatch.All"
                                     Icon="@Icons.Material.Filled.Login">
                             Login
                         </XStNavLink>
@@ -113,7 +137,7 @@
         {
             await BrowserViewportService.SubscribeAsync(this, fireImmediately: true);
         }
-        
+
 
     }
 
@@ -122,7 +146,7 @@
         _isOpen = true;
     }
 
-    
+
     Task IBrowserViewportObserver.NotifyBrowserViewportChangeAsync(BrowserViewportEventArgs browserViewportEventArgs)
     {
         if (browserViewportEventArgs.Breakpoint != Breakpoint.Xs)

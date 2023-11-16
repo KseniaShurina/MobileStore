@@ -55,6 +55,7 @@ namespace MobileStore.Core.Services
         public async Task<List<CartItemModel>> GetCartItems()
         {
             var userId = _identityService.UserId!.Value;
+
             var entity = await GetBaseQuery()
                 .Where(i => i.UserId == userId)
                 .ToListAsync();

@@ -4,7 +4,7 @@ using MobileStore.Infrastructure.Abstractions.Contexts;
 using MobileStore.Infrastructure.Entities;
 using MobileStore.Infrastructure.EntityConfigurations;
 using System.Data;
-using System.Reflection;
+using System.Data.Common;
 
 namespace MobileStore.Infrastructure.Contexts
 {
@@ -43,6 +43,11 @@ namespace MobileStore.Infrastructure.Contexts
             modelBuilder.ApplyConfiguration(new UserConfigurations());
         }
 
+
+        public DbConnection GetDbConnection()
+        {
+            return Database.GetDbConnection();
+        }
 
         public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
         {

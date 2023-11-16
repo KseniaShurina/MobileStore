@@ -5,7 +5,7 @@ namespace MobileStore.Core.Abstractions.Services
     public interface IOrderService
     {
         /// <summary>
-        /// Create new order if data base doesn't have order
+        /// SaveFileToDatabase new order if data base doesn't have order
         /// </summary>
         /// <param name="orderCreateModel">Object for transfer the data</param>
         /// <returns></returns>

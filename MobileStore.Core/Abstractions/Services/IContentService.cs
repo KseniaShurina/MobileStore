@@ -4,14 +4,11 @@ namespace MobileStore.Core.Abstractions.Services
 {
     public interface IContentService
     {
-        Task Create(string contentType, string name, byte[] data);
-        Task<ContentModel> Get(Guid contentId);
+        Task<ContentInfoModel> SaveFileToDatabase(
+            string contentType, string name, Stream stream, CancellationToken cancellationToken);
+
+        Task<ContentInfoModel?> GetContentInfo(Guid contentId, CancellationToken cancellationToken);
+        Task<Stream> Get(Guid contentId, CancellationToken cancellationToken);
         Task Delete(Guid contentId);
-
-
-
-        //Task<ProductModel> Create(Guid productTypeId, string productTypeName, string name, string company, double price, string img);
-        //Task<ProductModel> Update(ProductModel productModel);
-        //Task Delete(Guid productId);
     }
 }

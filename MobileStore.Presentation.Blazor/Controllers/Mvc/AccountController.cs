@@ -10,7 +10,7 @@ using MobileStore.Presentation.Blazor.ViewModels;
 // пространство имен моделей RegisterModel и LoginModel
 // пространство имен UserContext и класса User
 
-namespace MobileStore.Presentation.Blazor.Controllers
+namespace MobileStore.Presentation.Blazor.Controllers.Mvc
 {
     public class AccountController : Controller
     {
