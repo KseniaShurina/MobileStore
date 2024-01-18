@@ -19,7 +19,7 @@ builder.Services.AddMudServices();
 builder.Services.AddTransient<NotificationService>();
 
 
-// Auth
+// To set up Authentication by Cookies
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -42,6 +42,7 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
+//This method instructs the server to use certain authentication strategies when processing requests
 app.UseAuthentication();
 app.UseAuthorization();
 

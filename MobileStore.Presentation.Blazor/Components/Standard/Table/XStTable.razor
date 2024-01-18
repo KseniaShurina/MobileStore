@@ -4,6 +4,8 @@
 <div class="xst-table-container">
     <MudTable T="T"
               Items="Items"
+              Hover="Hover"
+              SortLabel="SortLabel"
               HeaderContent="HeaderContent"
               RowTemplate="RowTemplate"
               FooterContent="FooterContent">
@@ -21,6 +23,12 @@
 
     [Parameter]
     public RenderFragment<T> RowTemplate { get; set; } = null!;
+
+    [Parameter]
+    public string SortLabel { get; set; } = null!;
+
+    [Parameter]
+    public bool Hover { get; set; }
 
     [Parameter]
     public IEnumerable<T> Items { get; set; } = null!;

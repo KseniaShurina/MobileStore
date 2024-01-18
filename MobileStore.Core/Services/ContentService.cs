@@ -4,6 +4,7 @@ using MobileStore.Infrastructure.Abstractions.Contexts;
 using Npgsql;
 using Ardalis.GuardClauses;
 using MobileStore.Core.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace MobileStore.Core.Services
 {
@@ -33,13 +34,14 @@ namespace MobileStore.Core.Services
                 // Open a connection to the database.
                 await using (dbConnection = _context.GetDbConnection() as NpgsqlConnection)
                 {
+                    //await dbConnection!.OpenAsync();
                     await dbConnection!.OpenAsync(cancellationToken);
 
                     // Open a large object transaction.
                     await using var transaction = await dbConnection.BeginTransactionAsync(cancellationToken);
                     // It's query
                     var sql =
-                        "INSERT INTO public.\"Contents\"(\t\"Id\", \"ContentType\", \"Name\", \"Data\")" +
+                        "INSERT INTO public.\"Contents\"(\"Id\", \"ContentType\", \"Name\", \"Data\")" +
                         "VALUES (@id, @contentType, @name, @data)";
 
                     //command of SQL is being created
@@ -56,6 +58,7 @@ namespace MobileStore.Core.Services
                             new NpgsqlParameter("@name", NpgsqlTypes.NpgsqlDbType.Text) { Value = name });
 
                         // Add stream data as a parameter to the command
+                        // передаем данные в команду через параметры
                         command.Parameters.Add(
                             new NpgsqlParameter("@data", NpgsqlTypes.NpgsqlDbType.Bytea) { Value = stream });
 

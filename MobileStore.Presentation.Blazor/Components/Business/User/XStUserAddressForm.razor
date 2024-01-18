@@ -8,7 +8,7 @@
 @inject IUserService UserService
 
 <div class="user-address-form-container">
-    <XStForm @ref="_form" Model="User" IsValidChanged="IsValidChanged">
+    <XStForm Model="User" IsValidChanged="IsValidChanged">
         <XStGrid>
             <XStItem xs="12">
                 <XStTextField @bind-Value="@User.FirstName"

@@ -8,17 +8,17 @@ namespace MobileStore.Core.Models
 {
     public class ContentCreateModel
     {
-        private string ContentType { get; } = null!;
+        private string ContentType { get; set; } = null!;
 
-        public string Name { get; }
+        public string Name { get; set; } = null!;
 
-        public Stream Data { get; }
+        public Stream Data { get; set; } = null!;
 
-        public ContentCreateModel(string contentType, string name, Stream data)
-        {
-            ContentType = contentType;
-            Name = name;
-            Data = data;
-        }
+        //public ContentCreateModel(string contentType, string name, Stream data)
+        //{
+        //    ContentType = contentType;
+        //    Name = name;
+        //    Data = data;
+        //}
     }
 }

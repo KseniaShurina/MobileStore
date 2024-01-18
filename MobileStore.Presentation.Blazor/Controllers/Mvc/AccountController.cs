@@ -21,7 +21,7 @@ namespace MobileStore.Presentation.Blazor.Controllers.Mvc
             _accountService = accountService;
         }
         /// <summary>
-        /// возвращает представление с формой
+        /// return View
         /// </summary>
         /// <param name="returnUrl"></param>
         /// <returns></returns>
@@ -36,21 +36,23 @@ namespace MobileStore.Presentation.Blazor.Controllers.Mvc
             var model = new LoginViewModel { ReturnUrl = returnUrl };
             return View(model);
         }
+
         /// <summary>
-        /// Обращаемся в БД для аутентификации пользователя
+        /// User Authenticate
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">ViewModel for transfer user data</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
+
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            // ! shows that item cannot be null here
+
             var validUser = await _accountService.IsValidPassword(model.Email!, model.Password!);
             if (validUser)
             {
@@ -61,12 +63,12 @@ namespace MobileStore.Presentation.Blazor.Controllers.Mvc
 
 
             }
-            ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+            ModelState.AddModelError("", "Invalid login and/or password");
             return View(model);
         }
 
         /// <summary>
-        /// 
+        /// Provide register form
         /// </summary>
         /// <returns></returns>
         [HttpGet]

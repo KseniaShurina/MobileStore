@@ -1,0 +1,40 @@
+﻿@using MobileStore.Core.Abstractions.Services
+@using MobileStore.Core.Models
+@using MobileStore.Presentation.Blazor.Components.Standard.Table
+
+@inject IProductService ProductService
+
+@page "/ManageProducts"
+
+
+<div>
+    <XStTable Items="ProductModels" Hover="true" SortLabel="Sort By">
+        <HeaderContent>
+            <MudTh><MudTableSortLabel SortBy="@(new Func<ProductModel, object>(x => ProductModels.IndexOf(x) + 1))">Nr</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel Enabled="true" SortBy="new Func<ProductModel, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<ProductModel, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ProductModel, object>(x=>x.ProductTypeId)">ProductTypeId</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ProductModel, object>(x=>x.Company)">Company</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<ProductModel, object>(x=>x.Price)">Price</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <XStTd>@(ProductModels.IndexOf(context) + 1)</XStTd>
+            <XStTd>@context.Id</XStTd>
+                <XStTd>@context.Name</XStTd>
+                <XStTd>@context.ProductTypeId</XStTd>
+                <XStTd>@context.Company</XStTd>
+                <XStTd>@context.Price</XStTd>
+            </RowTemplate>
+        </XStTable>
+    </div>
+
+
+    @code {
+    public List<ProductModel> ProductModels = new List<ProductModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        ProductModels = await ProductService.GetProducts(null);
+    }
+}
