@@ -5,9 +5,11 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace MobileStore.Infrastructure.Abstractions.Contexts.Base;
 // Contain methods for interaction with 
-public interface IDbContextBase
+public interface IDbContextBase : IDisposable, IAsyncDisposable
 {
     DbConnection GetDbConnection();
+
+    int SaveChanges();
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 

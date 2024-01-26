@@ -18,7 +18,7 @@ namespace MobileStore.Infrastructure.Contexts
         public DbSet<Order> Orders { get; set; } = null!;
         public  DbSet<User> Users { get; set; } = null!;
         public DbSet<CartItem> CartItems { get; set; } = null!;
-        public DbSet<OrderItem> OrderItem { get; set; } = null!;
+        public DbSet<OrderItem> OrderItems { get; set; } = null!;
         public DbSet<Content> Contents { get; set; } = null!;
         public DbSet<ProductContent> ProductContents { get; set; } = null!;
 

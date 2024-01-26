@@ -11,7 +11,7 @@ public interface IDefaultContext : IDbContextBase
     DbSet<Order> Orders { get; }
     DbSet<User> Users { get; }
     DbSet<CartItem> CartItems { get; }
-    DbSet<OrderItem> OrderItem { get; }
+    DbSet<OrderItem> OrderItems { get; }
     DbSet<Content> Contents { get; }
     DbSet<ProductContent> ProductContents { get; }
 }

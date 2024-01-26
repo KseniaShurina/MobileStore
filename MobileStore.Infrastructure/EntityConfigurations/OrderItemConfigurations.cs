@@ -10,9 +10,9 @@ namespace MobileStore.Infrastructure.EntityConfigurations
         {
             builder.HasKey(x => x.Id);
 
-            builder.HasOne(i => i.Product)
-                .WithMany(p => p.OrderItems)
-                .HasForeignKey(x => x.ProductId);
+            builder.HasOne(i => i.Order)
+                .WithMany(p => p.Items)
+                .HasForeignKey(x => x.OrderId);
         }
     }
 }

@@ -115,7 +115,7 @@ namespace MobileStore.Core.Services
         {
             try
             {
-                await _context.OrderItem.Where(x => x.Id == orderId).ExecuteDeleteAsync();
+                await _context.OrderItems.Where(x => x.Id == orderId).ExecuteDeleteAsync();
                 await _context.SaveChangesAsync();
             }
             catch (Exception e)
