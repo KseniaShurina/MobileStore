@@ -11,7 +11,5 @@
         public Product Product { get; set; } = null!;
         public int Quantity { get; set; }
         public double ProductPrice { get; set; }
-
-        public List<Order> Orders { get; set; } = null!;
     }
 }
