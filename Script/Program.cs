@@ -28,9 +28,11 @@ class Program
 
         // Bogus faker
 
+        var products = context.Products.ToList();
+
         for (int i = 0; i < 3; i++)
         {
-            var order = GenerateRandomOrder();
+            var order = GenerateRandomOrder(products);
             context.Orders.Add(order);
         }
         context.SaveChanges();
@@ -39,11 +41,12 @@ class Program
         return;
     }
 
-    static Order GenerateRandomOrder()
+    static Order GenerateRandomOrder(List<Product> products)
     {
+        var id = Guid.NewGuid();
         return new Order
         {
-            Id = Guid.NewGuid(),
+            Id = id,
             Datetime = DateTime.UtcNow.AddDays(-random.Next(1, 365)),
             FirstName = GenerateRandomString(8),
             LastName = GenerateRandomString(10),
@@ -51,6 +54,17 @@ class Program
             Address = GenerateRandomString(20),
             ContactPhone = GenerateRandomPhoneNumber(),
             UserId = Guid.Parse("30ccd9d5-9ee6-446f-a36e-d68e51d7678e"),
+            Items = Enumerable
+                .Range(1, random.Next(1, products.Count - 1))
+                .Select(i => new OrderItem
+                {
+                    Id = Guid.NewGuid(),
+                    OrderId = id,
+                    ProductId = products[i].Id,
+                    ProductPrice = products[i].Price,
+                    Quantity = random.Next(1, 5),
+                })
+                .ToList()
         };
     }
     static string GenerateRandomString(int length)
