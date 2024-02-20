@@ -6,9 +6,9 @@ namespace MobileStore.Infrastructure.EntityConfigurations
 {
     internal class ContentConfigurations : IEntityTypeConfiguration<Content>
     {
-        public void Configure(EntityTypeBuilder<Content> builder)
-        {
-            builder.HasKey(x => x.Id);
-        }
+            public void Configure(EntityTypeBuilder<Content> builder)
+            {
+                builder.HasKey(x => x.Id);
+            }
     }
 }

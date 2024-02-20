@@ -1,6 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 using MobileStore.Infrastructure.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MobileStore.Infrastructure.EntityConfigurations
 {
@@ -11,8 +16,8 @@ namespace MobileStore.Infrastructure.EntityConfigurations
             builder.HasKey(x => x.Id);
 
             builder.HasOne(p => p.Product)
-                .WithMany(x => x.Contents)
-                .HasForeignKey(p => p.ContentId);
+                .WithMany(p => p.Contents)
+                .HasForeignKey(i => i.ProductId);
         }
     }
 }

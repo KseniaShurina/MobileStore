@@ -16,8 +16,8 @@ namespace MobileStore.Core.Services
             _context = context;
         }
 
-        public async Task<ContentInfoModel> SaveFileToDatabase
-        (string contentType, string name, Stream stream, CancellationToken cancellationToken)
+        public async Task<ContentInfoModel> SaveFileToDatabase(
+            string contentType, string name, Stream stream, CancellationToken cancellationToken)
         {
             Guard.Against.NullOrEmpty(contentType);
             Guard.Against.NullOrEmpty(name);
@@ -82,7 +82,8 @@ namespace MobileStore.Core.Services
             }
         }
 
-        public async Task<ContentInfoModel?> GetContentInfo(Guid contentId, CancellationToken cancellationToken)
+        public async Task<ContentInfoModel?> GetContentInfo(
+            Guid contentId, CancellationToken cancellationToken)
         {
             var content = await _context.Contents
                 .Where(i => i.Id == contentId)

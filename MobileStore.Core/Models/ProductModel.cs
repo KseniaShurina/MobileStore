@@ -1,4 +1,6 @@
-﻿namespace MobileStore.Core.Models
+﻿using MobileStore.Infrastructure.Entities;
+
+namespace MobileStore.Core.Models
 {
     public class ProductModel
     {
@@ -8,5 +10,6 @@
         public string Company { get; init; } = null!;
         public double Price { get; init; }
         public string Img { get; init; } = null!;
+        public Content Content { get; set; } = null!;
     }
 }
