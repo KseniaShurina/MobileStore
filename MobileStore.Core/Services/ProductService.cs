@@ -34,6 +34,7 @@ internal class ProductService : IProductService
     {
         var entity = await _context.Products
             .AsNoTracking()
+            .Include(i => i.Contents)
             .Where(i => i.Id == productId)
             .FirstOrDefaultAsync();
 
@@ -48,7 +49,9 @@ internal class ProductService : IProductService
     public async Task<List<ProductModel>> GetProducts(Guid? productTypeId)
     {
         var query = _context.Products
-            .AsNoTracking();
+            .AsNoTracking()
+            .Include(i => i.Contents)
+            .AsQueryable();
 
         if (productTypeId != null)
         {

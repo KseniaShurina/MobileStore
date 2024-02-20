@@ -13,8 +13,8 @@ namespace MobileStore.Core.Extensions.Entities
                 ProductTypeId = entity.ProductTypeId,
                 Name = entity.Name,
                 Company = entity.Company,
-                Img = entity.Img,
                 Price = entity.Price,
+                Contents = entity.Contents.Select(i => i.MapToModel()).ToList(),
             };
         }
     }

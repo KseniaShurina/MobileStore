@@ -3,16 +3,23 @@
 @using MobileStore.Presentation.Blazor.Components.Business.Cart
 @using MobileStore.Presentation.Blazor.Components.Standard.Card
 @using MobileStore.Presentation.Blazor.Components.Standard.Text
+@using MobileStore.Presentation.Blazor.Helpers
 @using MobileStore.Presentation.Blazor.Pages
 
 <div class="product-card">
     <XStCard>
         <Content>
-            <div class="card-img" style="background-image: url(@Model.Img)"></div>
             <div class="card-content">
                 <XStText Typo="Typo.h5">@Model.Name</XStText>
                 <XStText Typo="Typo.body1">@Model.Price.ToString(CultureInfo.InvariantCulture)</XStText>
             </div>
+
+            @foreach (var productContent in Model.Contents.Take(1))
+            {
+                <div class="card-img"
+                     style="background-image: url(@(ContentHelper.GetUrl(productContent.ContentId))">
+                </div>
+            }
         </Content>
         <Actions>
             <XStCartItemCreateButton ProductId="Model.Id"></XStCartItemCreateButton>

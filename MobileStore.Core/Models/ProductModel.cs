@@ -1,6 +1,4 @@
-﻿using MobileStore.Infrastructure.Entities;
-
-namespace MobileStore.Core.Models
+﻿namespace MobileStore.Core.Models
 {
     public class ProductModel
     {
@@ -9,7 +7,6 @@ namespace MobileStore.Core.Models
         public string Name { get; init; } = null!;
         public string Company { get; init; } = null!;
         public double Price { get; init; }
-        public string Img { get; init; } = null!;
-        public Content Content { get; set; } = null!;
+        public IReadOnlyCollection<ProductContentModel> Contents { get; set; } = null!;
     }
 }

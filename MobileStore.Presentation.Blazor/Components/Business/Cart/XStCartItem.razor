@@ -2,12 +2,19 @@
 @using System.Globalization
 @using MobileStore.Presentation.Blazor.Components.Standard.Grid
 @using MobileStore.Presentation.Blazor.Components.Standard.Text
+@using MobileStore.Presentation.Blazor.Helpers
 
 <div class="cart-item-card">
     
     <XStGrid>
         <XStItem xs="12" sm="2" md="1">
-            <div class="card-img" style="background-image: url(@Model.Product.Content)"></div>
+            @foreach (var productContent in Model.Product.Contents.Take(1))
+            {
+                <div class="card-img"
+                     style="background-image: url(@(ContentHelper.GetUrl(productContent.ContentId))">
+                </div>
+            }
+            @*  *@
         </XStItem>
         <XStItem xs="12" sm="10" md="11">
             <div class="card-content">

@@ -4,7 +4,6 @@ using MobileStore.Infrastructure.Abstractions.Contexts;
 using Npgsql;
 using Ardalis.GuardClauses;
 using MobileStore.Core.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace MobileStore.Core.Services
 {

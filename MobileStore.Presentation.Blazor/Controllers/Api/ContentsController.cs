@@ -4,7 +4,7 @@ using MobileStore.Core.Abstractions.Services;
 namespace MobileStore.Presentation.Blazor.Controllers.Api
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ContentsController : ControllerBase
     {
         private readonly IContentService _contentService;
