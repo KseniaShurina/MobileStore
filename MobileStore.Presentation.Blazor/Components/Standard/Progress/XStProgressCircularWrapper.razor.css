@@ -1,0 +1,12 @@
+﻿.progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+}

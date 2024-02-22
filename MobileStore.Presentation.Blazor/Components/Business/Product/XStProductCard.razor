@@ -9,27 +9,25 @@
 <div class="product-card">
     <XStCard>
         <Content>
-            <div class="card-content">
-                <XStText Typo="Typo.h5">@Model.Name</XStText>
-                <XStText Typo="Typo.body1">@Model.Price.ToString(CultureInfo.InvariantCulture)</XStText>
-            </div>
-
             @foreach (var productContent in Model.Contents.Take(1))
             {
                 <div class="card-img"
                      style="background-image: url(@(ContentHelper.GetUrl(productContent.ContentId))">
                 </div>
             }
-        </Content>
-        <Actions>
-            <XStCartItemCreateButton ProductId="Model.Id"></XStCartItemCreateButton>
-        </Actions>
-    </XStCard>
-</div>
+            <div class="card-content">
+                <XStText Typo="Typo.h5">@Model.Name</XStText>
+                <XStText Typo="Typo.body1">@Model.Price.ToString(CultureInfo.InvariantCulture)</XStText>
+                </div>
+            </Content>
+            <Actions>
+                <XStCartItemCreateButton ProductId="Model.Id"></XStCartItemCreateButton>
+            </Actions>
+        </XStCard>
+    </div>
 
-@code {
-
+    @code
+    {
     [Parameter]
     public ProductModel Model { get; set; } = null!;
-
-}
+    }

@@ -16,13 +16,11 @@ internal class ProductService : IProductService
         _context = context;
     }
 
-    private static ProductTypeModel MapFromEntity(ProductType entity)
+    private IQueryable<Product> GetBaseQuery()
     {
-        return new ProductTypeModel
-        {
-            Id = entity.Id,
-            Name = entity.Name,
-        };
+        return _context.Products
+            .AsNoTracking()
+            .Include(i => i.Contents);
     }
 
     /// <summary>
@@ -32,8 +30,7 @@ internal class ProductService : IProductService
     /// <returns></returns>
     public async Task<ProductModel?> GetProduct(Guid productId)
     {
-        var entity = await _context.Products
-            .AsNoTracking()
+        var entity = await GetBaseQuery()
             .Include(i => i.Contents)
             .Where(i => i.Id == productId)
             .FirstOrDefaultAsync();
@@ -79,7 +76,7 @@ internal class ProductService : IProductService
             .ToListAsync();
 
         return entities
-            .Select(MapFromEntity)
+            .Select(i => i.MapToModel())
             .ToList();
     }
 
@@ -122,14 +119,13 @@ internal class ProductService : IProductService
 
     }
 
-    public async Task UpdateCurrentProduct(ProductModel productModel)
+    public async Task Update(ProductModel productModel)
     {
         var product = await _context.Products
             .Include(i => i.Contents)
             .FirstOrDefaultAsync(p => p.Id == productModel.Id) ??
                       throw new ArgumentNullException($"Product does not exist {nameof(productModel.Id)}");
        
-        product.Id = productModel.Id;
         product.ProductTypeId = productModel.ProductTypeId;
         product.Name = productModel.Name;
         product.Company = productModel.Company;

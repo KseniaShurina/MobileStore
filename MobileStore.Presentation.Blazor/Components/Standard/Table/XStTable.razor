@@ -8,7 +8,8 @@
               SortLabel="SortLabel"
               HeaderContent="HeaderContent"
               RowTemplate="RowTemplate"
-              FooterContent="FooterContent">
+              FooterContent="FooterContent"
+              OnRowClick="OnRowClick">
     </MudTable>
 </div>
 
@@ -32,4 +33,7 @@
 
     [Parameter]
     public IEnumerable<T> Items { get; set; } = null!;
+
+    [Parameter]
+    public EventCallback<TableRowClickEventArgs<T>> OnRowClick { get; set; }
 }

@@ -13,6 +13,7 @@ namespace MobileStore.Core.Extensions.Entities
                 ContentId = entity.ContentId,
                 ContentType = entity.ContentType,
                 Name = entity.Name,
+                ProductId = entity.ProductId,
             };
         }
     }

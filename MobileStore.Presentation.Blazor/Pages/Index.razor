@@ -8,6 +8,7 @@
 @inject IProductService ProductService
 @inject NavigationManager NavigationManager
 
+
 @page "/"
 
 <PageTitle>Index</PageTitle>
@@ -40,7 +41,7 @@
     private List<ProductModel> _models = new();
 
     /// <summary>
-    /// для извлечения значения параметра "productTypeId" из текущего URL-запроса (query string)
+    /// For retrieves the value "productTypeId" from current query string
     /// </summary>
     /// <returns></returns>
     protected override async Task OnInitializedAsync()
@@ -49,6 +50,8 @@
 
         if (Guid.TryParse(NavigationManager.QueryString("productTypeId"), out var productTypeId))
         {
+            // If parsing of the query string parameter as a GUID is successful,
+            // assign the parsed GUID value to the _productTypeId variable
             _productTypeId = productTypeId;
         }
 

@@ -4,7 +4,7 @@
     {
         public Guid Id { get; init; }
         public Guid ProductTypeId { get; init; }
-        public string Name { get; init; } = null!;
+        public string Name { get; set; } = null!;
         public string Company { get; init; } = null!;
         public double Price { get; init; }
         public IReadOnlyCollection<ProductContentModel> Contents { get; set; } = null!;

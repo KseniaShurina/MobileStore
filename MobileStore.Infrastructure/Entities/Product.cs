@@ -1,14 +1,16 @@
-﻿namespace MobileStore.Infrastructure.Entities
+﻿using System;
+using Ardalis.GuardClauses;
+
+namespace MobileStore.Infrastructure.Entities
 {
     public class Product
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; init; }
         public Guid ProductTypeId { get; set; }
-        public ProductType ProductType { get; set; } = null!;
+        public ProductType ProductType { get; init; } = null!;
         public string Name { get; set; } = null!;
         public string Company { get; set; } = null!;
         public double Price { get; set; }
-        public string Img { get; set; } = null!;
 
 
         // по этому свойству можно узнать сколько раз этот продукт заказывали например

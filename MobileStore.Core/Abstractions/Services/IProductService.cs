@@ -13,5 +13,5 @@ public interface IProductService
     Task<ProductModel> Create(Guid productTypeId, string name, string company, double price, 
         List<ContentCreateModel> contents);
 
-    Task UpdateCurrentProduct(ProductModel productModel);
+    Task Update(ProductModel productModel);
 }

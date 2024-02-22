@@ -28,7 +28,8 @@ namespace MobileStore.Core.Services
         {
             return _context.CartItems
                 .AsNoTracking()
-                .Include(i => i.Product);
+                .Include(i => i.Product)
+                .ThenInclude(i => i.Contents);
         }
 
         /// <summary>
@@ -81,7 +82,8 @@ namespace MobileStore.Core.Services
                 throw new ArgumentException($"Product cartItemId = {productId} not found", nameof(productId));
             }
 
-            var item = await _context.CartItems.FirstOrDefaultAsync(p => p.ProductId == productId);
+            var item = await _context.CartItems
+                .FirstOrDefaultAsync(p => p.ProductId == productId && p.UserId == userId);
 
             if (item != null)
             {

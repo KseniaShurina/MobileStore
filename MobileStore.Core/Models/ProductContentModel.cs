@@ -7,5 +7,7 @@
 
         public string ContentType { get; init; } = null!;
         public string Name { get; init; } = null!;
+
+        public Guid ProductId { get; init; }
     }
 }

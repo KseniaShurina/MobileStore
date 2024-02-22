@@ -35,7 +35,7 @@
             <AuthorizeView>
                 <Authorized>
                     <!--Account-->
-                    <XStNavLink Href="/Account"
+                    <XStNavLink Icon="@Icons.Material.Filled.AccountBox"
                                 Match="NavLinkMatch.All">
                         Account
                     </XStNavLink>
@@ -87,8 +87,7 @@
                         <!--Account-->
                         <MudMenu ActivationEvent="@MouseEvent.MouseOver" FullWidth="true" Dense="true" AnchorOrigin="Origin.BottomLeft">
                             <ActivatorContent>
-                                <XStNavLink Href="/Account"
-                                            Icon="@Icons.Material.Filled.AccountBox"
+                                <XStNavLink Icon="@Icons.Material.Filled.AccountBox"
                                             Match="NavLinkMatch.All">
                                     Account
                                 </XStNavLink>
@@ -96,7 +95,7 @@
                             <ChildContent>
                                 <MudMenuItem Href="/Account">Profile</MudMenuItem>
                                 <MudMenuItem Href="/Orders">Orders</MudMenuItem>
-                                <MudMenuItem Href="/ManageProducts">Admin panel</MudMenuItem>
+                                <MudMenuItem Href="/Admin/Products">Admin panel</MudMenuItem>
                                 <MudMenuItem Href="/Admin">Upload Files</MudMenuItem>
                                 <MudMenuItem Disabled="true" Href="/Favorites">Favorites</MudMenuItem>
                             </ChildContent>

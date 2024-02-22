@@ -28,7 +28,8 @@ namespace MobileStore.Core.Services
             return _context.Orders
                 .AsNoTracking()
                 .Include(i => i.Items)
-                .ThenInclude(i => i.Product);
+                .ThenInclude(i => i.Product)
+                .ThenInclude(i => i.Contents);
         }
 
         public async Task<OrderModel> CreateOrder(OrderCreateModel orderCreateModel)

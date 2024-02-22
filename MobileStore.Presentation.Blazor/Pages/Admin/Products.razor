@@ -3,12 +3,17 @@
 @using MobileStore.Presentation.Blazor.Components.Standard.Table
 
 @inject IProductService ProductService
+@inject NavigationManager NavigationManager
 
-@page "/ManageProducts"
+@page "/Admin/Products"
 
 
 <div>
-    <XStTable Items="ProductModels" Hover="true" SortLabel="Sort By">
+    <XStTable Items="ProductModels" 
+              T="ProductModel"
+              Hover="true" 
+              SortLabel="Sort By"
+              OnRowClick="OnClick">
         <HeaderContent>
             <MudTh><MudTableSortLabel SortBy="@(new Func<ProductModel, object>(x => ProductModels.IndexOf(x) + 1))">Nr</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel Enabled="true" SortBy="new Func<ProductModel, object>(x=>x.Id)">Id</MudTableSortLabel></MudTh>
@@ -30,11 +35,16 @@
 
 
     @code {
-    public List<ProductModel> ProductModels = new List<ProductModel>();
+    public List<ProductModel> ProductModels = new();
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         ProductModels = await ProductService.GetProducts(null);
+    }
+
+    private void OnClick(TableRowClickEventArgs<ProductModel> arg)
+    {
+        NavigationManager.NavigateTo($"/Admin/Products/{arg.Item.Id}");
     }
 }

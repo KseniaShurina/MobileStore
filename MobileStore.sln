@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Presentation.Bl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Presentation.Api", "MobileStore.Presentation.Api\MobileStore.Presentation.Api.csproj", "{2092C7B1-0062-41E5-9B59-99D0A1E962CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts", "Script\Scripts.csproj", "{910DCF1A-CC96-48C4-970F-2D9DE95D30A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scripts", "Script\Scripts.csproj", "{910DCF1A-CC96-48C4-970F-2D9DE95D30A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
