@@ -1,0 +1,48 @@
+﻿<div>
+    <MudGrid Justify="Justify.Center">
+        <MudItem xs="12" sm="10" md="8" lg="6" xl="4" xxl="3">
+            <MudCard>
+                <MudFileUpload T="IBrowserFile"
+                               Files="File"
+                               FilesChanged="OnFileChanged">
+                    <ButtonTemplate>
+                        <MudButton HtmlTag="label"
+                                   Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                                   for="@context">
+                            Upload Files
+                        </MudButton>
+                    </ButtonTemplate>
+
+                    <SelectedTemplate>
+                        @if (File != null)
+                        {
+                            <MudText>@File.Name</MudText>
+                        }
+                        else
+                        {
+                            <MudText>No File</MudText>
+                        }
+                    </SelectedTemplate>
+                </MudFileUpload>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</div>
+
+@code {
+    [Parameter]
+    public IBrowserFile? File { get; set; }
+    [Parameter]
+    public EventCallback<IBrowserFile?> FileChanged { get; set; }
+
+    [Parameter]
+    public bool IsUploading { get; set; }
+
+    public void OnFileChanged(IBrowserFile? val)
+    {
+        File = val;
+        FileChanged.InvokeAsync(val);
+    }
+}

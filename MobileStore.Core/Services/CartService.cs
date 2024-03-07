@@ -32,11 +32,6 @@ namespace MobileStore.Core.Services
                 .ThenInclude(i => i.Contents);
         }
 
-        /// <summary>
-        /// Got cart item
-        /// </summary>
-        /// <param name="cartItemId"></param>
-        /// <returns></returns>
         private Task<CartItem?> Get(Guid cartItemId)
         {
             return GetBaseQuery()

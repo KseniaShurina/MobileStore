@@ -8,6 +8,7 @@ public interface IDefaultContext : IDbContextBase
 {
     DbSet<Product> Products { get; }
     DbSet<ProductType> ProductTypes { get; }
+    DbSet<ProductContent> ProductContents { get; }
     DbSet<Order> Orders { get; }
     DbSet<User> Users { get; }
     DbSet<CartItem> CartItems { get; }

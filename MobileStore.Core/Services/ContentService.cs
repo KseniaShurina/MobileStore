@@ -4,6 +4,7 @@ using MobileStore.Infrastructure.Abstractions.Contexts;
 using Npgsql;
 using Ardalis.GuardClauses;
 using MobileStore.Core.Models;
+using MobileStore.Infrastructure.Entities;
 
 namespace MobileStore.Core.Services
 {
@@ -111,85 +112,33 @@ namespace MobileStore.Core.Services
 
         public async Task Delete(Guid contentId)
         {
-            var content = await _context.Contents.FirstOrDefaultAsync(i => i.Id == contentId) ?? 
-                          throw new ArgumentNullException($"Content does not exist {nameof(contentId)}");
+            var content = await _context.Contents.FirstOrDefaultAsync(i => i.Id == contentId);
+
+            if (content == null)
+            {
+                throw new ArgumentException($"Content does not exist {nameof(contentId)}");
+            }
 
             _context.Contents.Remove(content);
             await _context.SaveChangesAsync();
         }
 
-        #region MyRegion
+        public async Task Delete(IEnumerable<Guid> contentIds)
+        {
+            contentIds = contentIds.ToList();
 
-        //public async Task<ProductModel> SaveFileToDatabase(Guid productTypeId, string productTypeName, string name, string company, double price, string img)
-        //{
-        //    var productTypeExist = await _context.Products.AnyAsync(p => p.ProductTypeId == productTypeId);
-        //    Product? product = null;
-        //    if (productTypeExist)
-        //    {
-        //        product = new Product
-        //        {
-        //            Id = Guid.NewGuid(),
-        //            ProductTypeId = productTypeId,
-        //            Name = name,
-        //            Company = company,
-        //            Price = price,
-        //            Img = img
-        //        };
-        //    }
-        //    else
-        //    {
-        //        var productType = new ProductType
-        //        {
-        //            Id = Guid.NewGuid(),
-        //            Name = productTypeName,
-        //        };
+            var contents = await _context.Contents
+                .Where(i => contentIds.Contains(i.Id))
+                .ToListAsync();;
 
-        //        product = new Product
-        //        {
-        //            Id = Guid.NewGuid(),
-        //            ProductTypeId = productType.Id,
-        //            Name = name,
-        //            Company = company,
-        //            Price = price,
-        //            Img = img
-        //        };
-        //    }
+            if (contentIds.Count() != contents.Count)
+            {
+                // TODO add message
+                throw new ArgumentException("Error");
+            }
 
-        //    await _context.Products.AddAsync(product);
-        //    await _context.SaveChangesAsync();
-        //    return product.MapToModel();
-        //    //throw new NotImplementedException();
-        //}
-
-        //public async Task<ProductModel> Update(ProductModel productModel)
-        //{
-        //    var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productModel.Id);
-        //    if (product == null)
-        //    {
-        //        throw new ArgumentNullException($"Product does not exist {nameof(product.Id)}");
-        //    }
-
-        //    var updatedProduct = product.MapToModel();
-
-        //    productModel = updatedProduct;
-
-        //    await _context.SaveChangesAsync();
-
-        //    return updatedProduct;
-        //}
-
-        //public async Task Delete(Guid productId)
-        //{
-        //    var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId);
-
-        //    if (product == null)
-        //    {
-        //        throw new ArgumentException($"Product not found {nameof(product)}");
-        //    }
-        //    _context.Products.Remove(product);
-        //    await _context.SaveChangesAsync();
-        //}
-
-        #endregion
+            _context.Contents.RemoveRange(contents);
+            await _context.SaveChangesAsync();
+        }
     }
 }

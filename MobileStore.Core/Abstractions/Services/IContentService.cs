@@ -10,5 +10,7 @@ namespace MobileStore.Core.Abstractions.Services
         Task<ContentInfoModel?> GetContentInfo(Guid contentId, CancellationToken cancellationToken);
         Task<Stream> Get(Guid contentId, CancellationToken cancellationToken);
         Task Delete(Guid contentId);
+
+        Task Delete(IEnumerable<Guid> contentIds);
     }
 }

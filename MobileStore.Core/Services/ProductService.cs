@@ -10,10 +10,12 @@ namespace MobileStore.Core.Services;
 internal class ProductService : IProductService
 {
     private readonly IDefaultContext _context;
+    private readonly IContentService _contentService;
 
-    public ProductService(IDefaultContext context)
+    public ProductService(IDefaultContext context, IContentService contentService)
     {
         _context = context;
+        _contentService = contentService;
     }
 
     private IQueryable<Product> GetBaseQuery()
@@ -24,10 +26,10 @@ internal class ProductService : IProductService
     }
 
     /// <summary>
-    /// Gets current product by Id
+    /// Gets current product by ID
     /// </summary>
-    /// <param name="productId">Product Id</param>
-    /// <returns></returns>
+    /// <param name="productId">ProductId</param>
+    /// <returns>ProductModel</returns>
     public async Task<ProductModel?> GetProduct(Guid productId)
     {
         var entity = await GetBaseQuery()
@@ -39,10 +41,10 @@ internal class ProductService : IProductService
     }
 
     /// <summary>
-    /// Gets all products by product type Id
+    /// Gets all products by productTypeId
     /// </summary>
-    /// <param name="productTypeId">product type Id</param>
-    /// <returns></returns>
+    /// <param name="productTypeId">productTypeId</param>
+    /// <returns>ProductModels</returns>
     public async Task<List<ProductModel>> GetProducts(Guid? productTypeId)
     {
         var query = _context.Products
@@ -67,7 +69,7 @@ internal class ProductService : IProductService
     /// <summary>
     /// Gets all product types
     /// </summary>
-    /// <returns></returns>
+    /// <returns>ProductTypeModels</returns>
     public async Task<List<ProductTypeModel>> GetProductTypes()
     {
         var entities = await _context
@@ -81,14 +83,14 @@ internal class ProductService : IProductService
     }
 
     /// <summary>
-    /// SaveFileToDatabase new product and added to DB
+    /// Create new product and add to DB
     /// </summary>
-    /// <param name="productTypeId">product type Id</param>
+    /// <param name="productTypeId">productTypeId</param>
     /// <param name="name">product name</param>
     /// <param name="company">product company</param>
     /// <param name="price">product price</param>
     /// <param name="contents">product content</param>
-    /// <returns></returns>
+    /// <returns>ProductModel</returns>
     /// <exception cref="ArgumentNullException"> Throw Exception if product exist</exception>
     public async Task<ProductModel> Create(
         Guid productTypeId,
@@ -103,7 +105,6 @@ internal class ProductService : IProductService
             throw new ArgumentNullException($"Product type does not exist {nameof(productTypeId)}");
         }
 
-
         var product = new Product
         {
             Id = Guid.NewGuid(),
@@ -116,28 +117,63 @@ internal class ProductService : IProductService
         await _context.Products.AddAsync(product);
         await _context.SaveChangesAsync();
         return product.MapToModel();
-
     }
 
     public async Task Update(ProductModel productModel)
     {
-        var product = await _context.Products
-            .Include(i => i.Contents)
-            .FirstOrDefaultAsync(p => p.Id == productModel.Id) ??
-                      throw new ArgumentNullException($"Product does not exist {nameof(productModel.Id)}");
-       
-        product.ProductTypeId = productModel.ProductTypeId;
-        product.Name = productModel.Name;
-        product.Company = productModel.Company;
-        product.Price = productModel.Price;
+        await using var transaction = await _context.BeginTransactionAsync();
+        try
+        {
+            var product = await _context.Products
+                              .Include(i => i.Contents)
+                              .FirstOrDefaultAsync(p => p.Id == productModel.Id) ??
+                          throw new ArgumentNullException($"Product does not exist {nameof(productModel.Id)}");
 
-        await _context.SaveChangesAsync();
+            var contentsForDelete = product.Contents
+                .Where(i => !productModel.Contents.Select(pc => pc.Id).Contains(i.Id))
+            .ToList();
+
+            // TODO move to method ToEntity
+            var contentsForAdd = productModel.Contents
+                .Select(i => new ProductContent
+                {
+                    Id = i.Id,
+                    ContentId = i.ContentId,
+                    ContentType = i.ContentType,
+                    Name = i.Name,
+                    ProductId = i.ProductId,
+                })
+                .ToList();
+
+            _context.ProductContents.RemoveRange(contentsForDelete);
+
+            await _contentService.Delete(contentsForDelete.Select(i => i.Id));
+
+            
+            product.ProductTypeId = productModel.ProductTypeId;
+            product.Name = productModel.Name;
+            product.Company = productModel.Company;
+            product.Price = productModel.Price;
+            product.Contents = null!;
+
+            _context.ProductContents.AddRange(contentsForAdd);
+
+            await _context.SaveChangesAsync();
+
+
+            await transaction.CommitAsync();
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 
     /// <summary>
-    /// 
+    /// Delete product
     /// </summary>
-    /// <param name="productId"></param>
+    /// <param name="productId">ProductId</param>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
     public async Task Delete(Guid productId)

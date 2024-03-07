@@ -14,8 +14,8 @@ namespace MobileStore.Infrastructure.Contexts
     internal class DefaultContext : DbContext, IDefaultContext
     {
         public DbSet<Product> Products { get; set; } = null!;
-        public DbSet<ProductContent> ProductContents { get; set; } = null!;
         public DbSet<ProductType> ProductTypes { get; set; } = null!;
+        public DbSet<ProductContent> ProductContents { get; set; } = null!;
         public DbSet<Order> Orders { get; set; } = null!;
         public  DbSet<User> Users { get; set; } = null!;
         public DbSet<CartItem> CartItems { get; set; } = null!;

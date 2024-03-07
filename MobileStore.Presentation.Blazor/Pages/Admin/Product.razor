@@ -2,6 +2,7 @@
 @using MobileStore.Core.Models
 @using MobileStore.Presentation.Blazor.Components.Standard.Button
 @using MobileStore.Presentation.Blazor.Components.Standard.Card
+@using MobileStore.Presentation.Blazor.Components.Standard.FileUpload
 @using MobileStore.Presentation.Blazor.Components.Standard.Form
 @using MobileStore.Presentation.Blazor.Components.Standard.Grid
 @using MobileStore.Presentation.Blazor.Components.Standard.Progress
@@ -12,6 +13,7 @@
 @attribute [Authorize]
 
 @inject IProductService ProductService
+@inject IContentService ContentService
 @inject NotificationService NotificationService
 
 <PageTitle>Product Profile</PageTitle>
@@ -49,6 +51,32 @@
                                                           Label="Price"
                                                           Placeholder="Price"
                                                           Disabled="_isSaving" />
+
+                                            <XStTextField @bind-Value="@_product.Company"
+                                                          For="@(() => @_product.Company)"
+                                                          Immediate="true"
+                                                          Required="true"
+                                                          RequiredError="Company is required!"
+                                                          Label="Company"
+                                                          Placeholder="Company"
+                                                          Disabled="_isSaving" />
+                                        </XStItem>
+                                        
+                                        <XStItem xs="12">
+                                            @foreach (var content in _product.Contents)
+                                            {
+                                                // TODO
+                                                @content.Id @content.Name @content.ContentType
+                                            }
+                                        </XStItem>
+
+                                        <!--Upload files-->
+                                        <XStItem xs="12" md="4">
+                                            <XStCard>
+                                                <Content>
+                                                    <XStFileUpload @bind-File="_file"/>
+                                                </Content>
+                                            </XStCard>
                                         </XStItem>
                                     </XStGrid>
                                 </XStProgressCircularWrapper>
@@ -78,18 +106,21 @@
 
 @code {
 
+    private const long MaxFileSize = 1 * 1024 * 1024;
+
     [Parameter]
     public Guid Id { get; set; }
-    
+
     private ProductEditViewModel? _product;
     private bool _isLoading = true;
     private bool _isSaving;
 
+    // For upload files
+    private IBrowserFile? _file;
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-
-
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -135,9 +166,61 @@
         {
             await SetIsSaving(true);
 
-            await ProductService.Update(_product.ToModel());
+            using (var memoryStream = new MemoryStream())
+            {
+                ProductContentModel? newContent = null;
+                if (_file != null)
+                {
+                    await _file!.OpenReadStream(MaxFileSize).CopyToAsync(memoryStream);
+
+                    var contentInfo = await ContentService.SaveFileToDatabase(_file.ContentType, _file.Name, memoryStream, CancellationToken.None);
+
+                    newContent = new ProductContentModel
+                    {
+                        Id = Guid.NewGuid(),
+                        ContentId = contentInfo.Id,
+                        Name = contentInfo.Name,
+                        ContentType = contentInfo.ContentType,
+                        ProductId = _product.Id,
+                    };
+
+                    _file = null;
+                }
+                
+                var oldContents = _product.Contents.ToList();
+
+                try
+                {
+                    if (newContent != null)
+                    {
+                        _product.Contents.Clear();
+                        _product.Contents.Add(newContent);
+                    }
+
+                    var productModel = _product.ToModel();
+
+                    await ProductService.Update(productModel);
+                }
+                catch
+                {
+                    if (newContent != null)
+                    {
+                        await ContentService.Delete(newContent.Id);
+                    }
+
+                    _product.Contents.Clear();
+                    _product.Contents.AddRange(oldContents);
+
+                    throw;
+                }
+                
+            }
 
             NotificationService.ShowSuccess("Updated");
+        }
+        catch (IOException)
+        {
+            NotificationService.ShowError($"Max file size is {MaxFileSize}");
         }
         catch
         {
@@ -147,16 +230,16 @@
         {
             await SetIsSaving(false);
         }
-
     }
 
-    private class ProductEditViewModel
+    internal class ProductEditViewModel
     {
-        public Guid Id { get; init; }
-        public Guid ProductTypeId { get; set; }
-        public string Name { get; set; }
-        public string Company { get; set; }
-        public double Price { get; set; }
+        internal Guid Id { get; init; }
+        internal Guid ProductTypeId { get; set; }
+        internal string Name { get; set; }
+        internal string Company { get; set; }
+        internal double Price { get; set; }
+        internal List<ProductContentModel> Contents { get; private set; }
 
         public ProductEditViewModel(ProductModel model)
         {
@@ -165,6 +248,7 @@
             Name = model.Name;
             Company = model.Company;
             Price = model.Price;
+            Contents = model.Contents.ToList();
         }
 
         public ProductModel ToModel()
@@ -176,6 +260,7 @@
                     Name = Name,
                     Company = Company,
                     Price = Price,
+                    Contents = Contents.ToList(),
                 };
         }
     }
