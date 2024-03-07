@@ -42,7 +42,7 @@ namespace MobileStore.Presentation.Mvc.Controllers
                Name = product.Name,
                Company = product.Company,
                Price = product.Price,
-               Img = product.Img,
+               //Img = product.Img,
             };
             return View(editProductViewModel);
         }
@@ -57,9 +57,9 @@ namespace MobileStore.Presentation.Mvc.Controllers
                 Name = productViewModel.Name,
                 Company = productViewModel.Company,
                 Price = productViewModel.Price,
-                Img = productViewModel.Img,
+                //Img = productViewModel.Img,
             };
-            await _productService.UpdateCurrentProduct(productModel);
+            await _productService.Update(productModel);
             return RedirectToAction("Index", "Products");
         }
 

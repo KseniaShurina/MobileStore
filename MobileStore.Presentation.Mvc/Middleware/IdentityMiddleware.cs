@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using MobileStore.Common.Abstractions.Services;
+﻿using MobileStore.Common.Abstractions.Services;
 
 namespace MobileStore.Presentation.Mvc.Middleware;
 
@@ -8,14 +7,14 @@ namespace MobileStore.Presentation.Mvc.Middleware;
 /// </summary>
 public class IdentityMiddleware
 {
+    // A function that can process an HTTP request.
     private readonly RequestDelegate _next;
 
     /// <summary>
     /// Ctor
     /// </summary>
     /// <param name="next"></param>
-    public IdentityMiddleware(
-        RequestDelegate next)
+    public IdentityMiddleware(RequestDelegate next)
     {
         _next = next;
     }

@@ -33,8 +33,6 @@ internal class ProductService : IProductService
     /// <returns>ProductModel, or null if the product does not exist.</returns>
     public async Task<ProductModel?> GetProduct(Guid productId)
     {
-        Guard.Against.Default(productId, nameof(productId));
-
         var entity = await GetBaseQuery()
             .Include(i => i.Contents)
             .Where(i => i.Id == productId)
@@ -50,14 +48,16 @@ internal class ProductService : IProductService
     /// <returns>A list of ProductModels.</returns>
     public async Task<List<ProductModel>> GetProducts(Guid? productTypeId)
     {
-        Guard.Against.Default(productTypeId, nameof(productTypeId));
-
         var query = _context.Products
             .AsNoTracking()
             .Include(i => i.Contents)
             .AsQueryable();
 
-        query = query.Where(i => i.ProductTypeId == productTypeId.Value);
+        if (productTypeId != null)
+        {
+            query = query
+                .Where(i => i.ProductTypeId == productTypeId.Value);
+        }
 
         var entities = await query
             .ToListAsync();
@@ -100,7 +100,6 @@ internal class ProductService : IProductService
         double price,
         List<ContentCreateModel> contents)
     {
-        Guard.Against.Default(productTypeId, nameof(productTypeId));
         Guard.Against.NullOrEmpty(name);
         Guard.Against.NullOrEmpty(company);
         Guard.Against.NegativeOrZero(price);
@@ -192,8 +191,6 @@ internal class ProductService : IProductService
     /// <exception cref="ArgumentException">Thrown if the product with the specified ID is not found.</exception>
     public async Task Delete(Guid productId)
     {
-        Guard.Against.Default(productId, nameof(productId));
-
         var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId) ??
                       throw new ArgumentException($"Product not found {nameof(productId)}");
 

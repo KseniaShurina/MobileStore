@@ -66,7 +66,7 @@
 
         try
         {
-            await UserService.UpdateCurrentUser(User);
+            if (User != null) await UserService.UpdateCurrentUser(User);
             NotificationService.ShowSuccess("Saved");
         }
         catch

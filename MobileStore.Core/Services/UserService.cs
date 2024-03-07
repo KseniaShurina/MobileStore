@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Ardalis.GuardClauses;
 using Microsoft.EntityFrameworkCore;
 using MobileStore.Common.Abstractions.Services;
 using MobileStore.Core.Abstractions.Services;
@@ -40,6 +41,7 @@ namespace MobileStore.Core.Services
 
         public async Task UpdateCurrentUser(UserModel model)
         {
+            Guard.Against.Null(model);
             try
             {
                 var userId = GetUserId();

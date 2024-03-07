@@ -43,15 +43,18 @@ app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+// Configuring routing middleware
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+// Method is used to add middleware components to the ASP.NET Core request processing pipeline.
+// IdentityMiddleware is custom middleware component.
 app.UseMiddleware<IdentityMiddleware>();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapDefaultControllerRoute();
-});
+// is used to configure the default controller route directly in the Program.cs file.
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
