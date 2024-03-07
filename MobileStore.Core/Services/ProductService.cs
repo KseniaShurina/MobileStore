@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Ardalis.GuardClauses;
+using Microsoft.EntityFrameworkCore;
 using MobileStore.Core.Abstractions.Services;
 using MobileStore.Core.Extensions.Entities;
 using MobileStore.Core.Models;
@@ -26,12 +27,14 @@ internal class ProductService : IProductService
     }
 
     /// <summary>
-    /// Gets current product by ID
+    /// Returns current product by ID.
     /// </summary>
     /// <param name="productId">ProductId</param>
-    /// <returns>ProductModel</returns>
+    /// <returns>ProductModel, or null if the product does not exist.</returns>
     public async Task<ProductModel?> GetProduct(Guid productId)
     {
+        Guard.Against.Default(productId, nameof(productId));
+
         var entity = await GetBaseQuery()
             .Include(i => i.Contents)
             .Where(i => i.Id == productId)
@@ -41,22 +44,20 @@ internal class ProductService : IProductService
     }
 
     /// <summary>
-    /// Gets all products by productTypeId
+    /// Returns all products by productTypeId from database.
     /// </summary>
     /// <param name="productTypeId">productTypeId</param>
-    /// <returns>ProductModels</returns>
+    /// <returns>A list of ProductModels.</returns>
     public async Task<List<ProductModel>> GetProducts(Guid? productTypeId)
     {
+        Guard.Against.Default(productTypeId, nameof(productTypeId));
+
         var query = _context.Products
             .AsNoTracking()
             .Include(i => i.Contents)
             .AsQueryable();
 
-        if (productTypeId != null)
-        {
-            query = query
-                    .Where(i => i.ProductTypeId == productTypeId.Value);
-        }
+        query = query.Where(i => i.ProductTypeId == productTypeId.Value);
 
         var entities = await query
             .ToListAsync();
@@ -67,9 +68,9 @@ internal class ProductService : IProductService
     }
 
     /// <summary>
-    /// Gets all product types
+    /// Retrieves all product types from the database.
     /// </summary>
-    /// <returns>ProductTypeModels</returns>
+    /// <returns>A list of ProductTypeModels.</returns>
     public async Task<List<ProductTypeModel>> GetProductTypes()
     {
         var entities = await _context
@@ -83,15 +84,15 @@ internal class ProductService : IProductService
     }
 
     /// <summary>
-    /// Create new product and add to DB
+    /// Create a new product and add to DB
     /// </summary>
-    /// <param name="productTypeId">productTypeId</param>
-    /// <param name="name">product name</param>
-    /// <param name="company">product company</param>
-    /// <param name="price">product price</param>
-    /// <param name="contents">product content</param>
-    /// <returns>ProductModel</returns>
-    /// <exception cref="ArgumentNullException"> Throw Exception if product exist</exception>
+    /// <param name="productTypeId">The ID of the product type.</param>
+    /// <param name="name">The name of the product.</param>
+    /// <param name="company">The company of the product.</param>
+    /// <param name="price">The price of the product.</param>
+    /// <param name="contents">The list of content for the product.</param>
+    /// <returns>The newly created ProductModel.</returns>
+    /// <exception cref="ArgumentNullException">Thrown if the product type does not exist.</exception>
     public async Task<ProductModel> Create(
         Guid productTypeId,
         string name,
@@ -99,6 +100,10 @@ internal class ProductService : IProductService
         double price,
         List<ContentCreateModel> contents)
     {
+        Guard.Against.Default(productTypeId, nameof(productTypeId));
+        Guard.Against.NullOrEmpty(name);
+        Guard.Against.NullOrEmpty(company);
+        Guard.Against.NegativeOrZero(price);
         var productTypeExist = await _context.ProductTypes.AnyAsync(p => p.Id == productTypeId);
         if (!productTypeExist)
         {
@@ -119,8 +124,15 @@ internal class ProductService : IProductService
         return product.MapToModel();
     }
 
+    /// <summary>
+    /// Updates a product in the database with the provided productModel.
+    /// </summary>
+    /// <param name="productModel">The productModel containing the updated information.</param>
+    /// <returns>A task representing the asynchronous operation.</returns>
     public async Task Update(ProductModel productModel)
     {
+        Guard.Against.Null(productModel);
+        // Begins a transaction
         await using var transaction = await _context.BeginTransactionAsync();
         try
         {
@@ -129,11 +141,14 @@ internal class ProductService : IProductService
                               .FirstOrDefaultAsync(p => p.Id == productModel.Id) ??
                           throw new ArgumentNullException($"Product does not exist {nameof(productModel.Id)}");
 
+            // Identifies the contents that need to be deleted
+            // by comparing the contents of the existing product with the contents provided in the productModel.
             var contentsForDelete = product.Contents
                 .Where(i => !productModel.Contents.Select(pc => pc.Id).Contains(i.Id))
             .ToList();
 
             // TODO move to method ToEntity
+            // Creates a list of new ProductContent objects based on the productModel.Contents.
             var contentsForAdd = productModel.Contents
                 .Select(i => new ProductContent
                 {
@@ -147,9 +162,9 @@ internal class ProductService : IProductService
 
             _context.ProductContents.RemoveRange(contentsForDelete);
 
-            await _contentService.Delete(contentsForDelete.Select(i => i.Id));
+            await _contentService.Delete(contentsForDelete.Select(i => i.ContentId));
 
-            
+            // Updates the properties of the product object with the values from productModel.
             product.ProductTypeId = productModel.ProductTypeId;
             product.Name = productModel.Name;
             product.Company = productModel.Company;
@@ -159,7 +174,6 @@ internal class ProductService : IProductService
             _context.ProductContents.AddRange(contentsForAdd);
 
             await _context.SaveChangesAsync();
-
 
             await transaction.CommitAsync();
         }
@@ -171,13 +185,15 @@ internal class ProductService : IProductService
     }
 
     /// <summary>
-    /// Delete product
+    /// Deletes a product from the database based on the productId.
     /// </summary>
-    /// <param name="productId">ProductId</param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
+    /// <param name="productId">The ID of the product to delete.</param>
+    /// <returns> task representing the asynchronous operation.</returns>
+    /// <exception cref="ArgumentException">Thrown if the product with the specified ID is not found.</exception>
     public async Task Delete(Guid productId)
     {
+        Guard.Against.Default(productId, nameof(productId));
+
         var product = await _context.Products.FirstOrDefaultAsync(p => p.Id == productId) ??
                       throw new ArgumentException($"Product not found {nameof(productId)}");
 

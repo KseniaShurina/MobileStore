@@ -166,15 +166,19 @@
         {
             await SetIsSaving(true);
 
+            // To read the contents of a file
             using (var memoryStream = new MemoryStream())
             {
                 ProductContentModel? newContent = null;
                 if (_file != null)
                 {
+                    // If _file exists, its contents are copied to memoryStream
                     await _file!.OpenReadStream(MaxFileSize).CopyToAsync(memoryStream);
 
+                    // Saving information about file contents in a database
                     var contentInfo = await ContentService.SaveFileToDatabase(_file.ContentType, _file.Name, memoryStream, CancellationToken.None);
 
+                    // A new ProductContentModel instance is created based on contentInfo and other data
                     newContent = new ProductContentModel
                     {
                         Id = Guid.NewGuid(),
@@ -187,18 +191,21 @@
                     _file = null;
                 }
                 
+                // List of old content to delete in further steps
                 var oldContents = _product.Contents.ToList();
 
                 try
                 {
                     if (newContent != null)
                     {
+                        // The current product content list is cleared and new content is added.
                         _product.Contents.Clear();
                         _product.Contents.Add(newContent);
                     }
 
                     var productModel = _product.ToModel();
 
+                    // Updating the product model in the database based on productModel.
                     await ProductService.Update(productModel);
                 }
                 catch
@@ -209,6 +216,8 @@
                     }
 
                     _product.Contents.Clear();
+
+                    // The Contents are restored from oldContents.
                     _product.Contents.AddRange(oldContents);
 
                     throw;

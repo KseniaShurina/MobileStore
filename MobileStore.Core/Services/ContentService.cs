@@ -4,7 +4,6 @@ using MobileStore.Infrastructure.Abstractions.Contexts;
 using Npgsql;
 using Ardalis.GuardClauses;
 using MobileStore.Core.Models;
-using MobileStore.Infrastructure.Entities;
 
 namespace MobileStore.Core.Services
 {
@@ -123,20 +122,30 @@ namespace MobileStore.Core.Services
             await _context.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// This method accepts a collection of contentIds of the content to be removed from the database.
+        /// </summary>
+        /// <param name="contentIds">collection of identifiers</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task Delete(IEnumerable<Guid> contentIds)
         {
+            // Converts the contentIds parameter to a list
             contentIds = contentIds.ToList();
 
+            // Retrieves content from the database by id
             var contents = await _context.Contents
                 .Where(i => contentIds.Contains(i.Id))
                 .ToListAsync();;
 
+            // Checks whether the number of elements in contents matches the number of elements in the original contentIds collection.
             if (contentIds.Count() != contents.Count)
             {
-                // TODO add message
-                throw new ArgumentException("Error");
+                throw new ArgumentException
+                    ($"The number of elements does not match the number of elements of the current collection. Error occurred in Delete");
             }
 
+            // Removes found content from the database context
             _context.Contents.RemoveRange(contents);
             await _context.SaveChangesAsync();
         }
