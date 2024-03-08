@@ -7,6 +7,7 @@
 @using MobileStore.Presentation.Blazor.Components.Standard.Grid
 @using MobileStore.Presentation.Blazor.Components.Standard.Progress
 @using MobileStore.Presentation.Blazor.Components.Standard.Skeleton
+@using MobileStore.Presentation.Blazor.Helpers
 @using MobileStore.Presentation.Blazor.Services
 
 @page "/Admin/Products/{Id:guid}"
@@ -61,12 +62,22 @@
                                                           Placeholder="Company"
                                                           Disabled="_isSaving" />
                                         </XStItem>
-                                        
+
                                         <XStItem xs="12">
                                             @foreach (var content in _product.Contents)
                                             {
                                                 // TODO
-                                                @content.Id @content.Name @content.ContentType
+                                                @* @content.Id @content.Name @content.ContentType *@
+                                                <MudBadge OnClick="_ => DeleteImage(content.Id)"
+                                                          Color="Color.Error" 
+                                                          Icon="@Icons.Material.Filled.Remove" 
+                                                          Overlap="true" 
+                                                          Bordered="true"
+                                                          Class="product-image-del">
+                                                    <MudImage Src="@ContentHelper.GetUrl(content.ContentId)"
+                                                              Height="100" 
+                                                              Class="rounded-lg product-image"/>
+                                                </MudBadge>
                                             }
                                         </XStItem>
 
@@ -74,7 +85,7 @@
                                         <XStItem xs="12" md="4">
                                             <XStCard>
                                                 <Content>
-                                                    <XStFileUpload @bind-File="_file"/>
+                                                    <XStFileUpload @bind-File="_file" />
                                                 </Content>
                                             </XStCard>
                                         </XStItem>
@@ -154,7 +165,10 @@
             await Task.Delay(1);
         }
     }
-
+    /// <summary>
+    ///
+    /// </summary>
+    /// <returns></returns>
     private async Task OnSave()
     {
         if (_product is null)
@@ -180,17 +194,17 @@
 
                     // A new ProductContentModel instance is created based on contentInfo and other data
                     newContent = new ProductContentModel
-                    {
-                        Id = Guid.NewGuid(),
-                        ContentId = contentInfo.Id,
-                        Name = contentInfo.Name,
-                        ContentType = contentInfo.ContentType,
-                        ProductId = _product.Id,
-                    };
+                        {
+                            Id = Guid.NewGuid(),
+                            ContentId = contentInfo.Id,
+                            Name = contentInfo.Name,
+                            ContentType = contentInfo.ContentType,
+                            ProductId = _product.Id,
+                        };
 
                     _file = null;
                 }
-                
+
                 // List of old content to delete in further steps
                 var oldContents = _product.Contents.ToList();
 
@@ -222,7 +236,7 @@
 
                     throw;
                 }
-                
+
             }
 
             NotificationService.ShowSuccess("Updated");
@@ -238,6 +252,22 @@
         finally
         {
             await SetIsSaving(false);
+        }
+    }
+
+    private void DeleteImage(Guid id)
+    {
+        try
+        {
+            if (_product == null) return;
+
+            var content = _product.Contents.First(i => i.Id == id);
+            _product.Contents.Remove(content);
+        }
+        catch (Exception e)
+        {
+            NotificationService.ShowError("Error");
+            Console.WriteLine(e);
         }
     }
 

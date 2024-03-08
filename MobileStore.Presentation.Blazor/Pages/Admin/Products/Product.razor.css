@@ -1,0 +1,10 @@
+﻿.product-image {
+    border: thin;
+    border-color: darkgray;
+    border-radius: 10px;
+}
+
+
+::deep .product-image-del .mud-badge {
+    cursor: pointer;
+}

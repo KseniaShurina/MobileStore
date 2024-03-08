@@ -5,6 +5,7 @@ using MobileStore.Core.Extensions.Entities;
 using MobileStore.Core.Models;
 using MobileStore.Infrastructure.Abstractions.Contexts;
 using MobileStore.Infrastructure.Entities;
+using System.Linq;
 
 namespace MobileStore.Core.Services;
 
@@ -149,6 +150,7 @@ internal class ProductService : IProductService
             // TODO move to method ToEntity
             // Creates a list of new ProductContent objects based on the productModel.Contents.
             var contentsForAdd = productModel.Contents
+                .Where(i => !product.Contents.Select(c => c.Id).Contains(i.Id))
                 .Select(i => new ProductContent
                 {
                     Id = i.Id,
@@ -159,9 +161,12 @@ internal class ProductService : IProductService
                 })
                 .ToList();
 
-            _context.ProductContents.RemoveRange(contentsForDelete);
 
-            await _contentService.Delete(contentsForDelete.Select(i => i.ContentId));
+            if (contentsForDelete.Any())
+            {
+                _context.ProductContents.RemoveRange(contentsForDelete);
+                await _contentService.Delete(contentsForDelete.Select(i => i.ContentId));
+            }
 
             // Updates the properties of the product object with the values from productModel.
             product.ProductTypeId = productModel.ProductTypeId;
@@ -170,7 +175,10 @@ internal class ProductService : IProductService
             product.Price = productModel.Price;
             product.Contents = null!;
 
-            _context.ProductContents.AddRange(contentsForAdd);
+            if (contentsForAdd.Any())
+            {
+                _context.ProductContents.AddRange(contentsForAdd);
+            }
 
             await _context.SaveChangesAsync();
 
