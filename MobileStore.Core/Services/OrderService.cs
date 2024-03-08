@@ -21,7 +21,7 @@ namespace MobileStore.Core.Services
 
         private Guid GetUserId()
         {
-            return _identityService.UserId!.Value;;
+            return _identityService.UserId!.Value;
         }
         private IQueryable<Order> GetBaseQuery()
         {

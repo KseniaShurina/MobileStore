@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MobileStore.Common.Configurations;
 using MobileStore.Core.Abstractions.Services;
+using MobileStore.Core.Identity.Setup;
 using MobileStore.Core.Services;
 using MobileStore.Infrastructure.Configurations;
 
@@ -17,7 +17,7 @@ public static class CoreDependenciesConfiguration
     /// <returns></returns>
     public static IServiceCollection AddCoreDependencies(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddIdentityDependencies();
+        services.RegisterIdentityDependencies();
 
         services.RegisterInfrastructureDependencies(configuration);
 

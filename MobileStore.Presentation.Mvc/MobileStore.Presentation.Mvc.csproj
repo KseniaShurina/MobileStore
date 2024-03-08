@@ -16,7 +16,8 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\MobileStore.Common\MobileStore.Common.csproj" />
+    <ProjectReference Include="..\MobileStore.Common\MobileStore.Core.Identity.csproj" />
+    <ProjectReference Include="..\MobileStore.Core.Identity\MobileStore.Core.Identity.csproj" />
     <ProjectReference Include="..\MobileStore.Core\MobileStore.Core.csproj" />
   </ItemGroup>
 

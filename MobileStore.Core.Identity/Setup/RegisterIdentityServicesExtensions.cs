@@ -2,11 +2,11 @@
 using MobileStore.Common.Abstractions.Services;
 using MobileStore.Common.Services;
 
-namespace MobileStore.Common.Configurations;
+namespace MobileStore.Core.Identity.Setup;
 
-public static class IdentityDependenciesConfiguration
+public static class RegisterIdentityServicesExtensions
 {
-    public static IServiceCollection AddIdentityDependencies(this IServiceCollection services)
+    public static IServiceCollection RegisterIdentityDependencies(this IServiceCollection services)
     {
         services.AddScoped<IIdentityService, IdentityService>();
         services.AddScoped<IWriteIdentityService>(sp => sp.GetRequiredService<IIdentityService>());
