@@ -1,23 +1,30 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MobileStore.Core.Configurations;
 using MobileStore.Presentation.Api.Helpers;
+using MobileStore.Presentation.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddCoreDependencies(builder.Configuration);
 
 builder.Services.AddControllers();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        var jwtConfig = JwtConfiguration.Create(builder.Configuration);
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(JwtHelper.SecretKey)), 
-            ValidateIssuer = false, // Set to true if you want to validate the issuer
+            IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(jwtConfig.SecretKey)),
+            ValidIssuer = jwtConfig.Issuer,
+            ValidateIssuer = true, // Set to true if you want to validate the issuer
             ValidateAudience = true,
-            ValidAudience = JwtHelper.Audience,
+            ValidAudience = jwtConfig.Audience,
             ValidateLifetime = true,
         };
     });
@@ -82,3 +89,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.Run();
+//app.Run(async (context) =>
+//{
+//    var response = context.Response;
+//    var request = context.Request;
+//    var path = request.Path;
+//});

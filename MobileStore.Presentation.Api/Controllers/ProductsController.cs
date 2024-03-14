@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MobileStore.Core.Abstractions.Services;
 
@@ -11,18 +10,16 @@ namespace MobileStore.Presentation.Api.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
-        private readonly IMapper _mapper;
 
-        public ProductsController(IProductService productService, IMapper mapper)
+        public ProductsController(IProductService productService)
         {
             _productService = productService;
-            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAll([FromQuery] Guid? productTypeId)
+        public async Task<IActionResult> Get(Guid id)
         {
-            var products = await _productService.GetProducts(productTypeId);
+            var products = await _productService.GetProduct(id);
 
             return Ok(products);
         }

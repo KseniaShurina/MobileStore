@@ -10,10 +10,12 @@ namespace MobileStore.Presentation.Api.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAccountService _accountService;
+        private readonly IConfiguration _configuration;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, IConfiguration configuration)
         {
             _accountService = accountService;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -22,7 +24,6 @@ namespace MobileStore.Presentation.Api.Controllers
         /// <param name="model">ViewModel for transfer user data</param>
         /// <returns></returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login([Required]LoginDto model)
         {
             var validUser = await _accountService.IsValidPassword(model.Email, model.Password);
@@ -30,7 +31,7 @@ namespace MobileStore.Presentation.Api.Controllers
             {
                 var user = await _accountService.GetUserByEmail(model.Email!);
 
-                var jwt = Helpers.JwtHelper.CreateJwt(user!);
+                var jwt = Helpers.JwtHelper.CreateJwt(user!, _configuration);
 
                 return Ok(jwt);
             }
