@@ -10,6 +10,16 @@ public interface IProductService
 
     Task<List<ProductTypeModel>> GetProductTypes();
 
+    /// <summary>
+    /// Create
+    /// </summary>
+    /// <param name="productTypeId"></param>
+    /// <param name="name"></param>
+    /// <param name="company"></param>
+    /// <param name="price"></param>
+    /// <param name="contents"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <returns></returns>
     Task<ProductModel> Create(Guid productTypeId, string name, string company, double price, 
         List<ContentCreateModel> contents);
 

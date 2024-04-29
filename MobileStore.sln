@@ -21,6 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileStore.Presentation.Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scripts", "Script\Scripts.csproj", "{910DCF1A-CC96-48C4-970F-2D9DE95D30A7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Postman", "Postman", "{DACDBCA2-BE41-46D1-93B0-B18A8F563847}"
+	ProjectSection(SolutionItems) = preProject
+		Postman\Api.postman_collection.json = Postman\Api.postman_collection.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
