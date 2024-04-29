@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using MobileStore.Core.Abstractions.Services;
 using MobileStore.Presentation.Api.Models;
+using MobileStore.Presentation.Api.Models.Account;
+using MobileStore.Presentation.Api.Models.Product;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace MobileStore.Presentation.Api.Controllers
 {
@@ -23,7 +26,9 @@ namespace MobileStore.Presentation.Api.Controllers
         /// </summary>
         /// <param name="model">ViewModel for transfer user data</param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("[action]")]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(TokenResponseDto))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Login([Required]LoginDto model)
         {
             var validUser = await _accountService.IsValidPassword(model.Email, model.Password);
@@ -33,7 +38,8 @@ namespace MobileStore.Presentation.Api.Controllers
 
                 var jwt = Helpers.JwtHelper.CreateJwt(user!, _configuration);
 
-                return Ok(jwt);
+
+                return Ok(new TokenResponseDto(jwt));
             }
             return BadRequest();
         }

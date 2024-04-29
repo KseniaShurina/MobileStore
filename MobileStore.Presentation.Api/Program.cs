@@ -2,21 +2,28 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MobileStore.Core.Configurations;
+using MobileStore.Presentation.Api.Configurations;
 using MobileStore.Presentation.Api.Helpers;
 using MobileStore.Presentation.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services registration.
 builder.Services.AddCoreDependencies(builder.Configuration);
+
+builder.Services.AddAutoMapperProfiles(o =>
+{
+    o.AddProfile<PresentationMapperProfile>();
+});
 
 builder.Services.AddControllers();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        // JWT configuration object
         var jwtConfig = JwtConfiguration.Create(builder.Configuration);
-
+        // JWT token validation options
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
@@ -28,7 +35,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateLifetime = true,
         };
     });
+
 builder.Services.AddAuthorization();
+
 
 builder.Services.AddCors(options =>
 {
@@ -36,7 +45,7 @@ builder.Services.AddCors(options =>
         configurePolicy => configurePolicy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// To add services needed to work with API documentation tools
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -89,9 +98,3 @@ if (app.Environment.IsDevelopment())
 }
 
 app.Run();
-//app.Run(async (context) =>
-//{
-//    var response = context.Response;
-//    var request = context.Request;
-//    var path = request.Path;
-//});
