@@ -24,6 +24,8 @@ namespace MobileStore.Presentation.Api.Controllers
         }
 
         [HttpPost]
+        [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(ProductDto))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateProduct([FromBody][Required] ProductCreateDto request)
         {
             try
@@ -37,8 +39,8 @@ namespace MobileStore.Presentation.Api.Controllers
 
                 return CreatedAtRoute(
                     nameof(GetProduct), 
-                    new { id = response.Id }, 
-                    _mapper.Map<ProductDto>(request));
+                    new { productId = response.Id }, 
+                    _mapper.Map<ProductDto>(response));
             }
             catch (ArgumentNullException ex)
             {
@@ -51,7 +53,7 @@ namespace MobileStore.Presentation.Api.Controllers
         /// </summary>
         /// <param name="productId">productId</param>
         /// <returns>ProductDto</returns>
-        [HttpGet("{productId:guid}")]
+        [HttpGet("{productId:guid}", Name = nameof(GetProduct))]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ProductDto))]
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetProduct(Guid productId)

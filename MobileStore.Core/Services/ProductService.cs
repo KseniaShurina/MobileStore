@@ -117,6 +117,7 @@ internal class ProductService : IProductService
             Name = name,
             Company = company,
             Price = price,
+            Contents = new List<ProductContent>(),
         };
 
         await _context.Products.AddAsync(product);
